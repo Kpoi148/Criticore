@@ -6,6 +6,7 @@ E:\C#\Criticore\Identity.Api\bin\Debug\net8.0\Identity.Api.deps.json
 E:\C#\Criticore\Identity.Api\bin\Debug\net8.0\Identity.Api.runtimeconfig.json
 E:\C#\Criticore\Identity.Api\bin\Debug\net8.0\Identity.Api.dll
 E:\C#\Criticore\Identity.Api\bin\Debug\net8.0\Identity.Api.pdb
+E:\C#\Criticore\Identity.Api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
 E:\C#\Criticore\Identity.Api\bin\Debug\net8.0\Microsoft.OpenApi.dll
 E:\C#\Criticore\Identity.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 E:\C#\Criticore\Identity.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -18,6 +19,7 @@ E:\C#\Criticore\Identity.Api\obj\Debug\net8.0\Identity.Api.AssemblyInfo.cs
 E:\C#\Criticore\Identity.Api\obj\Debug\net8.0\Identity.Api.csproj.CoreCompileInputs.cache
 E:\C#\Criticore\Identity.Api\obj\Debug\net8.0\Identity.Api.MvcApplicationPartsAssemblyInfo.cs
 E:\C#\Criticore\Identity.Api\obj\Debug\net8.0\Identity.Api.MvcApplicationPartsAssemblyInfo.cache
+E:\C#\Criticore\Identity.Api\obj\Debug\net8.0\Identity.Api.sourcelink.json
 E:\C#\Criticore\Identity.Api\obj\Debug\net8.0\rjimswa.dswa.cache.json
 E:\C#\Criticore\Identity.Api\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 E:\C#\Criticore\Identity.Api\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json

@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6Cj4m2oZas8=",
+  "dgSpecHash": "Fp9dS/ULvNg=",
   "success": true,
-  "projectFilePath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512"
-  ],
+  "projectFilePath": "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
