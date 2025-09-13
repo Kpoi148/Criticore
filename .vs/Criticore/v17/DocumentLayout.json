@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\shared\\_homepagelayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\shared\\_homepagelayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\shared\\_homepagelayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\shared\\_homepagelayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -26,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,33 +62,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "_HomepageLayout.cshtml",
               "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Shared\\_HomepageLayout.cshtml",
               "RelativeDocumentMoniker": "Front-end\\Pages\\Shared\\_HomepageLayout.cshtml",
               "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Shared\\_HomepageLayout.cshtml",
               "RelativeToolTip": "Front-end\\Pages\\Shared\\_HomepageLayout.cshtml",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAACYAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-09-13T10:12:57.972Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Index.cshtml",
               "RelativeDocumentMoniker": "Front-end\\Pages\\Index.cshtml",
               "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Index.cshtml",
               "RelativeToolTip": "Front-end\\Pages\\Index.cshtml",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAkAAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-09-13T09:46:39.41Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Index.cshtml.cs",
               "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Index.cshtml.cs",
               "RelativeDocumentMoniker": "Front-end\\Pages\\Index.cshtml.cs",
