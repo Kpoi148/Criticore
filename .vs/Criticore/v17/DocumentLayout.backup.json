@@ -1,54 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\C#\\Criticore\\",
+  "WorkspaceRootPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0CBC6A4F-8799-486C-9171-33C42E2DF4C9}|Course.Domain\\Course.Domain.csproj|e:\\c#\\criticore\\course.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0CBC6A4F-8799-486C-9171-33C42E2DF4C9}|Course.Domain\\Course.Domain.csproj|solutionrelative:course.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3556D554-5744-4EAD-A56F-86CC5FA3088C}|Course.Infrastructure\\Course.Infrastructure.csproj|e:\\c#\\criticore\\course.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3556D554-5744-4EAD-A56F-86CC5FA3088C}|Course.Infrastructure\\Course.Infrastructure.csproj|solutionrelative:course.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF8605B2-5D9A-4B96-A9EF-EF2161C1BF41}|Course.Application\\Course.Application.csproj|e:\\c#\\criticore\\course.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF8605B2-5D9A-4B96-A9EF-EF2161C1BF41}|Course.Application\\Course.Application.csproj|solutionrelative:course.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\shared\\_homepagelayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\shared\\_homepagelayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8034ECE8-B690-44A1-8935-39DA0FFBB556}|Payment.Domain\\Payment.Domain.csproj|e:\\c#\\criticore\\payment.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8034ECE8-B690-44A1-8935-39DA0FFBB556}|Payment.Domain\\Payment.Domain.csproj|solutionrelative:payment.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F636C360-C2B0-4C99-ADE5-5BD001247468}|Payment.Infrastructure\\Payment.Infrastructure.csproj|e:\\c#\\criticore\\payment.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F636C360-C2B0-4C99-ADE5-5BD001247468}|Payment.Infrastructure\\Payment.Infrastructure.csproj|solutionrelative:payment.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{12920470-3D68-4ADE-B605-C5078197EA00}|Payment.Application\\Payment.Application.csproj|e:\\c#\\criticore\\payment.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{12920470-3D68-4ADE-B605-C5078197EA00}|Payment.Application\\Payment.Application.csproj|solutionrelative:payment.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43CCCD52-78F5-4A15-9A60-5ED444E1F5A3}|EventBus\\EventBus.csproj|e:\\c#\\criticore\\eventbus\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{43CCCD52-78F5-4A15-9A60-5ED444E1F5A3}|EventBus\\EventBus.csproj|solutionrelative:eventbus\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B71C94E8-86B3-465C-A2A8-FBE1E59DA48D}|Shared\\Shared.csproj|e:\\c#\\criticore\\shared\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B71C94E8-86B3-465C-A2A8-FBE1E59DA48D}|Shared\\Shared.csproj|solutionrelative:shared\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{768531CA-09B8-4963-B11B-24D36C91570C}|Identity.Infrastructure\\Identity.Infrastructure.csproj|e:\\c#\\criticore\\identity.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{768531CA-09B8-4963-B11B-24D36C91570C}|Identity.Infrastructure\\Identity.Infrastructure.csproj|solutionrelative:identity.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{797B7E43-8BF3-4A9C-B9C9-600AB5765CDE}|Identity.Application\\Identity.Application.csproj|e:\\c#\\criticore\\identity.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{797B7E43-8BF3-4A9C-B9C9-600AB5765CDE}|Identity.Application\\Identity.Application.csproj|solutionrelative:identity.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CB7815F8-DEFD-4A8C-AC0E-EB7A0D084B23}|OcelotApiGateway\\OcelotApiGateway.csproj|e:\\c#\\criticore\\ocelotapigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{CB7815F8-DEFD-4A8C-AC0E-EB7A0D084B23}|OcelotApiGateway\\OcelotApiGateway.csproj|solutionrelative:ocelotapigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -94,158 +62,54 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_HomepageLayout.cshtml",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Shared\\_HomepageLayout.cshtml",
+              "RelativeDocumentMoniker": "Front-end\\Pages\\Shared\\_HomepageLayout.cshtml",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Shared\\_HomepageLayout.cshtml",
+              "RelativeToolTip": "Front-end\\Pages\\Shared\\_HomepageLayout.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACYAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-13T10:12:57.972Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Course.Domain\\Class1.cs",
-              "RelativeDocumentMoniker": "Course.Domain\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Course.Domain\\Class1.cs",
-              "RelativeToolTip": "Course.Domain\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:55:35.519Z",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "Front-end\\Pages\\Index.cshtml",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Index.cshtml",
+              "RelativeToolTip": "Front-end\\Pages\\Index.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAkAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-13T09:46:39.41Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Course.Infrastructure\\Class1.cs",
-              "RelativeDocumentMoniker": "Course.Infrastructure\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Course.Infrastructure\\Class1.cs",
-              "RelativeToolTip": "Course.Infrastructure\\Class1.cs",
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Front-end\\Pages\\Index.cshtml.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Index.cshtml.cs",
+              "RelativeToolTip": "Front-end\\Pages\\Index.cshtml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:55:22.217Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Course.Application\\Class1.cs",
-              "RelativeDocumentMoniker": "Course.Application\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Course.Application\\Class1.cs",
-              "RelativeToolTip": "Course.Application\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:54:54.06Z",
+              "WhenOpened": "2025-09-13T09:46:42.921Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Payment.Domain\\Class1.cs",
-              "RelativeDocumentMoniker": "Payment.Domain\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Payment.Domain\\Class1.cs",
-              "RelativeToolTip": "Payment.Domain\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:53:38.381Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Payment.Infrastructure\\Class1.cs",
-              "RelativeDocumentMoniker": "Payment.Infrastructure\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Payment.Infrastructure\\Class1.cs",
-              "RelativeToolTip": "Payment.Infrastructure\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:53:19.246Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Payment.Application\\Class1.cs",
-              "RelativeDocumentMoniker": "Payment.Application\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Payment.Application\\Class1.cs",
-              "RelativeToolTip": "Payment.Application\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:52:55.769Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\EventBus\\Class1.cs",
-              "RelativeDocumentMoniker": "EventBus\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\EventBus\\Class1.cs",
-              "RelativeToolTip": "EventBus\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:48:51.785Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Shared\\Class1.cs",
-              "RelativeDocumentMoniker": "Shared\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Shared\\Class1.cs",
-              "RelativeToolTip": "Shared\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:48:14.845Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Class1.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Class1.cs",
-              "RelativeToolTip": "Identity.Domain\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:46:46.306Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Infrastructure\\Class1.cs",
-              "RelativeDocumentMoniker": "Identity.Infrastructure\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Infrastructure\\Class1.cs",
-              "RelativeToolTip": "Identity.Infrastructure\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:46:16.889Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Application\\Class1.cs",
-              "RelativeDocumentMoniker": "Identity.Application\\Class1.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Application\\Class1.cs",
-              "RelativeToolTip": "Identity.Application\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-04T10:45:44.586Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ocelot.json",
-              "DocumentMoniker": "E:\\C#\\Criticore\\OcelotApiGateway\\ocelot.json",
-              "RelativeDocumentMoniker": "OcelotApiGateway\\ocelot.json",
-              "ToolTip": "E:\\C#\\Criticore\\OcelotApiGateway\\ocelot.json",
-              "RelativeToolTip": "OcelotApiGateway\\ocelot.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-04T10:41:37.186Z",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Front-end\\Pages\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Front-end\\Pages\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-13T10:08:46.961Z",
               "EditorCaption": ""
             }
           ]

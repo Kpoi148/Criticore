@@ -1,10 +1,235 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Criticore";
+    Layout = "~/Pages/Shared/_HomepageLayout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<body class="bg-[#f0f4ff] text-gray-800">
+    <!-- Navbar -->
+    <header class="flex justify-between items-center px-8 py-3 bg-white shadow-sm">
+        <div class="flex items-center gap-3 text-2xl font-bold">
+            <img src="@Url.Content("~/images/Logo1-Criticore.png")" alt="" class="h-10">
+        </div>
+
+        <nav class="hidden md:flex gap-10 text-base font-semibold">
+            <a asp-controller="Classroom" asp-action="Index" class="hover:text-blue-600">Classrooms</a>
+            <a asp-controller="Topic" asp-action="Index" class="hover:text-blue-600">Topics</a>
+            <a asp-controller="Leaderboard" asp-action="Index" class="hover:text-blue-600">Leaderboard</a>
+            <a asp-controller="Resource" asp-action="Index" class="hover:text-blue-600">Resources</a>
+            <a asp-controller="Account" asp-action="Login" class="hover:text-blue-600">Sign In</a>
+        </nav>
+
+        <a asp-controller="Account" asp-action="Register"
+           class="bg-blue-600 text-white px-5 py-3 rounded-md text-base font-semibold hover:bg-blue-700">
+            Get Started
+        </a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="px-10 py-16 md:flex md:items-center md:justify-between">
+        <!-- Left content -->
+        <div class="max-w-xl space-y-6">
+            <span class="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3 8a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                New Feature: Star Voting
+            </span>
+
+            <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
+                Explore <span class="text-blue-600">Critical Discussions</span> with Your Class
+            </h1>
+
+            <p class="text-gray-600 text-lg">
+                Join classroom discussions, share your voice, and vote on the most insightful responses.
+                Criticore helps students build reasoning and perspective through structured dialogue.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button class="bg-blue-600 text-white px-6 py-3 rounded-md text-sm font-semibold hover:bg-blue-700">
+                    Join a Class →
+                </button>
+                <button class="flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-md text-sm font-semibold hover:bg-gray-100">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M6 4l10 6-10 6V4z" />
+                    </svg>
+                    See How It Works
+                </button>
+            </div>
+
+            <div class="flex gap-6 text-sm text-gray-600 pt-4">
+                <div class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M17 20h5V4H2v16h5m10 0a2 2 0 002-2v-4a2 2 0 00-2-2H7a2 2 0 00-2 2v4a2 2 0 002 2h10z"></path>
+                    </svg>
+                    2,000+ Active Classrooms
+                </div>
+                <div class="flex items-center gap-1">
+                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927C9.432 2.054 10.568 2.054 10.951 2.927L12.13 5.68a1 1 0 00.75.554l3.014.437c.969.141 1.356 1.33.654 2.013l-2.18 2.125a1 1 0 00-.287.885l.515 3.001c.165.964-.848 1.697-1.703 1.243l-2.695-1.417a1 1 0 00-.931 0l-2.695 1.417c-.855.454-1.868-.279-1.703-1.243l.515-3.001a1 1 0 00-.287-.885L2.452 8.684c-.702-.683-.315-1.872.654-2.013l3.014-.437a1 1 0 00.75-.554l1.179-2.753z" />
+                    </svg>
+                    4.8/5 Average Feedback
+                </div>
+            </div>
+        </div>
+
+        <!-- Right content -->
+        <div class="mt-10 md:mt-0 flex-1 flex justify-center">
+            <div class="w-full max-w-[720px] h-[400px] bg-gray-200 rounded-xl flex items-center justify-center shadow-lg">
+                <div class="text-gray-400 text-sm text-center">
+                    🎥 Video Preview / Classroom Screenshot
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 19h16V5H4v14zm0-16h16a2 2 0 012 2v14a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold">10K+</h3>
+                <p class="text-gray-500">Discussions Hosted</p>
+            </div>
+            <div>
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold">30K+</h3>
+                <p class="text-gray-500">Student Participants</p>
+            </div>
+            <div>
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 17.27L18.18 21 16.54 13.97 22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold">4.9/5</h3>
+                <p class="text-gray-500">Rated Experience</p>
+            </div>
+            <div>
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-orange-100 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold">75+</h3>
+                <p class="text-gray-500">Schools Using Criticore</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose EduLearn Section -->
+    <section class="px-10 py-16 bg-gray">
+        <!-- Centered Heading -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <h2 class="text-3xl font-bold mb-4">Why Choose EduLearn?</h2>
+            <p class="text-gray-600 text-lg">
+                We provide the best learning experience with cutting-edge technology and expert instructors.
+            </p>
+        </div>
+        <!-- Feature & Image Row -->
+        <div class="md:flex md:items-start md:justify-between max-w-7xl mx-auto">
+            <!-- Left Features -->
+            <div class="space-y-8 max-w-xl">
+                <!-- Feature 1 -->
+                <div class="flex items-start gap-4">
+                    <div class="bg-blue-100 text-blue-600 rounded-full p-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M4 3a2 2 0 00-2 2v9a2 2 0 002 2h3v2h6v-2h3a2 2 0 002-2V5a2 2 0 00-2-2H4z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">Interactive Learning</h3>
+                        <p class="text-gray-600">
+                            Hands-on projects, coding exercises, and interactive quizzes to reinforce your learning.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="flex items-start gap-4">
+                    <div class="bg-green-100 text-green-600 rounded-full p-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.172 7.707 8.879a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                  clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">Lifetime Access</h3>
+                        <p class="text-gray-600">
+                            Get lifetime access to course materials and updates. Learn at your own pace, anytime.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-100 text-purple-600 rounded-full p-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 12a2 2 0 110-4 2 2 0 010 4zm0-10a8 8 0 00-6.32 12.906l-1.386 4.218a1 1 0 001.262 1.262l4.218-1.386A8 8 0 1012 4z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">Certificates</h3>
+                        <p class="text-gray-600">
+                            Earn industry-recognized certificates upon completion to boost your career prospects.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Image -->
+            <div class="mt-12 md:mt-0 md:ml-10">
+                <div class="w-full md:w-[480px] h-[270px] bg-gray-200 rounded-xl flex items-center justify-center">
+                    <div class="text-gray-400 text-sm text-center">
+                        📷 Image/Video Placeholder
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Newsletter Section -->
+    <section class="bg-white text-center px-4 py-20">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-black">
+            Ready to Join the Conversation?
+        </h2>
+        <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-gray-600">
+            Get notified when your teacher posts new discussion topics or feedback sessions. Stay active and engaged!
+        </p>
+        <form class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto">
+            <input type="email" placeholder="Enter your email"
+                   class="w-full sm:w-auto flex-1 px-4 py-3 rounded-md text-gray-800 border border-gray-300 focus:outline-none" />
+            <button type="submit"
+                    class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-md hover:bg-blue-700 transition">
+                Subscribe
+            </button>
+        </form>
+        <p class="text-sm text-gray-500 mt-4">
+            Get weekly updates on discussions, top votes, and critical thinking tips.
+        </p>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-50 border-t py-6 text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center">
+            <p class="mb-2 sm:mb-0">© 2024 Criticore. Empowering Critical Thinking Through Conversation.</p>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-gray-800">Terms</a>
+                <a href="#" class="hover:text-gray-800">Privacy</a>
+                <a href="#" class="hover:text-gray-800">Support</a>
+            </div>
+        </div>
+    </footer>
+</body>
