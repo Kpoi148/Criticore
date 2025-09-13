@@ -417,11 +417,5 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-# ===== Custom ignore cho Criticore =====
-# Bỏ file cấu hình chứa secret
-appsettings.json
-appsettings.*.json
-
-# Bỏ thư mục build
-bin/
-obj/
+#Criticore
+appsettings.Development.json
