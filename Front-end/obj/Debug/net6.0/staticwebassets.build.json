@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "u0Tvxh8qc2Cr2KWfu87/1sr4sXxTnI906M8r84cQPw8=",
+  "Hash": "QY1jU7GT5tV6zRNvcTje1Tszoa0GV0N3mpvEYapaqSE=",
   "Source": "Front-end",
   "BasePath": "_content/Front-end",
   "Mode": "Default",
@@ -57,6 +57,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\Front-end.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\wwwroot\\css\\auth.css",
+      "SourceId": "Front-end",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\wwwroot\\",
+      "BasePath": "_content/Front-end",
+      "RelativePath": "css/auth#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "9fhz9jyacb",
+      "Integrity": "C0jvUFmm8gy8G+DSdjY/dOhYaf+8SDrzaJTujFCAeKg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\auth.css"
     },
     {
       "Identity": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\wwwroot\\css\\site.css",
@@ -1383,6 +1404,88 @@
     }
   ],
   "Endpoints": [
+    {
+      "Route": "css/auth.9fhz9jyacb.css",
+      "AssetFile": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\wwwroot\\css\\auth.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4142"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"C0jvUFmm8gy8G+DSdjY/dOhYaf+8SDrzaJTujFCAeKg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 14:21:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "9fhz9jyacb"
+        },
+        {
+          "Name": "label",
+          "Value": "css/auth.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-C0jvUFmm8gy8G+DSdjY/dOhYaf+8SDrzaJTujFCAeKg="
+        }
+      ]
+    },
+    {
+      "Route": "css/auth.css",
+      "AssetFile": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\wwwroot\\css\\auth.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4142"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"C0jvUFmm8gy8G+DSdjY/dOhYaf+8SDrzaJTujFCAeKg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 14:21:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-C0jvUFmm8gy8G+DSdjY/dOhYaf+8SDrzaJTujFCAeKg="
+        }
+      ]
+    },
     {
       "Route": "css/site.css",
       "AssetFile": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\wwwroot\\css\\site.css",

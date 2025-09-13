@@ -17,10 +17,16 @@
             <a asp-controller="Topic" asp-action="Index" class="hover:text-blue-600">Topics</a>
             <a asp-controller="Leaderboard" asp-action="Index" class="hover:text-blue-600">Leaderboard</a>
             <a asp-controller="Resource" asp-action="Index" class="hover:text-blue-600">Resources</a>
-            <a asp-controller="Account" asp-action="Login" class="hover:text-blue-600">Sign In</a>
+            @* <a asp-controller="Account" asp-action="Login" class="hover:text-blue-600">Sign In</a> *@
+            <a asp-page="/SignIn" class="hover:text-blue-600">Sign In</a>
         </nav>
 
-        <a asp-controller="Account" asp-action="Register"
+        @* <a asp-controller="Account" asp-action="Register" *@
+        @*    class="bg-blue-600 text-white px-5 py-3 rounded-md text-base font-semibold hover:bg-blue-700"> *@
+        @*     Get Started *@
+        @* </a> *@
+        <!-- ĐỔI Get Started sang Razor Page -->
+        <a asp-page="/SignIn"
            class="bg-blue-600 text-white px-5 py-3 rounded-md text-base font-semibold hover:bg-blue-700">
             Get Started
         </a>
