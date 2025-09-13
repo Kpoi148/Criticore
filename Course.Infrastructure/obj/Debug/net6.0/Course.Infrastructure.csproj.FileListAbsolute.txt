@@ -1,0 +1,11 @@
+E:\C#\Criticore\Course.Infrastructure\bin\Debug\net6.0\Course.Infrastructure.deps.json
+E:\C#\Criticore\Course.Infrastructure\bin\Debug\net6.0\Course.Infrastructure.dll
+E:\C#\Criticore\Course.Infrastructure\bin\Debug\net6.0\Course.Infrastructure.pdb
+E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.AssemblyInfoInputs.cache
+E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.AssemblyInfo.cs
+E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.csproj.CoreCompileInputs.cache
+E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.dll
+E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\refint\Course.Infrastructure.dll
+E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.pdb
+E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\ref\Course.Infrastructure.dll
