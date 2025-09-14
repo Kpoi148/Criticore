@@ -418,4 +418,10 @@ FodyWeavers.xsd
 *.msp
 
 #Criticore
-appsettings.Development.json
+# Ignore development settings
+Identity.Api/appsettings.Development.json
+
+# Ignore build outputs
+Identity.Api/bin/
+Identity.Api/obj/
+
