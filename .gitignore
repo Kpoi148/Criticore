@@ -427,4 +427,6 @@ Identity.Api/obj/
 
 # Bỏ track tất cả appsettings.Development.json
 **/appsettings.Development.json
+**/bin/
+
 
