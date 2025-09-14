@@ -1,0 +1,12 @@
+E:\C#\Criticore\Course.Domain\bin\Debug\net6.0\Course.Domain.deps.json
+E:\C#\Criticore\Course.Domain\bin\Debug\net6.0\Course.Domain.dll
+E:\C#\Criticore\Course.Domain\bin\Debug\net6.0\Course.Domain.pdb
+E:\C#\Criticore\Course.Domain\obj\Debug\net6.0\Course.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\C#\Criticore\Course.Domain\obj\Debug\net6.0\Course.Domain.AssemblyInfoInputs.cache
+E:\C#\Criticore\Course.Domain\obj\Debug\net6.0\Course.Domain.AssemblyInfo.cs
+E:\C#\Criticore\Course.Domain\obj\Debug\net6.0\Course.Domain.csproj.CoreCompileInputs.cache
+E:\C#\Criticore\Course.Domain\obj\Debug\net6.0\Course.Domain.sourcelink.json
+E:\C#\Criticore\Course.Domain\obj\Debug\net6.0\Course.Domain.dll
+E:\C#\Criticore\Course.Domain\obj\Debug\net6.0\refint\Course.Domain.dll
+E:\C#\Criticore\Course.Domain\obj\Debug\net6.0\Course.Domain.pdb
+E:\C#\Criticore\Course.Domain\obj\Debug\net6.0\ref\Course.Domain.dll

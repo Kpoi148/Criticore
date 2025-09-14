@@ -1,0 +1,12 @@
+E:\C#\Criticore\Identity.Domain\bin\Debug\net8.0\Identity.Domain.deps.json
+E:\C#\Criticore\Identity.Domain\bin\Debug\net8.0\Identity.Domain.dll
+E:\C#\Criticore\Identity.Domain\bin\Debug\net8.0\Identity.Domain.pdb
+E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.AssemblyInfoInputs.cache
+E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.AssemblyInfo.cs
+E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.csproj.CoreCompileInputs.cache
+E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.sourcelink.json
+E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.dll
+E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\refint\Identity.Domain.dll
+E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.pdb
+E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\ref\Identity.Domain.dll
