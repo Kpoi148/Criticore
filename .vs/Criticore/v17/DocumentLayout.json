@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "E:\\C#\\Criticore\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|e:\\c#\\criticore\\front-end\\pages\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|e:\\c#\\criticore\\front-end\\wwwroot\\css\\auth.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\wwwroot\\css\\auth.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|e:\\c#\\criticore\\front-end\\pages\\signin.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\signin.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9FD59E5B-A30B-4F91-8757-53E4E9639DEB}|Identity.Api\\Identity.Api.csproj|e:\\c#\\criticore\\identity.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9FD59E5B-A30B-4F91-8757-53E4E9639DEB}|Identity.Api\\Identity.Api.csproj|solutionrelative:identity.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,24 +31,12 @@
       "RelativeMoniker": "D:0:0:{9FD59E5B-A30B-4F91-8757-53E4E9639DEB}|Identity.Api\\Identity.Api.csproj|solutionrelative:identity.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|e:\\c#\\criticore\\front-end\\pages\\signin.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\signin.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CB7815F8-DEFD-4A8C-AC0E-EB7A0D084B23}|OcelotApiGateway\\OcelotApiGateway.csproj|e:\\c#\\criticore\\ocelotapigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{CB7815F8-DEFD-4A8C-AC0E-EB7A0D084B23}|OcelotApiGateway\\OcelotApiGateway.csproj|solutionrelative:ocelotapigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|e:\\c#\\criticore\\front-end\\pages\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|e:\\c#\\criticore\\front-end\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|e:\\c#\\criticore\\front-end\\wwwroot\\css\\auth.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\wwwroot\\css\\auth.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,34 +46,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 15,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Api\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "Identity.Api\\appsettings.Development.json",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Api\\appsettings.Development.json",
-              "RelativeToolTip": "Identity.Api\\appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-14T02:59:37.801Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Api\\appsettings.json",
-              "RelativeDocumentMoniker": "Identity.Api\\appsettings.json",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Api\\appsettings.json",
-              "RelativeToolTip": "Identity.Api\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-14T02:58:35.282Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
@@ -108,7 +82,31 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Api\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "Identity.Api\\appsettings.Development.json",
+              "ToolTip": "E:\\C#\\Criticore\\Identity.Api\\appsettings.Development.json",
+              "RelativeToolTip": "Identity.Api\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-14T02:59:37.801Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "Identity.Api\\appsettings.json",
+              "ToolTip": "E:\\C#\\Criticore\\Identity.Api\\appsettings.json",
+              "RelativeToolTip": "Identity.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-14T02:58:35.282Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "ocelot.json",
               "DocumentMoniker": "E:\\C#\\Criticore\\OcelotApiGateway\\ocelot.json",
               "RelativeDocumentMoniker": "OcelotApiGateway\\ocelot.json",
@@ -120,7 +118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "AuthController.cs",
               "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Api\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Identity.Api\\Controllers\\AuthController.cs",
@@ -128,25 +126,24 @@
               "RelativeToolTip": "Identity.Api\\Controllers\\AuthController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T15:45:41.88Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-13T15:45:41.88Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Api\\Program.cs",
               "RelativeDocumentMoniker": "Identity.Api\\Program.cs",
               "ToolTip": "E:\\C#\\Criticore\\Identity.Api\\Program.cs",
               "RelativeToolTip": "Identity.Api\\Program.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAUwBsAAABXAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAUwBsAAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-13T15:44:07.435Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Index.cshtml",
               "DocumentMoniker": "E:\\C#\\Criticore\\Front-end\\Pages\\Index.cshtml",
               "RelativeDocumentMoniker": "Front-end\\Pages\\Index.cshtml",
@@ -158,31 +155,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 1,
               "Title": "auth.css",
               "DocumentMoniker": "E:\\C#\\Criticore\\Front-end\\wwwroot\\css\\auth.css",
               "RelativeDocumentMoniker": "Front-end\\wwwroot\\css\\auth.css",
               "ToolTip": "E:\\C#\\Criticore\\Front-end\\wwwroot\\css\\auth.css",
               "RelativeToolTip": "Front-end\\wwwroot\\css\\auth.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAMEAAAAAAAAAAAAQwOAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-09-13T14:21:28.532Z"
+              "WhenOpened": "2025-09-13T14:21:28.532Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "SignIn.cshtml",
               "DocumentMoniker": "E:\\C#\\Criticore\\Front-end\\Pages\\SignIn.cshtml",
               "RelativeDocumentMoniker": "Front-end\\Pages\\SignIn.cshtml",
               "ToolTip": "E:\\C#\\Criticore\\Front-end\\Pages\\SignIn.cshtml",
               "RelativeToolTip": "Front-end\\Pages\\SignIn.cshtml",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAAwDIAAABXAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAUwB0AAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-13T14:13:03.819Z"
+              "WhenOpened": "2025-09-13T14:13:03.819Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "SignIn.cshtml.cs",
               "DocumentMoniker": "E:\\C#\\Criticore\\Front-end\\Pages\\SignIn.cshtml.cs",
               "RelativeDocumentMoniker": "Front-end\\Pages\\SignIn.cshtml.cs",
@@ -190,7 +189,8 @@
               "RelativeToolTip": "Front-end\\Pages\\SignIn.cshtml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T14:17:33.63Z"
+              "WhenOpened": "2025-09-13T14:17:33.63Z",
+              "EditorCaption": ""
             }
           ]
         }
