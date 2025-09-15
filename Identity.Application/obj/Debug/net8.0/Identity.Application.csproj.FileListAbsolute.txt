@@ -10,3 +10,9 @@ E:\C#\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.dll
 E:\C#\Criticore\Identity.Application\obj\Debug\net8.0\refint\Identity.Application.dll
 E:\C#\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.pdb
 E:\C#\Criticore\Identity.Application\obj\Debug\net8.0\ref\Identity.Application.dll
+E:\C#\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Application.runtimeconfig.json
+E:\C#\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.csproj.AssemblyReference.cache
+E:\C#\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.genruntimeconfig.cache
+E:\C#\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Domain.dll
+E:\C#\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Domain.pdb
+E:\C#\Criticore\Identity.Application\obj\Debug\net8.0\Identity.59D253F8.Up2Date
