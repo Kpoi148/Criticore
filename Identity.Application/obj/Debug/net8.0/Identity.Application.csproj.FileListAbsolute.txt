@@ -16,3 +16,21 @@ E:\C#\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.genru
 E:\C#\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Domain.dll
 E:\C#\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Domain.pdb
 E:\C#\Criticore\Identity.Application\obj\Debug\net8.0\Identity.59D253F8.Up2Date
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Application.deps.json
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Application.runtimeconfig.json
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Application.dll
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Application.pdb
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Domain.dll
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\bin\Debug\net8.0\Identity.Domain.pdb
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.csproj.AssemblyReference.cache
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.AssemblyInfoInputs.cache
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.AssemblyInfo.cs
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.csproj.CoreCompileInputs.cache
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.sourcelink.json
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.59D253F8.Up2Date
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.dll
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\refint\Identity.Application.dll
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.pdb
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\Identity.Application.genruntimeconfig.cache
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Application\obj\Debug\net8.0\ref\Identity.Application.dll

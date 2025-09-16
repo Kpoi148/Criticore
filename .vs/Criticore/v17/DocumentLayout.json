@@ -1,70 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\C#\\Criticore\\",
+  "WorkspaceRootPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9FD59E5B-A30B-4F91-8757-53E4E9639DEB}|Identity.Api\\Identity.Api.csproj|e:\\c#\\criticore\\identity.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9FD59E5B-A30B-4F91-8757-53E4E9639DEB}|Identity.Api\\Identity.Api.csproj|solutionrelative:identity.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\controllers\\classcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\controllers\\classcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9FD59E5B-A30B-4F91-8757-53E4E9639DEB}|Identity.Api\\Identity.Api.csproj|e:\\c#\\criticore\\identity.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9FD59E5B-A30B-4F91-8757-53E4E9639DEB}|Identity.Api\\Identity.Api.csproj|solutionrelative:identity.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{46784C7C-F09F-4E3D-8934-EBEB28EA25A7}|Class.API\\Class.API.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\class.api\\controllers\\classescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46784C7C-F09F-4E3D-8934-EBEB28EA25A7}|Class.API\\Class.API.csproj|solutionrelative:class.api\\controllers\\classescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\vote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\vote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\models\\classdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\models\\classdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\topic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\topic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\class\\create.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\class\\create.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\submission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\submission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\class\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\class\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\front-end\\pages\\class\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F0E1F485-581B-4A3F-8454-0D3DA39BF485}|Front-end\\Front-end.csproj|solutionrelative:front-end\\pages\\class\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\homework.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\homework.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\documentchunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\documentchunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\classmember.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\classmember.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\identity.domain\\entities\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\chatsession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\chatsession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CB7815F8-DEFD-4A8C-AC0E-EB7A0D084B23}|OcelotApiGateway\\OcelotApiGateway.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\ocelotapigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CB7815F8-DEFD-4A8C-AC0E-EB7A0D084B23}|OcelotApiGateway\\OcelotApiGateway.csproj|solutionrelative:ocelotapigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8923DCAA-4E98-42FE-85BB-69B7E9B7D94D}|Class.Infrastructure\\Class.Infrastructure.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\class.infrastructure\\repositories\\classrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8923DCAA-4E98-42FE-85BB-69B7E9B7D94D}|Class.Infrastructure\\Class.Infrastructure.csproj|solutionrelative:class.infrastructure\\repositories\\classrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\aidocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\aidocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1BFC4F3C-D12A-4BD8-8CC2-E278088E117C}|Class.Domain\\Class.Domain.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\class.domain\\repositories\\iclassrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1BFC4F3C-D12A-4BD8-8CC2-E278088E117C}|Class.Domain\\Class.Domain.csproj|solutionrelative:class.domain\\repositories\\iclassrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|e:\\c#\\criticore\\identity.domain\\entities\\aianalysis.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E799E48-75CF-446D-BFD0-83C502EE6E5E}|Identity.Domain\\Identity.Domain.csproj|solutionrelative:identity.domain\\entities\\aianalysis.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C64C2001-E137-4965-843C-4076E7F0431F}|Class.Application\\Class.Application.csproj|d:\\hoc\\ki 8\\exe201\\criticore\\class.application\\services\\classservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C64C2001-E137-4965-843C-4076E7F0431F}|Class.Application\\Class.Application.csproj|solutionrelative:class.application\\services\\classservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -74,214 +54,97 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Api\\Program.cs",
-              "RelativeDocumentMoniker": "Identity.Api\\Program.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Api\\Program.cs",
-              "RelativeToolTip": "Identity.Api\\Program.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAIAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:16:44.95Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Api\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "Identity.Api\\Controllers\\AuthController.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Api\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "Identity.Api\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA0AAAAnAAAAAAAAAA==",
+              "Title": "ClassController.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Controllers\\ClassController.cs",
+              "RelativeDocumentMoniker": "Front-end\\Controllers\\ClassController.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Controllers\\ClassController.cs",
+              "RelativeToolTip": "Front-end\\Controllers\\ClassController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:16:16.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Vote.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Vote.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Vote.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Vote.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Vote.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:06:12.987Z",
+              "WhenOpened": "2025-09-16T16:31:04.05Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Topic.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Topic.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Topic.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Topic.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Topic.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAjAAAAAAAAAA==",
+              "Title": "Create.cshtml.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Class\\Create.cshtml.cs",
+              "RelativeDocumentMoniker": "Front-end\\Pages\\Class\\Create.cshtml.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Class\\Create.cshtml.cs",
+              "RelativeToolTip": "Front-end\\Pages\\Class\\Create.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:06:09.367Z",
+              "WhenOpened": "2025-09-16T16:21:54.353Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ClassDto.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Models\\ClassDto.cs",
+              "RelativeDocumentMoniker": "Front-end\\Models\\ClassDto.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Models\\ClassDto.cs",
+              "RelativeToolTip": "Front-end\\Models\\ClassDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T15:28:23.291Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Submission.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Submission.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Submission.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Submission.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Submission.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Class\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Front-end\\Pages\\Class\\Index.cshtml.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Class\\Index.cshtml.cs",
+              "RelativeToolTip": "Front-end\\Pages\\Class\\Index.cshtml.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAwwBYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:06:06.537Z",
+              "WhenOpened": "2025-09-16T14:50:34.059Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Message.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Message.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Message.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Message.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Message.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:06:03.107Z",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Class\\Index.cshtml",
+              "RelativeDocumentMoniker": "Front-end\\Pages\\Class\\Index.cshtml",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Front-end\\Pages\\Class\\Index.cshtml",
+              "RelativeToolTip": "Front-end\\Pages\\Class\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-16T14:50:29.642Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Material.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Material.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Material.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Material.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Material.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "ClassesController.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Class.API\\Controllers\\ClassesController.cs",
+              "RelativeDocumentMoniker": "Class.API\\Controllers\\ClassesController.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Class.API\\Controllers\\ClassesController.cs",
+              "RelativeToolTip": "Class.API\\Controllers\\ClassesController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBsAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:06:00.268Z",
+              "WhenOpened": "2025-09-16T14:48:48.501Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "HomeWork.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\HomeWork.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\HomeWork.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\HomeWork.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\HomeWork.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:05:57.292Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Group.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Group.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Group.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Group.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Group.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:05:54.458Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DocumentChunk.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\DocumentChunk.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\DocumentChunk.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\DocumentChunk.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\DocumentChunk.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:05:51.045Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ClassMember.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\ClassMember.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\ClassMember.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\ClassMember.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\ClassMember.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:05:48.337Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Class.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Class.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Class.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Class.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Class.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:05:45.493Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ChatSession.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\ChatSession.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\ChatSession.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\ChatSession.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\ChatSession.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:05:41.725Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Answer.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Answer.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Answer.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Answer.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Answer.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAkwAQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:05:38.285Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Aidocument.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Aidocument.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Aidocument.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Aidocument.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Aidocument.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwAQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:05:24.682Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Aianalysis.cs",
-              "DocumentMoniker": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Aianalysis.cs",
-              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Aianalysis.cs",
-              "ToolTip": "E:\\C#\\Criticore\\Identity.Domain\\Entities\\Aianalysis.cs",
-              "RelativeToolTip": "Identity.Domain\\Entities\\Aianalysis.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T14:05:20.061Z",
+              "Title": "ocelot.json",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\OcelotApiGateway\\ocelot.json",
+              "RelativeDocumentMoniker": "OcelotApiGateway\\ocelot.json",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\OcelotApiGateway\\ocelot.json",
+              "RelativeToolTip": "OcelotApiGateway\\ocelot.json",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAABwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-16T14:43:24.786Z",
               "EditorCaption": ""
             },
             {
@@ -315,6 +178,58 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Class.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Identity.Domain\\Entities\\Class.cs",
+              "RelativeDocumentMoniker": "Identity.Domain\\Entities\\Class.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Identity.Domain\\Entities\\Class.cs",
+              "RelativeToolTip": "Identity.Domain\\Entities\\Class.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwCgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T14:41:12.211Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ClassRepository.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Class.Infrastructure\\Repositories\\ClassRepository.cs",
+              "RelativeDocumentMoniker": "Class.Infrastructure\\Repositories\\ClassRepository.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Class.Infrastructure\\Repositories\\ClassRepository.cs",
+              "RelativeToolTip": "Class.Infrastructure\\Repositories\\ClassRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T14:40:59.544Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IClassRepository.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Class.Domain\\Repositories\\IClassRepository.cs",
+              "RelativeDocumentMoniker": "Class.Domain\\Repositories\\IClassRepository.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Class.Domain\\Repositories\\IClassRepository.cs",
+              "RelativeToolTip": "Class.Domain\\Repositories\\IClassRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T14:40:50.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ClassService.cs",
+              "DocumentMoniker": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Class.Application\\Services\\ClassService.cs",
+              "RelativeDocumentMoniker": "Class.Application\\Services\\ClassService.cs",
+              "ToolTip": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Class.Application\\Services\\ClassService.cs",
+              "RelativeToolTip": "Class.Application\\Services\\ClassService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T14:40:09.106Z",
+              "EditorCaption": ""
             }
           ]
         }

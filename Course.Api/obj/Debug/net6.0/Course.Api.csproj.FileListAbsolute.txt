@@ -34,3 +34,40 @@ E:\C#\Criticore\Course.Api\obj\Debug\net6.0\refint\Course.Api.dll
 E:\C#\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.pdb
 E:\C#\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.genruntimeconfig.cache
 E:\C#\Criticore\Course.Api\obj\Debug\net6.0\ref\Course.Api.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\appsettings.Development.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\appsettings.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Course.Api.staticwebassets.endpoints.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Course.Api.exe
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Course.Api.deps.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Course.Api.runtimeconfig.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Course.Api.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Course.Api.pdb
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Microsoft.OpenApi.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.csproj.AssemblyReference.cache
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.GeneratedMSBuildEditorConfig.editorconfig
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.AssemblyInfoInputs.cache
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.AssemblyInfo.cs
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.csproj.CoreCompileInputs.cache
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.MvcApplicationPartsAssemblyInfo.cs
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.MvcApplicationPartsAssemblyInfo.cache
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.sourcelink.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\scopedcss\bundle\Course.Api.styles.css
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets.build.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets.development.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets.build.endpoints.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets\msbuild.Course.Api.Microsoft.AspNetCore.StaticWebAssets.props
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets\msbuild.Course.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets\msbuild.build.Course.Api.props
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Course.Api.props
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Course.Api.props
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets.pack.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.csproj.Up2Date
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\refint\Course.Api.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.pdb
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\Course.Api.genruntimeconfig.cache
+D:\HOC\Ki 8\EXE201\Criticore\Course.Api\obj\Debug\net6.0\ref\Course.Api.dll

@@ -10,3 +10,15 @@ E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.dll
 E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\refint\Course.Infrastructure.dll
 E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.pdb
 E:\C#\Criticore\Course.Infrastructure\obj\Debug\net6.0\ref\Course.Infrastructure.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\bin\Debug\net6.0\Course.Infrastructure.deps.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\bin\Debug\net6.0\Course.Infrastructure.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\bin\Debug\net6.0\Course.Infrastructure.pdb
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.AssemblyInfoInputs.cache
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.AssemblyInfo.cs
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.csproj.CoreCompileInputs.cache
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.sourcelink.json
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\obj\Debug\net6.0\refint\Course.Infrastructure.dll
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\obj\Debug\net6.0\Course.Infrastructure.pdb
+D:\HOC\Ki 8\EXE201\Criticore\Course.Infrastructure\obj\Debug\net6.0\ref\Course.Infrastructure.dll
