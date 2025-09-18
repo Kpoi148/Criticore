@@ -10,3 +10,15 @@ E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.dll
 E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\refint\Identity.Domain.dll
 E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.pdb
 E:\C#\Criticore\Identity.Domain\obj\Debug\net8.0\ref\Identity.Domain.dll
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\bin\Debug\net8.0\Identity.Domain.deps.json
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\bin\Debug\net8.0\Identity.Domain.dll
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\bin\Debug\net8.0\Identity.Domain.pdb
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.AssemblyInfoInputs.cache
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.AssemblyInfo.cs
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.csproj.CoreCompileInputs.cache
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.sourcelink.json
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.dll
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\obj\Debug\net8.0\refint\Identity.Domain.dll
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\obj\Debug\net8.0\Identity.Domain.pdb
+D:\HOC\Ki 8\EXE201\Criticore\Identity.Domain\obj\Debug\net8.0\ref\Identity.Domain.dll
