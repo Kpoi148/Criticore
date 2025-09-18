@@ -22,7 +22,7 @@ namespace Identity.Api
 
             // Đăng ký DbContext
             builder.Services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Đăng ký Repository và Service
             builder.Services.AddScoped<IUserRepository, UserRepository>();
