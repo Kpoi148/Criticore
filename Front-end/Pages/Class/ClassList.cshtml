@@ -1,0 +1,176 @@
+﻿@page
+@model Front_end.Pages.Class.ClassListModel
+@{
+    ViewData["Title"] = "Criticore - Join a Class";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="icon" type="image/png" href="~/images/Logo-Criticore.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r hidden md:flex flex-col items-center py-6">
+            <div class="mb-8">
+                <img src="~/images/Logo1-Criticore.png" alt="Criticore Logo" class="h-12 mx-auto">
+            </div>
+            <nav class="flex flex-col w-full space-y-1 text-sm px-4">
+                <!-- Các link nav giữ nguyên từ code gốc -->
+                <a href="#" class="flex items-center gap-3 px-3 py-2 bg-gray-100 text-gray-900 rounded font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-8h-2m-12 0H4m16.24 6.24l-1.42-1.42M6.24 6.24l-1.42-1.42m12.02 12.02l1.42-1.42M6.24 17.76l-1.42 1.42" />
+                    </svg>
+                    Classrooms
+                </a>
+                <!-- Các features khác... -->
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+                    </svg>
+                    Sign out
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="flex-1 p-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-2xl font-semibold text-blue-700">Join a Class</h1>
+                    <button onclick="openCreateClassModal()" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition">
+                        + Create Class
+                    </button>
+                </div>
+
+                <p class="text-gray-600 mb-6">
+                    Browse available classes and join discussions that interest you. Build your critical thinking skills through structured dialogue.
+                </p>
+
+                <!-- Search and Filters -->
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <input type="text" placeholder="Search classes, subjects, or teachers..." class="flex-1 min-w-[200px] border border-gray-300 rounded-md px-4 py-2 text-sm shadow-sm" />
+                    <select id="semesterFilter" class="border border-gray-300 rounded-md px-2 py-2 text-sm">
+                        <option value="All">All Semesters</option>
+                        @foreach (var semester in Model.Classes.Select(c => c.Semester).Distinct())
+                        {
+                            <option value="@semester">@semester</option>
+                        }
+                    </select>
+                    <div class="flex gap-2">
+                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-sm" data-status="All">All</button>
+                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-sm" data-status="In Progress">In Progress</button>
+                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-sm" data-status="Not Started">Not Started</button>
+                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-sm" data-status="Completed">Completed</button>
+                    </div>
+                </div>
+
+                <!-- Class Cards Container -->
+                <div id="classList" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Class Modal (chỉ hiển thị, không submit thực tế) -->
+    <div id="createClassModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <h2 class="text-lg font-semibold mb-4">Create a New Class</h2>
+            <input id="newClassId" type="text" placeholder="Class ID (e.g. SE1801)" class="w-full border px-3 py-2 mb-3 rounded-md" />
+            <input id="newSubjectCode" type="text" placeholder="Subject Code (e.g. PRN212)" class="w-full border px-3 py-2 mb-3 rounded-md" />
+            <input id="newSemester" type="text" placeholder="Semester (e.g. Semester 1 - 2025)" class="w-full border px-3 py-2 mb-3 rounded-md" />
+            <input id="newClassName" type="text" placeholder="Class Name" class="w-full border px-3 py-2 mb-3 rounded-md" />
+            <input id="newTeacherName" type="text" placeholder="Teacher" class="w-full border px-3 py-2 mb-3 rounded-md" />
+            <div class="mb-3">
+                <p class="font-medium mb-1">Select Members:</p>
+                <div id="memberCheckboxes" class="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto border p-2 rounded">
+                    @foreach (var student in Model.Students)
+                    {
+                        <label class="flex items-center gap-2">
+                            <input type="checkbox" value="@student.UserId" class="member-checkbox" />
+                            <span>@student.FullName</span>
+                        </label>
+                    }
+                </div>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button onclick="closeCreateClassModal()" class="px-4 py-2 bg-gray-300 rounded-md">Cancel</button>
+                <button onclick="alert('Create simulated!'); closeCreateClassModal();" class="px-4 py-2 bg-blue-600 text-white rounded-md">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let classes = @Html.Raw(Json.Serialize(Model.Classes)); // Chuyển data sang JS
+        let currentStatus = "All";
+        let currentSemester = "All";
+
+        function renderClasses() {
+            const container = document.getElementById("classList");
+            container.innerHTML = "";
+
+            let filtered = classes.filter((cls) => {
+                const matchStatus = currentStatus === "All" || cls.status === currentStatus;
+                const matchSemester = currentSemester === "All" || cls.semester === currentSemester;
+                return matchStatus && matchSemester;
+            });
+
+            filtered.forEach((cls) => {
+                const card = document.createElement("div");
+                        card.innerHTML = `
+            <div class="relative bg-gradient-to-r from-white to-blue-100 border border-blue-200 rounded-lg shadow p-5 h-full flex flex-col justify-between transition hover:shadow-lg">
+                <div class="absolute top-3 right-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">${cls.status}</div>
+                <div class="mb-3">
+                    <h2 class="text-lg font-semibold text-gray-900">${cls.className}</h2>
+                    <p class="text-sm text-gray-500">Class ID: <span class="text-gray-800">${cls.classId} • ${cls.subjectCode}</span></p>
+                </div>
+                <ul class="text-sm text-gray-700 space-y-1 mb-4">
+                    <li class="flex items-center gap-2">Teacher: ${cls.teacher || 'Unknown'}</li>
+                    <li class="flex items-center gap-2">${cls.membersCount}/70 members</li>
+                    <li class="flex items-center gap-2">${cls.semester}</li>
+                </ul>
+                <div class="mt-4 flex justify-between items-center">
+                    <span class="text-xs text-black-500">${cls.slots} slots available</span>
+                    <button onclick="goToClass('${cls.classId}')" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition">Join Class</button>
+                </div>
+            </div>
+        `;
+                container.appendChild(card);
+            });
+        }
+
+        function goToClass(classId) {
+            window.location.href = `class-detail?id=\${classId}`; // Thay bằng route thực tế
+        }
+
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                currentStatus = btn.getAttribute("data-status");
+                document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("bg-blue-100", "text-blue-700"));
+                btn.classList.add("bg-blue-100", "text-blue-700");
+                renderClasses();
+            });
+        });
+
+        document.getElementById("semesterFilter").addEventListener("change", (e) => {
+            currentSemester = e.target.value;
+            renderClasses();
+        });
+
+        renderClasses();
+
+        function openCreateClassModal() {
+            document.getElementById("createClassModal").classList.remove("hidden");
+            document.getElementById("createClassModal").classList.add("flex");
+        }
+
+        function closeCreateClassModal() {
+            document.getElementById("createClassModal").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>

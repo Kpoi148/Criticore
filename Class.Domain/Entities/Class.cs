@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Class.Domain.Entities;
 
@@ -36,4 +37,7 @@ public partial class Class
     public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
 
     public virtual ICollection<Topic> Topics { get; set; } = new List<Topic>();
+    // 👇 thêm property chỉ để hiển thị
+    [NotMapped]
+    public int MembersCount { get; set; }
 }
