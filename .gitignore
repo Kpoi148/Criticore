@@ -427,3 +427,6 @@ Identity.Api/obj/
 
 
 
+".vs/" 
+"bin/" 
+"obj/" 
