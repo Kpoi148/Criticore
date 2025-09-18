@@ -143,9 +143,10 @@
             });
         }
 
-        function goToClass(classId) {
-            window.location.href = `class-detail?id=\${classId}`; // Thay bằng route thực tế
+                function goToClass(classId) {
+            window.location.href = `/Class/ClassDetail?id=${classId}`;
         }
+
 
         document.querySelectorAll(".filter-btn").forEach((btn) => {
             btn.addEventListener("click", () => {

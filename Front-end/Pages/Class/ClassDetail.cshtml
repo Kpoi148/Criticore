@@ -1,0 +1,275 @@
+﻿@page "/class/classdetail"
+@model Front_end.Pages.Class.ClassDetailModel
+@{
+    ViewData["Title"] = "Criticore - Class Detail";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="icon" type="image/png" href="~/images/Logo-Criticore.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="~/css/classdetail.css" />
+</head>
+<body class="bg-white text-gray-800">
+        <!-- Modal Bảng Xếp Hạng -->
+        <div id="rankModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+                <button id="closeRankModal" class="absolute right-4 top-2 text-2xl text-gray-500 hover:text-red-500 font-bold">&times;</button>
+                <h3 class="text-lg font-semibold mb-4 text-center">MEMBER RANKING</h3>
+                <div id="rankModalContent"></div>
+            </div>
+        </div>
+        <!-- Modal Báo Cáo -->
+        <div id="reportModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl p-6 relative">
+                <button id="closeReportModal" class="absolute right-4 top-2 text-2xl text-gray-500 hover:text-red-500 font-bold">&times;</button>
+                <h3 class="text-lg font-semibold mb-4 text-center">PARTICIPATION REPORT</h3>
+                <div id="reportModalContent"></div>
+            </div>
+        </div>
+
+    <div class="flex min-h-screen">
+        <!-- Thêm div wrap này để giống ClassList, ổn định layout -->
+        <!-- Sidebar (copy từ ClassList, giống hệt) -->
+        <aside class="w-64 bg-white border-r hidden md:flex flex-col items-center py-6">
+            <div class="mb-8">
+                <img src="~/images/Logo1-Criticore.png" alt="Criticore Logo" class="h-12 mx-auto">
+            </div>
+            <nav class="flex flex-col w-full space-y-1 text-sm px-4">
+                <a href="#" class="flex items-center gap-3 px-3 py-2 bg-gray-100 text-gray-900 rounded font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-8h-2m-12 0H4m16.24 6.24l-1.42-1.42M6.24 6.24l-1.42-1.42m12.02 12.02l1.42-1.42M6.24 17.76l-1.42 1.42" />
+                    </svg>
+                    Classrooms
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16h6m2 4H7a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2z" />
+                    </svg>
+                    Features 1
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3v2h6v-2c0-1.657-1.343-3-3-3z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 20h14a2 2 0 002-2v-4H3v4a2 2 0 002 2z" />
+                    </svg>
+                    Features 2
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18" />
+                    </svg>
+                    Features 3
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h6v6m2 4H7a2 2 0 01-2-2V7a2 2 0 012-2h4l2-2h4a2 2 0 012 2v12a2 2 0 01-2 2z" />
+                    </svg>
+                    Features 4
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A6.002 6.002 0 0112 15c1.657 0 3.157.672 4.243 1.76M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Features 5
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+                    </svg>
+                    Sign out
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 bg-gray-50 p-6">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <a href="/class/ClassList" class="text-blue-500 hover:underline text-sm">← Back to class list</a>
+                    <h1 class="text-3xl font-bold mb-2 text-blue-700" id="className">@Model.CurrentClass.ClassName</h1>
+                    <p class="text-gray-600 max-w-2xl">
+                        Develop critical thinking skills through structured dialogue and analysis. This course focuses on
+                        building analytical reasoning and logical problem-solving abilities.
+                    </p>
+                </div>
+                <div class="flex flex-col items-end space-y-2">
+                    <button id="rankButton" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition whitespace-nowrap">
+                        View Leaderboard
+                    </button>
+                    <button id="reportButton" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition whitespace-nowrap">
+                        View AI Usage Participation Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Class Info -->
+            <div id="classInfo" class="bg-white p-4 rounded shadow mb-6 text-sm">
+                <h2 class="text-xl font-semibold mb-4">Class Information</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6 text-gray-700 text-sm">
+                    <div>
+                        <div class="text-xs">Class ID</div>
+                        <div class="text-base font-bold" id="classId">@Model.CurrentClass.ClassId</div>
+                    </div>
+                    <div>
+                        <div class="text-xs">Teacher</div>
+                        <div class="flex items-center gap-2 text-base font-bold">
+                            <div class="bg-gray-200 text-xs w-7 h-7 flex items-center justify-center rounded-full">NV</div>
+                            <span id="teacher">"Alice"</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-xs">Members</div>
+                        <div class="text-base font-bold" id="members">@Model.CurrentClass.MembersCount</div>
+                    </div>
+                    <div>
+                        <div class="text-xs">Subject Code</div>
+                        <div class="text-base font-bold" id="subjectCode">@Model.CurrentClass.SubjectCode</div>
+                    </div>
+                    <div>
+                        <div class="text-xs">Semester</div>
+                        <div class="text-base font-bold" id="semester">@Model.CurrentClass.Semester</div>
+                    </div>
+                    <div>
+                        <div class="text-xs">Status</div>
+                        <div class="text-base font-bold" id="status">@Model.CurrentClass.Status</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b mb-4">
+                <button id="discussionsTab" class="px-4 py-2 font-medium bg-blue-200 text-blue-800 hover:bg-blue-300 rounded-t-lg">Discussions</button>
+                <button id="membersTab" class="px-4 py-2 font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-t-lg">Members</button>
+                <button id="groupsTab" class="px-4 py-2 font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-t-lg">Groups</button>
+                <button id="resourcesTab" class="px-4 py-2 font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-t-lg">Resources</button>
+            </div>
+
+            <!-- Discussions Section -->
+            <div id="discussionsSection" class="space-y-6">
+                <div class="bg-white p-4 rounded shadow">
+                    <h2 class="text-lg font-semibold mb-1 flex items-center">
+                        <span class="text-black-600 mr-2">+</span> Create a New Discussion Topic
+                    </h2>
+                    <p class="text-gray-500 text-sm mb-4">Start a new discussion topic for your classmates</p>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                            <input id="topicTitle" type="text" placeholder="Enter discussion title..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <textarea id="topicDesc" placeholder="Detailed description..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-24"></textarea>
+                        </div>
+                        <input id="topicEndTime" type="datetime-local" class="w-full border px-3 py-2 mb-3 rounded-md" placeholder="Thời gian kết thúc" min="">
+                        <button id="addTopicBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Create Topic</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded shadow">
+                    <h3 class="text-lg font-semibold mb-2">Recent Discussions</h3>
+                    <p class="text-gray-500 text-sm mb-4">Latest topics and discussions in this class</p>
+                    <div id="topicsList" class="space-y-4"></div>
+                </div>
+            </div>
+
+            <!-- Members Section -->
+            <div id="membersSection" class="bg-white p-4 rounded shadow mb-6 hidden">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-lg font-semibold">
+                        Class Members (<span id="memberCount">0</span>)
+                    </h3>
+                    <button id="addMemberBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-sm flex items-center space-x-1" title="Add member">
+                        <span class="text-white text-lg">＋</span>
+                        <span>Add Member</span>
+                    </button>
+                </div>
+                <p class="text-gray-500 text-sm mb-4">Students and instructors in this class</p>
+
+                <div id="memberListContainer" class="space-y-4 mb-4">
+                    <!-- Các thành viên sẽ render tại đây -->
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-4 bg-blue-50 rounded-lg flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-gray-200 text-xs w-7 h-7 flex items-center justify-center rounded-full">NV</span>
+                                <span class="font-medium">Nguyen Van A</span>
+                                <span class="text-gray-500 text-sm">Teacher</span>
+                            </div>
+                            <div class="text-gray-500 text-sm">Instructor</div>
+                        </div>
+                    </div>
+                    <div class="text-gray-500 text-sm">
+                        + <span id="studentCount">0</span> students
+                    </div>
+                </div>
+            </div>
+
+            <!-- Groups Section -->
+            <div id="groupsSection" class="bg-white p-4 rounded shadow mb-6 hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">
+                        Group Management (<span id="groupCount">0</span>)
+                    </h3>
+                    <button id="createGroupBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-sm">
+                        + Create Group
+                    </button>
+                </div>
+                <div id="groupList" class="space-y-4">
+                    <!-- Danh sách nhóm sẽ được render tại đây -->
+                </div>
+            </div>
+
+            <!-- Resources Section -->
+            <div id="resourcesSection" class="bg-white p-4 rounded shadow mb-6 hidden">
+                <h3 class="text-lg font-semibold mb-2">Class Resources (5)</h3>
+                <p class="text-gray-500 text-sm mb-4">Materials and files shared in this class</p>
+                <div class="space-y-4">
+                    <div class="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <div class="text-gray-900 font-medium">Introduction to Critical Thinking</div>
+                        <div class="text-gray-500 text-sm">A guide to building critical thinking skills</div>
+                        <div class="text-gray-500 text-sm flex justify-end">PDF</div>
+                    </div>
+                    <div class="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <div class="text-gray-900 font-medium">Lecture Notes - Week 1</div>
+                        <div class="text-gray-500 text-sm">Notes from the first lecture</div>
+                        <div class="text-gray-500 text-sm flex justify-end">DOCX</div>
+                    </div>
+                    <div class="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <div class="text-gray-900 font-medium">Assignment 1 Guidelines</div>
+                        <div class="text-gray-500 text-sm">Details for the first assignment</div>
+                        <div class="text-gray-500 text-sm flex justify-end">PDF</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Add Member Modal -->
+        <div id="addMemberModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                <h3 class="text-lg font-semibold mb-4">Select students to add to the class</h3>
+                <div id="availableStudentsList" class="space-y-2 max-h-64 overflow-y-auto">
+                    <!-- Student list will be rendered here -->
+                </div>
+                <div class="mt-6 flex justify-end space-x-2">
+                    <button id="cancelAddMember" class="px-4 py-2 text-sm text-gray-600 hover:underline">Cancel</button>
+                    <button id="confirmAddMember" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
+                        Add to Class
+                    </button>
+                </div>
+            </div>
+        </div>
+    <script>
+        window.classData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentClass));
+        window.studentsData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Students));
+        window.reportData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ReportData));
+    </script>
+    <script src="~/js/classdetail.js"></script>
+    </body>
+</html>
