@@ -27,6 +27,10 @@ namespace Identity.Api
             // Đăng ký Repository và Service
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<UserService>();
+            //
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+
 
             // Authentication config
             builder.Services.AddAuthentication(options =>
