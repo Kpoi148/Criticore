@@ -9,15 +9,29 @@ namespace Class.Application.Services
 {
     public class ClassService
     {
-        private readonly IClassRepository _classRepository;
+        private readonly IClassRepository _classRepo;
+        private readonly IClassMemberRepository _memberRepo;
 
-        public ClassService(IClassRepository classRepository) { _classRepository = classRepository; }
+        public ClassService(IClassRepository classRepo, IClassMemberRepository memberRepo)
+        {
+            _classRepo = classRepo;
+            _memberRepo = memberRepo;
+        }
+        public Task<IEnumerable<Class.Domain.Entities.Class>> GetAllAsync() => _classRepo.GetAllAsync();
+        public Task<Class.Domain.Entities.Class?> GetByIdAsync(int id) => _classRepo.GetByIdAsync(id);
+        public Task AddAsync(Class.Domain.Entities.Class cls) => _classRepo.AddAsync(cls);
+        public Task UpdateAsync(Class.Domain.Entities.Class cls) => _classRepo.UpdateAsync(cls);
+        public Task DeleteAsync(int id) => _classRepo.DeleteAsync(id);
+        // Tham gia lớp bằng mã mới, khi nhập mã sẽ tìm theo đúng lớp với mã đó và thêm học sinh vào lớp
+        public async Task<Class.Domain.Entities.Class?> JoinByCodeAsync(string joinCode, int userId)
+        {
+            // Tim lớp theo mã học sinh nhập
+            var cls = await _classRepo.GetByJoinCodeAsync(joinCode);
+            if (cls == null) return null;
 
-        public Task<IEnumerable<Class.Domain.Entities.Class>> GetAllAsync() => _classRepository.GetAllAsync();
-        public Task<Class.Domain.Entities.Class?> GetByIdAsync(int id) => _classRepository.GetByIdAsync(id);
-        public Task AddAsync(Class.Domain.Entities.Class cls) => _classRepository.AddAsync(cls);
-        public Task UpdateAsync(Class.Domain.Entities.Class cls) => _classRepository.UpdateAsync(cls);
-        public Task DeleteAsync(int id) => _classRepository.DeleteAsync(id);
+            await _memberRepo.AddStudentToClassAsync(cls.ClassId, userId);
+            return cls;
+        }
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Class.Domain.Entities;
 using Class.Domain.Repositories;
 using Class.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,11 @@ namespace Class.Infrastructure.Repositories
                 _context.Classes.Remove(cls);
                 await _context.SaveChangesAsync();
             }
+
+        }
+        public async Task<Class.Domain.Entities.Class?> GetByJoinCodeAsync(string joinCode)
+        {
+            return await _context.Classes.FirstOrDefaultAsync(c => c.JoinCode == joinCode);
         }
     }
 }

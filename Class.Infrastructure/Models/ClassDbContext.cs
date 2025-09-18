@@ -24,7 +24,7 @@ public partial class ClassDbContext : DbContext
 
     public virtual DbSet<ChatSession> ChatSessions { get; set; }
 
-    public virtual DbSet<Class.Domain.Entities.Class> Classes { get; set; }
+    public virtual DbSet<Domain.Entities.Class> Classes { get; set; }
 
     public virtual DbSet<ClassMember> ClassMembers { get; set; }
 
@@ -33,6 +33,8 @@ public partial class ClassDbContext : DbContext
     public virtual DbSet<Group> Groups { get; set; }
 
     public virtual DbSet<HomeWork> HomeWorks { get; set; }
+
+    public virtual DbSet<JoinRequest> JoinRequests { get; set; }
 
     public virtual DbSet<Material> Materials { get; set; }
 
@@ -48,7 +50,7 @@ public partial class ClassDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=ADMIN-PC; Database=CriticoreDB;User ID=sa;Password=admin@123;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Server=ADMIN-PC;Database=CriticoreDB;User ID=sa;Password=admin@123;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -143,7 +145,7 @@ public partial class ClassDbContext : DbContext
                 .HasConstraintName("FK__ChatSessi__Creat__73BA3083");
         });
 
-        modelBuilder.Entity<Class.Domain.Entities.Class>(entity =>
+        modelBuilder.Entity<Domain.Entities.Class>(entity =>
         {
             entity.HasKey(e => e.ClassId).HasName("PK__Classes__CB1927A084F08036");
 
@@ -153,6 +155,7 @@ public partial class ClassDbContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.JoinCode).HasMaxLength(100);
             entity.Property(e => e.Semester).HasMaxLength(50);
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.SubjectCode).HasMaxLength(50);
@@ -216,8 +219,6 @@ public partial class ClassDbContext : DbContext
         {
             entity.HasKey(e => e.GroupId).HasName("PK__Group__149AF30AB8181354");
 
-            entity.ToTable("Group");
-
             entity.Property(e => e.GroupId).HasColumnName("GroupID");
             entity.Property(e => e.ClassId).HasColumnName("ClassID");
             entity.Property(e => e.CreatedAt)
@@ -261,6 +262,37 @@ public partial class ClassDbContext : DbContext
                 .HasForeignKey(d => d.TopicId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__HomeWorks__Topic__5EBF139D");
+        });
+
+        modelBuilder.Entity<JoinRequest>(entity =>
+        {
+            entity.HasKey(e => e.JoinRequestId).HasName("PK__JoinRequ__2573934AD3B9ACC4");
+
+            entity.Property(e => e.JoinRequestId).HasColumnName("JoinRequestID");
+            entity.Property(e => e.ClassId).HasColumnName("ClassID");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Message).HasMaxLength(500);
+            entity.Property(e => e.ReviewedAt).HasColumnType("datetime");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasDefaultValue("Pending");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Class).WithMany(p => p.JoinRequests)
+                .HasForeignKey(d => d.ClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__JoinReque__Class__17F790F9");
+
+            entity.HasOne(d => d.ReviewedByNavigation).WithMany(p => p.JoinRequestReviewedByNavigations)
+                .HasForeignKey(d => d.ReviewedBy)
+                .HasConstraintName("FK__JoinReque__Revie__19DFD96B");
+
+            entity.HasOne(d => d.User).WithMany(p => p.JoinRequestUsers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__JoinReque__UserI__18EBB532");
         });
 
         modelBuilder.Entity<Material>(entity =>

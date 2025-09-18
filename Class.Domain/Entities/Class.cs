@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Class.Domain.Entities;
 
@@ -24,20 +23,23 @@ public partial class Class
 
     public DateTime? UpdatedAt { get; set; }
 
+    public string? JoinCode { get; set; }
+
     public virtual ICollection<Aidocument> Aidocuments { get; set; } = new List<Aidocument>();
 
     public virtual ICollection<ChatSession> ChatSessions { get; set; } = new List<ChatSession>();
 
     public virtual ICollection<ClassMember> ClassMembers { get; set; } = new List<ClassMember>();
 
-    public virtual User? CreatedByNavigation { get; set; } = null!;
+    public virtual User CreatedByNavigation { get; set; } = null!;
 
     public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+
+    public virtual ICollection<JoinRequest> JoinRequests { get; set; } = new List<JoinRequest>();
 
     public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
 
     public virtual ICollection<Topic> Topics { get; set; } = new List<Topic>();
-    // 👇 thêm property chỉ để hiển thị
-    [NotMapped]
-    public int MembersCount { get; set; }
+
+    //public int MembersCount { get; set; }
 }

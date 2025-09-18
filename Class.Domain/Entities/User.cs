@@ -37,6 +37,10 @@ public partial class User
 
     public virtual ICollection<HomeWork> HomeWorks { get; set; } = new List<HomeWork>();
 
+    public virtual ICollection<JoinRequest> JoinRequestReviewedByNavigations { get; set; } = new List<JoinRequest>();
+
+    public virtual ICollection<JoinRequest> JoinRequestUsers { get; set; } = new List<JoinRequest>();
+
     public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
 
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();

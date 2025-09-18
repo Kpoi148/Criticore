@@ -27,6 +27,10 @@ namespace Class.API
             // Đăng ký Repository và Service
             builder.Services.AddScoped<IClassRepository, ClassRepository>();
             builder.Services.AddScoped<ClassService>();
+            builder.Services.AddScoped<JoinRequestService>();
+            builder.Services.AddScoped<IJoinRequestRepository, JoinRequestRepository>();
+            builder.Services.AddScoped<IClassMemberRepository, ClassMemberRepository>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

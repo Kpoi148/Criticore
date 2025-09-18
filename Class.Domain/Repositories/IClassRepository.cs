@@ -12,5 +12,7 @@ namespace Class.Domain.Repositories
         Task AddAsync(Class.Domain.Entities.Class cls);
         Task UpdateAsync(Class.Domain.Entities.Class cls);
         Task DeleteAsync(int id);
+        Task<Class.Domain.Entities.Class?> GetByJoinCodeAsync(string joinCode);
+
     }
 }
