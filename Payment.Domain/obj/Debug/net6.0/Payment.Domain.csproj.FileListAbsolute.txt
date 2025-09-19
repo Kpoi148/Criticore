@@ -10,3 +10,15 @@ D:\HOC\Ki 8\EXE201\Criticore\Payment.Domain\obj\Debug\net6.0\Payment.Domain.dll
 D:\HOC\Ki 8\EXE201\Criticore\Payment.Domain\obj\Debug\net6.0\refint\Payment.Domain.dll
 D:\HOC\Ki 8\EXE201\Criticore\Payment.Domain\obj\Debug\net6.0\Payment.Domain.pdb
 D:\HOC\Ki 8\EXE201\Criticore\Payment.Domain\obj\Debug\net6.0\ref\Payment.Domain.dll
+E:\C#\Criticore\Payment.Domain\bin\Debug\net6.0\Payment.Domain.deps.json
+E:\C#\Criticore\Payment.Domain\bin\Debug\net6.0\Payment.Domain.dll
+E:\C#\Criticore\Payment.Domain\bin\Debug\net6.0\Payment.Domain.pdb
+E:\C#\Criticore\Payment.Domain\obj\Debug\net6.0\Payment.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\C#\Criticore\Payment.Domain\obj\Debug\net6.0\Payment.Domain.AssemblyInfoInputs.cache
+E:\C#\Criticore\Payment.Domain\obj\Debug\net6.0\Payment.Domain.AssemblyInfo.cs
+E:\C#\Criticore\Payment.Domain\obj\Debug\net6.0\Payment.Domain.csproj.CoreCompileInputs.cache
+E:\C#\Criticore\Payment.Domain\obj\Debug\net6.0\Payment.Domain.sourcelink.json
+E:\C#\Criticore\Payment.Domain\obj\Debug\net6.0\Payment.Domain.dll
+E:\C#\Criticore\Payment.Domain\obj\Debug\net6.0\refint\Payment.Domain.dll
+E:\C#\Criticore\Payment.Domain\obj\Debug\net6.0\Payment.Domain.pdb
+E:\C#\Criticore\Payment.Domain\obj\Debug\net6.0\ref\Payment.Domain.dll

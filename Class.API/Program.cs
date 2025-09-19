@@ -34,8 +34,10 @@ namespace Class.API
             builder.Services.AddScoped<IClassRepository, ClassRepository>();
             builder.Services.AddScoped<ClassService>();
             builder.Services.AddScoped<JoinRequestService>();
+            builder.Services.AddScoped<GroupService>();
             builder.Services.AddScoped<IJoinRequestRepository, JoinRequestRepository>();
             builder.Services.AddScoped<IClassMemberRepository, ClassMemberRepository>();
+            builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 
             var app = builder.Build();
 

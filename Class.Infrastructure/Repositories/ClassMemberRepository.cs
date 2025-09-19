@@ -14,10 +14,11 @@ namespace Class.Infrastructure.Repositories
     public class ClassMemberRepository : IClassMemberRepository
     {
         private readonly ClassDbContext _db;
-
-        public ClassMemberRepository(ClassDbContext db)
+        private readonly IGroupRepository _groupRepo;
+        public ClassMemberRepository(ClassDbContext db, IGroupRepository groupRepo)
         {
             _db = db;
+            _groupRepo = groupRepo;
         }
 
         public async Task<ClassMember?> GetByClassAndUserAsync(int classId, int userId)
@@ -68,17 +69,23 @@ namespace Class.Infrastructure.Repositories
         // Thêm mới: Xóa thành viên
         public async Task RemoveMemberFromClassAsync(int classMemberId)
         {
-            var member = await _db.ClassMembers.FindAsync(classMemberId);
-            if (member != null)
+            var member = await _db.ClassMembers
+                .Include(m => m.Group) // Nếu cần, tùy cấu trúc entity
+                .FirstOrDefaultAsync(m => m.ClassMemberId == classMemberId);
+
+            if (member == null)
             {
-                _db.ClassMembers.Remove(member);
-                await _db.SaveChangesAsync();
-            }
-            else
-            {
-                // Log hoặc throw: Console.WriteLine($"Member {classMemberId} not found");
                 throw new ArgumentException($"Member {classMemberId} not found");
             }
+
+            // Nếu đang trong group, xóa khỏi group trước
+            if (member.GroupId != null)
+            {
+                await _groupRepo.RemoveMemberFromGroupAsync(member.GroupId.Value, classMemberId);
+            }
+
+            _db.ClassMembers.Remove(member);
+            await _db.SaveChangesAsync();
         }
     }
 }

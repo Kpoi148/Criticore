@@ -10,7 +10,12 @@ namespace Class.API.Controllers
     public class ClassesController : ControllerBase
     {
         private readonly ClassService _service;
-        public ClassesController(ClassService service) { _service = service; }
+        private readonly GroupService _groupservice;
+        public ClassesController(ClassService service, GroupService groupService)
+        {
+            _service = service;
+            _groupservice = groupService;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -64,10 +69,28 @@ namespace Class.API.Controllers
 
         // Thêm mới: Xóa thành viên khỏi lớp
         [HttpDelete("{id}/members/{memberId}")]
-        public async Task<IActionResult> RemoveMember(int id, int memberId)
+        public async Task<IActionResult> RemoveMemberInClass(int id, int memberId)
         {
             // Kiểm tra classId khớp (tùy chọn, để bảo mật)
             await _service.RemoveMemberFromClassAsync(memberId);
+            return NoContent();
+        }
+
+        // Các endpoint khác cho Group (create, get, update, delete) có thể thêm ở đây
+
+        [HttpPost("{groupId}/members")]
+        public async Task<IActionResult> AddMember(int classId, int groupId, [FromBody] int classMemberId)
+        {
+            // Kiểm tra classId hợp lệ nếu cần
+            await _groupservice.AddMemberToGroupAsync(groupId, classMemberId);
+            return Ok();
+        }
+
+        [HttpDelete("{id}/groups/{groupId}/members/{classMemberId}")]
+        public async Task<IActionResult> RemoveMemberFromGroup(int id, int groupId, int classMemberId)
+        {
+            // Kiểm tra id (classId) hợp lệ nếu cần (trong service)
+            await _groupservice.RemoveMemberFromGroupAsync(groupId, classMemberId);
             return NoContent();
         }
     }

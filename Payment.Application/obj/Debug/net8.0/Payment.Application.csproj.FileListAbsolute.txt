@@ -10,3 +10,15 @@ D:\HOC\Ki 8\EXE201\Criticore\Payment.Application\obj\Debug\net8.0\Payment.Applic
 D:\HOC\Ki 8\EXE201\Criticore\Payment.Application\obj\Debug\net8.0\refint\Payment.Application.dll
 D:\HOC\Ki 8\EXE201\Criticore\Payment.Application\obj\Debug\net8.0\Payment.Application.pdb
 D:\HOC\Ki 8\EXE201\Criticore\Payment.Application\obj\Debug\net8.0\ref\Payment.Application.dll
+E:\C#\Criticore\Payment.Application\bin\Debug\net8.0\Payment.Application.deps.json
+E:\C#\Criticore\Payment.Application\bin\Debug\net8.0\Payment.Application.dll
+E:\C#\Criticore\Payment.Application\bin\Debug\net8.0\Payment.Application.pdb
+E:\C#\Criticore\Payment.Application\obj\Debug\net8.0\Payment.Application.GeneratedMSBuildEditorConfig.editorconfig
+E:\C#\Criticore\Payment.Application\obj\Debug\net8.0\Payment.Application.AssemblyInfoInputs.cache
+E:\C#\Criticore\Payment.Application\obj\Debug\net8.0\Payment.Application.AssemblyInfo.cs
+E:\C#\Criticore\Payment.Application\obj\Debug\net8.0\Payment.Application.csproj.CoreCompileInputs.cache
+E:\C#\Criticore\Payment.Application\obj\Debug\net8.0\Payment.Application.sourcelink.json
+E:\C#\Criticore\Payment.Application\obj\Debug\net8.0\Payment.Application.dll
+E:\C#\Criticore\Payment.Application\obj\Debug\net8.0\refint\Payment.Application.dll
+E:\C#\Criticore\Payment.Application\obj\Debug\net8.0\Payment.Application.pdb
+E:\C#\Criticore\Payment.Application\obj\Debug\net8.0\ref\Payment.Application.dll
