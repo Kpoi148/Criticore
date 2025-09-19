@@ -28,7 +28,6 @@ namespace Front_end.Pages.Class
                 Semester = "Semester 1 - 2025",
                 ClassName = "Advanced Critical Thinking",
                 CreatedBy = 1,
-                MembersCount = 50,
                 Status = "In Progress",
                 CreatedByNavigation = new User { UserId = 4, FullName = "Nguyen Van A" }
             };

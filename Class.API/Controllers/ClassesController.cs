@@ -53,5 +53,22 @@ namespace Class.API.Controllers
 
             return Ok(new { message = "Joined class successfully", classId = cls.ClassId });
         }
+
+        // Thêm mới: Xem danh sách thành viên lớp
+        [HttpGet("{id}/members")]
+        public async Task<IActionResult> GetMembers(int id)
+        {
+            var members = await _service.GetMembersByClassAsync(id);
+            return Ok(members);
+        }
+
+        // Thêm mới: Xóa thành viên khỏi lớp
+        [HttpDelete("{id}/members/{memberId}")]
+        public async Task<IActionResult> RemoveMember(int id, int memberId)
+        {
+            // Kiểm tra classId khớp (tùy chọn, để bảo mật)
+            await _service.RemoveMemberFromClassAsync(memberId);
+            return NoContent();
+        }
     }
 }

@@ -1,21 +1,3 @@
-E:\C#\Criticore\Identity.Infrastructure\bin\Debug\net8.0\Identity.Infrastructure.deps.json
-E:\C#\Criticore\Identity.Infrastructure\bin\Debug\net8.0\Identity.Infrastructure.dll
-E:\C#\Criticore\Identity.Infrastructure\bin\Debug\net8.0\Identity.Infrastructure.pdb
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.Infrastructure.AssemblyInfoInputs.cache
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.Infrastructure.AssemblyInfo.cs
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.Infrastructure.csproj.CoreCompileInputs.cache
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.Infrastructure.sourcelink.json
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.Infrastructure.dll
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\refint\Identity.Infrastructure.dll
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.Infrastructure.pdb
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\ref\Identity.Infrastructure.dll
-E:\C#\Criticore\Identity.Infrastructure\bin\Debug\net8.0\Identity.Infrastructure.runtimeconfig.json
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.Infrastructure.csproj.AssemblyReference.cache
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.Infrastructure.genruntimeconfig.cache
-E:\C#\Criticore\Identity.Infrastructure\bin\Debug\net8.0\Identity.Domain.dll
-E:\C#\Criticore\Identity.Infrastructure\bin\Debug\net8.0\Identity.Domain.pdb
-E:\C#\Criticore\Identity.Infrastructure\obj\Debug\net8.0\Identity.9C1318B7.Up2Date
 D:\HOC\Ki 8\EXE201\Criticore\Identity.Infrastructure\bin\Debug\net8.0\Identity.Infrastructure.deps.json
 D:\HOC\Ki 8\EXE201\Criticore\Identity.Infrastructure\bin\Debug\net8.0\Identity.Infrastructure.runtimeconfig.json
 D:\HOC\Ki 8\EXE201\Criticore\Identity.Infrastructure\bin\Debug\net8.0\Identity.Infrastructure.dll

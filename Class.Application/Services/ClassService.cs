@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Class.Domain.DTOs;
+using Class.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Class.Domain.Repositories;
 
 namespace Class.Application.Services
 {
@@ -32,6 +33,13 @@ namespace Class.Application.Services
             await _memberRepo.AddStudentToClassAsync(cls.ClassId, userId);
             return cls;
         }
+        // Thêm mới: Xem danh sách thành viên lớp
+        public Task<List<ClassMemberDto>> GetMembersByClassAsync(int classId)
+            => _memberRepo.GetMembersByClassAsync(classId);
+
+        // Thêm mới: Xóa thành viên khỏi lớp
+        public Task RemoveMemberFromClassAsync(int classMemberId)
+            => _memberRepo.RemoveMemberFromClassAsync(classMemberId);
     }
 }
 

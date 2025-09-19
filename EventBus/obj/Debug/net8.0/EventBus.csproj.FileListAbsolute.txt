@@ -1,15 +1,3 @@
-E:\C#\Criticore\EventBus\bin\Debug\net8.0\EventBus.deps.json
-E:\C#\Criticore\EventBus\bin\Debug\net8.0\EventBus.dll
-E:\C#\Criticore\EventBus\bin\Debug\net8.0\EventBus.pdb
-E:\C#\Criticore\EventBus\obj\Debug\net8.0\EventBus.GeneratedMSBuildEditorConfig.editorconfig
-E:\C#\Criticore\EventBus\obj\Debug\net8.0\EventBus.AssemblyInfoInputs.cache
-E:\C#\Criticore\EventBus\obj\Debug\net8.0\EventBus.AssemblyInfo.cs
-E:\C#\Criticore\EventBus\obj\Debug\net8.0\EventBus.csproj.CoreCompileInputs.cache
-E:\C#\Criticore\EventBus\obj\Debug\net8.0\EventBus.sourcelink.json
-E:\C#\Criticore\EventBus\obj\Debug\net8.0\EventBus.dll
-E:\C#\Criticore\EventBus\obj\Debug\net8.0\refint\EventBus.dll
-E:\C#\Criticore\EventBus\obj\Debug\net8.0\EventBus.pdb
-E:\C#\Criticore\EventBus\obj\Debug\net8.0\ref\EventBus.dll
 D:\HOC\Ki 8\EXE201\Criticore\EventBus\bin\Debug\net8.0\EventBus.deps.json
 D:\HOC\Ki 8\EXE201\Criticore\EventBus\bin\Debug\net8.0\EventBus.dll
 D:\HOC\Ki 8\EXE201\Criticore\EventBus\bin\Debug\net8.0\EventBus.pdb

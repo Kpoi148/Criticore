@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Class.Domain.DTOs;
+using Class.Domain.Entities;
+using Class.Domain.Repositories;
+using Class.Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Class.Domain.Repositories;
-using Class.Infrastructure.Models;
-using Class.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Class.Infrastructure.Repositories
 {
@@ -42,6 +43,42 @@ namespace Class.Infrastructure.Repositories
             _db.ClassMembers.Add(member);
             await _db.SaveChangesAsync();
             return member;
+        }
+
+        // Thêm mới: Xem thành viên lớp
+        public async Task<List<ClassMemberDto>> GetMembersByClassAsync(int classId)
+        {
+            var members = await _db.ClassMembers
+                .Where(cm => cm.ClassId == classId)
+                .Include(cm => cm.User) // Include User để lấy info
+                .ToListAsync();
+
+            return members.Select(cm => new ClassMemberDto
+            {
+                ClassMemberId = cm.ClassMemberId,
+                UserId = cm.UserId,
+                UserName = cm.User.FullName ?? string.Empty, // Giả sử User có Name
+                UserEmail = cm.User.Email ?? string.Empty, // Giả sử User có Email
+                RoleInClass = cm.RoleInClass ?? string.Empty,
+                JoinedAt = cm.JoinedAt,
+                GroupId = cm.GroupId
+            }).ToList();
+        }
+
+        // Thêm mới: Xóa thành viên
+        public async Task RemoveMemberFromClassAsync(int classMemberId)
+        {
+            var member = await _db.ClassMembers.FindAsync(classMemberId);
+            if (member != null)
+            {
+                _db.ClassMembers.Remove(member);
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                // Log hoặc throw: Console.WriteLine($"Member {classMemberId} not found");
+                throw new ArgumentException($"Member {classMemberId} not found");
+            }
         }
     }
 }

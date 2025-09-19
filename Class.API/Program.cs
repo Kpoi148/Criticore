@@ -22,7 +22,13 @@ namespace Class.API
 
             // Đăng ký DbContext
             builder.Services.AddDbContext<ClassDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            Console.WriteLine("👉 Connection string DefaultConnection: "
+     + builder.Configuration.GetConnectionString("DefaultConnection"));
+            Console.WriteLine("👉 Connection string LocConnection: "
+                + builder.Configuration.GetConnectionString("LocConnection"));
+
+
 
             // Đăng ký Repository và Service
             builder.Services.AddScoped<IClassRepository, ClassRepository>();
