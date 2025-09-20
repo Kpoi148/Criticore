@@ -36,6 +36,19 @@
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST" ]
+    },
+    // Thêm route cho Classes API
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7193 // Port của Classes service
+        }
+      ],
+      "UpstreamPathTemplate": "/classes/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
 
 

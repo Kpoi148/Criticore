@@ -1,3 +1,5 @@
+﻿using Front_end.Pages.Admin;
+
 namespace Front_end
 {
     public class Program
@@ -8,10 +10,17 @@ namespace Front_end
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            // Đăng ký HttpClient
+            builder.Services.AddHttpClient();
+            // Đăng ký Named HttpClient
+            builder.Services.AddHttpClient("GatewayClient", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7215"); // thay bằng API gateway hoặc backend
+            });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline. 
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");

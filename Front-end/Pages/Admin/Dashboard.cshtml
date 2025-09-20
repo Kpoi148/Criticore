@@ -1,0 +1,202 @@
+﻿@page
+@model Front_end.Pages.Admin.DashboardModel
+@{
+    ViewData["Title"] = "Criticore - Admin Dashboard";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="icon" type="image/png" href="~/images/Logo-Criticore.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r hidden md:flex flex-col items-center py-6 shadow-sm">
+            <div class="mb-8">
+                <img src="~/images/Logo1-Criticore.png" alt="Criticore Logo" class="h-12 mx-auto">
+            </div>
+            <nav class="flex flex-col w-full space-y-1 text-sm px-4">
+                <a href="#" class="flex items-center gap-3 px-3 py-2 bg-blue-50 text-blue-700 rounded font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-8h-2m-12 0H4m16.24 6.24l-1.42-1.42M6.24 6.24l-1.42-1.42m12.02 12.02l1.42-1.42M6.24 17.76l-1.42 1.42" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Classes
+                </a>
+                <!-- Thêm các link khác nếu cần -->
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+                    </svg>
+                    Sign out
+                </a>
+            </nav>
+        </aside>
+        <!-- Main content -->
+        <main class="flex-1 p-6 overflow-auto">
+            <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-blue-800">Quản lý Lớp Học</h1>
+                    <button onclick="openModal('create')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition shadow-sm">
+                        + Tạo Lớp
+                    </button>
+                </div>
+                <p class="text-gray-600 mb-6 text-sm">
+                    Quản lý danh sách lớp, tạo mới và gán giáo viên. Phong cách hiện đại 2025 với giao diện mượt mà.
+                </p>
+                <!-- Search and Filters -->
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <input type="text" id="searchInput" placeholder="Tìm lớp, môn học hoặc giáo viên..." class="flex-1 min-w-[200px] border border-gray-300 rounded-lg px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" oninput="filterClasses()" />
+                    <select id="semesterFilter" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="filterClasses()">
+                        <option value="All">Tất cả Kỳ</option>
+                        @foreach (var semester in Model.Classes.Select(c => c.Semester).Distinct())
+                        {
+                            <option value="@semester">@semester</option>
+                        }
+                    </select>
+                    <div class="flex gap-2">
+                        <button class="filter-btn px-3 py-2 rounded-lg bg-gray-100 text-sm hover:bg-blue-100 transition" data-status="All">Tất cả</button>
+                        <button class="filter-btn px-3 py-2 rounded-lg bg-gray-100 text-sm hover:bg-blue-100 transition" data-status="In Progress">Đang diễn ra</button>
+                        <button class="filter-btn px-3 py-2 rounded-lg bg-gray-100 text-sm hover:bg-blue-100 transition" data-status="Not Started">Chưa bắt đầu</button>
+                        <button class="filter-btn px-3 py-2 rounded-lg bg-gray-100 text-sm hover:bg-blue-100 transition" data-status="Completed">Hoàn thành</button>
+                    </div>
+                </div>
+                <!-- Class Cards Container -->
+                <div id="classList" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"></div>
+            </div>
+        </main>
+    </div>
+    <!-- Modal for Create/Edit Class -->
+    <div id="classModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-lg">
+            <h2 id="modalTitle" class="text-lg font-bold mb-4">Tạo Lớp Mới</h2>
+            <input id="classId" type="hidden" />
+            <input id="classCode" type="text" placeholder="Mã Lớp (e.g. SE1801)" class="w-full border border-gray-300 px-3 py-2 mb-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input id="subjectCode" type="text" placeholder="Mã Môn (e.g. PRN212)" class="w-full border border-gray-300 px-3 py-2 mb-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input id="semester" type="text" placeholder="Kỳ Học (e.g. Semester 1 - 2025)" class="w-full border border-gray-300 px-3 py-2 mb-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input id="className" type="text" placeholder="Tên Lớp" class="w-full border border-gray-300 px-3 py-2 mb-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <select id="teacherId" class="w-full border border-gray-300 px-3 py-2 mb-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Chọn Giáo Viên</option>
+                @foreach (var teacher in Model.Teachers)
+                {
+                    <option value="@teacher.UserId">@teacher.FullName</option>
+                }
+            </select>
+            <div class="flex justify-end gap-2">
+                <button onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Hủy</button>
+                <button id="saveBtn" onclick="saveClass()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Lưu</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let classes = @Html.Raw(Json.Serialize(Model.Classes)); // Data từ Model
+        let currentStatus = "All", currentSemester = "All", searchTerm = "";
+        let mode = 'create'; // create or edit
+
+        function renderClasses() {
+            const container = document.getElementById("classList");
+            container.innerHTML = "";
+            let filtered = classes.filter(cls => {
+                const matchStatus = currentStatus === "All" || cls.Status === currentStatus;
+                const matchSemester = currentSemester === "All" || cls.Semester === currentSemester;
+                const matchSearch = (cls.ClassName?.toLowerCase() || '').includes(searchTerm) || (cls.SubjectCode?.toLowerCase() || '').includes(searchTerm) || (cls.Teacher?.toLowerCase() || '').includes(searchTerm);
+                return matchStatus && matchSemester && matchSearch;
+            });
+            filtered.forEach(cls => {
+                const card = document.createElement("div");
+                card.innerHTML = `
+                    <div class="bg-gradient-to-br from-white to-blue-50 border border-blue-200 rounded-xl shadow-md p-5 flex flex-col justify-between hover:shadow-xl transition duration-300">
+                        <div class="absolute top-3 right-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">${cls.Status}</div>
+                        <h2 class="text-lg font-semibold text-gray-900">${cls.ClassName}</h2>
+                        <p class="text-sm text-gray-600">Mã: ${cls.ClassId} • ${cls.SubjectCode}</p>
+                        <ul class="text-sm text-gray-700 space-y-1 mt-2">
+                            <li>Giáo viên: ${cls.Teacher || 'Chưa gán'}</li>
+                            <li>Thành viên: ${cls.MembersCount}/70</li>
+                            <li>Kỳ: ${cls.Semester}</li>
+                        </ul>
+                        <div class="mt-4 flex justify-between">
+                            <button onclick="openModal('edit', ${cls.ClassId})" class="text-blue-600 hover:underline">Chỉnh sửa</button>
+                            <button onclick="deleteClass(${cls.ClassId})" class="text-red-600 hover:underline">Xóa</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterClasses() {
+            searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            renderClasses();
+        }
+
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                currentStatus = btn.getAttribute("data-status");
+                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("bg-blue-100", "text-blue-700"));
+                btn.classList.add("bg-blue-100", "text-blue-700");
+                renderClasses();
+            });
+        });
+
+        document.getElementById("semesterFilter").addEventListener("change", e => {
+            currentSemester = e.target.value;
+            renderClasses();
+        });
+
+        function openModal(m, id = null) {
+            mode = m;
+            document.getElementById("modalTitle").textContent = m === 'create' ? 'Tạo Lớp Mới' : 'Chỉnh Sửa Lớp';
+            document.getElementById("classModal").classList.remove("hidden");
+            if (m === 'edit') {
+                fetch(`/api/Classes/${id}`).then(res => res.json()).then(data => {
+                    document.getElementById("classId").value = data.ClassId;
+                    document.getElementById("classCode").value = data.ClassCode; // Giả định fields
+                    document.getElementById("subjectCode").value = data.SubjectCode;
+                    document.getElementById("semester").value = data.Semester;
+                    document.getElementById("className").value = data.ClassName;
+                    document.getElementById("teacherId").value = data.TeacherId;
+                });
+            } else {
+                // Clear fields for create
+                document.querySelectorAll("#classModal input:not([type=hidden]), #teacherId").forEach(el => el.value = "");
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("classModal").classList.add("hidden");
+        }
+
+        function saveClass() {
+            const data = {
+                ClassId: document.getElementById("classId").value,
+                ClassCode: document.getElementById("classCode").value,
+                SubjectCode: document.getElementById("subjectCode").value,
+                Semester: document.getElementById("semester").value,
+                ClassName: document.getElementById("className").value,
+                TeacherId: document.getElementById("teacherId").value // Gán giáo viên
+            };
+            const method = mode === 'create' ? 'POST' : 'PUT';
+            const url = mode === 'create' ? '/api/Classes' : `/api/Classes/${data.ClassId}`;
+            fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+                .then(res => { if (res.ok) { alert('Lưu thành công!'); location.reload(); } else alert('Lỗi!'); });
+        }
+
+        function deleteClass(id) {
+            if (confirm('Xác nhận xóa?')) {
+                fetch(`/api/Classes/${id}`, { method: 'DELETE' }).then(res => { if (res.ok) { alert('Xóa thành công!'); location.reload(); } });
+            }
+        }
+
+        renderClasses();
+    </script>
+</body>
+</html>

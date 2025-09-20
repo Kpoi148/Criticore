@@ -1,0 +1,53 @@
+﻿using Class.Domain.Entities;
+using Class.Domain.Repositories;
+using Class.Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Class.Infrastructure.Repositories;
+
+public class TopicRepository : ITopicRepository
+{
+    private readonly ClassDbContext _context; // Thay bằng DbContext của bạn
+
+    public TopicRepository(ClassDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<IEnumerable<Topic>> GetAllAsync()
+    {
+        return await _context.Topics.ToListAsync();
+    }
+
+    public async Task<Topic?> GetByIdAsync(int id)
+    {
+        return await _context.Topics.FindAsync(id);
+    }
+
+    public async Task AddAsync(Topic topic)
+    {
+        topic.CreatedAt = DateTime.UtcNow;
+        _context.Topics.Add(topic);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(Topic topic)
+    {
+        topic.UpdatedAt = DateTime.UtcNow;
+        _context.Topics.Update(topic);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        var topic = await GetByIdAsync(id);
+        if (topic != null)
+        {
+            _context.Topics.Remove(topic);
+            await _context.SaveChangesAsync();
+        }
+    }
+}

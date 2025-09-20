@@ -51,6 +51,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Ocelot": {
+              "target": "Package",
+              "version": "[24.0.1, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
