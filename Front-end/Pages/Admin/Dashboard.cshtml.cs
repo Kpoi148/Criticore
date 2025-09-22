@@ -25,11 +25,14 @@ namespace Front_end.Pages.Admin
         {
             // Gọi API Classes qua gateway
             var responseClasses = await _httpClient.GetAsync("/classes/Classes");
-            Console.WriteLine("Classes status: " + responseClasses.StatusCode);
             if (responseClasses.IsSuccessStatusCode)
             {
                 var json = await responseClasses.Content.ReadAsStringAsync();
-                Classes = JsonSerializer.Deserialize<List<DomainClass>>(json) ?? new List<DomainClass>();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                Classes = JsonSerializer.Deserialize<List<DomainClass>>(json, options) ?? new List<DomainClass>();
             }
 
             // Gọi API Teachers (giả định từ identity service)

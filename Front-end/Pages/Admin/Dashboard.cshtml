@@ -102,30 +102,34 @@
         let currentStatus = "All", currentSemester = "All", searchTerm = "";
         let mode = 'create'; // create or edit
 
-        function renderClasses() {
+                function renderClasses() {
             const container = document.getElementById("classList");
             container.innerHTML = "";
             let filtered = classes.filter(cls => {
-                const matchStatus = currentStatus === "All" || cls.Status === currentStatus;
-                const matchSemester = currentSemester === "All" || cls.Semester === currentSemester;
-                const matchSearch = (cls.ClassName?.toLowerCase() || '').includes(searchTerm) || (cls.SubjectCode?.toLowerCase() || '').includes(searchTerm) || (cls.Teacher?.toLowerCase() || '').includes(searchTerm);
+                const statusText = cls.status === "1" ? "Đang diễn ra" : "Hoàn thành"; // Map status "1"/"0" thành text
+                const matchStatus = currentStatus === "All" || statusText === currentStatus; // So sánh với text
+                const matchSemester = currentSemester === "All" || cls.semester === currentSemester;
+                const matchSearch = (cls.className?.toLowerCase() || '').includes(searchTerm) ||
+                                    (cls.subjectCode?.toLowerCase() || '').includes(searchTerm) ||
+                                    (cls.description?.toLowerCase() || '').includes(searchTerm); // Thêm search description nếu cần
                 return matchStatus && matchSemester && matchSearch;
             });
             filtered.forEach(cls => {
+                const statusText = cls.status === "1" ? "Đang diễn ra" : "Hoàn thành";
                 const card = document.createElement("div");
                 card.innerHTML = `
                     <div class="bg-gradient-to-br from-white to-blue-50 border border-blue-200 rounded-xl shadow-md p-5 flex flex-col justify-between hover:shadow-xl transition duration-300">
-                        <div class="absolute top-3 right-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">${cls.Status}</div>
-                        <h2 class="text-lg font-semibold text-gray-900">${cls.ClassName}</h2>
-                        <p class="text-sm text-gray-600">Mã: ${cls.ClassId} • ${cls.SubjectCode}</p>
+                        <div class="absolute top-3 right-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">${statusText}</div> <!-- Sử dụng statusText -->
+                        <h2 class="text-lg font-semibold text-gray-900">${cls.className}</h2>
+                        <p class="text-sm text-gray-600">Mã: ${cls.classId} • ${cls.subjectCode}</p>
                         <ul class="text-sm text-gray-700 space-y-1 mt-2">
-                            <li>Giáo viên: ${cls.Teacher || 'Chưa gán'}</li>
-                            <li>Thành viên: ${cls.MembersCount}/70</li>
-                            <li>Kỳ: ${cls.Semester}</li>
+                            <li>Giáo viên: ${cls.createdByNavigation?.fullName || 'Chưa gán'}</li> <!-- Map teacher từ createdByNavigation nếu có -->
+                            <li>Thành viên: ${cls.classMembers?.length || 0}/70</li> <!-- Sử dụng classMembers.length -->
+                            <li>Kỳ: ${cls.semester}</li>
                         </ul>
                         <div class="mt-4 flex justify-between">
-                            <button onclick="openModal('edit', ${cls.ClassId})" class="text-blue-600 hover:underline">Chỉnh sửa</button>
-                            <button onclick="deleteClass(${cls.ClassId})" class="text-red-600 hover:underline">Xóa</button>
+                            <button onclick="openModal('edit', ${cls.classId})" class="text-blue-600 hover:underline">Chỉnh sửa</button>
+                            <button onclick="deleteClass(${cls.classId})" class="text-red-600 hover:underline">Xóa</button>
                         </div>
                     </div>
                 `;
@@ -157,14 +161,14 @@
             document.getElementById("modalTitle").textContent = m === 'create' ? 'Tạo Lớp Mới' : 'Chỉnh Sửa Lớp';
             document.getElementById("classModal").classList.remove("hidden");
             if (m === 'edit') {
-                fetch(`/api/Classes/${id}`).then(res => res.json()).then(data => {
-                    document.getElementById("classId").value = data.ClassId;
-                    document.getElementById("classCode").value = data.ClassCode; // Giả định fields
-                    document.getElementById("subjectCode").value = data.SubjectCode;
-                    document.getElementById("semester").value = data.Semester;
-                    document.getElementById("className").value = data.ClassName;
-                    document.getElementById("teacherId").value = data.TeacherId;
-                });
+                        fetch(`/api/Classes/${id}`).then(res => res.json()).then(data => {
+            document.getElementById("classId").value = data.classId;
+            document.getElementById("classCode").value = data.classCode || ''; // Thêm fallback nếu thiếu
+            document.getElementById("subjectCode").value = data.subjectCode;
+            document.getElementById("semester").value = data.semester;
+            document.getElementById("className").value = data.className;
+            document.getElementById("teacherId").value = data.createdBy; // Giả định teacherId = createdBy
+        });
             } else {
                 // Clear fields for create
                 document.querySelectorAll("#classModal input:not([type=hidden]), #teacherId").forEach(el => el.value = "");
