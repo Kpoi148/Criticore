@@ -74,6 +74,22 @@ public class TopicService
             UpdatedAt = topic.UpdatedAt
         };
     }
+    public async Task<IEnumerable<TopicDto>> GetAllByClassAsync(int classId)
+    {
+        var topics = await _repository.GetAllByClassAsync(classId);
+        return topics.Select(t => new TopicDto
+        {
+            TopicId = t.TopicId,
+            ClassId = t.ClassId,
+            Title = t.Title,
+            Description = t.Description,
+            Type = t.Type,
+            EndTime = t.EndTime,
+            CreatedBy = t.CreatedBy,
+            CreatedAt = t.CreatedAt,
+            UpdatedAt = t.UpdatedAt
+        });
+    }
 
     public async Task UpdateAsync(int id, UpdateTopicDto dto)
     {

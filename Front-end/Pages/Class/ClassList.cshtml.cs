@@ -21,8 +21,8 @@ namespace Front_end.Pages.Class
 
             Classes = new List<DomainClass>
         {
-            //new() { ClassId = 1, SubjectCode = "PRN212", Semester = "Semester 1 - 2025", ClassName = "PRN232", CreatedBy = 1, MembersCount = 50, Status = "Not Started" },
-            //new() { ClassId = 2, SubjectCode = "PRN213", Semester = "Semester 2 - 2025", ClassName = "EXE201", CreatedBy = 1, MembersCount = 60, Status = "In Progress" }
+            new() { ClassId = 1, SubjectCode = "PRN212", Semester = "Semester 1 - 2025", ClassName = "PRN232", CreatedBy = 1, MembersCount = 50, Status = "Not Started" },
+            new() { ClassId = 2, SubjectCode = "PRN213", Semester = "Semester 2 - 2025", ClassName = "EXE201", CreatedBy = 1, MembersCount = 60, Status = "In Progress" }
         };
         }
     }

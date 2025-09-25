@@ -16,7 +16,7 @@ namespace Identity.Api.Controllers
         {
             var properties = new AuthenticationProperties
             {
-                RedirectUri = "Class/ClassList"  // Redirect sau auth thành công
+                RedirectUri = "https://localhost:7186/Class/ClassList"  // Redirect sau auth thành công
             };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }

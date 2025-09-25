@@ -50,4 +50,10 @@ public class TopicRepository : ITopicRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    // Trong TopicRepository.cs (EF Core)
+    public async Task<IEnumerable<Topic>> GetAllByClassAsync(int classId)
+    {
+        return await _context.Topics.Where(t => t.ClassId == classId).ToListAsync();
+    }
 }

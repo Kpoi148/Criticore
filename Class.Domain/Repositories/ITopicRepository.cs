@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Class.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Class.Domain.Entities;
 
 namespace Class.Domain.Repositories;
 
@@ -10,5 +11,6 @@ public interface ITopicRepository
     Task<Topic?> GetByIdAsync(int id);
     Task AddAsync(Topic topic);
     Task UpdateAsync(Topic topic);
-    Task DeleteAsync(int id);
+    Task DeleteAsync(int id); 
+    Task<IEnumerable<Topic>> GetAllByClassAsync(int classId);
 }

@@ -266,7 +266,7 @@
             </div>
         </div>
     <script>
-        window.classData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentClass));
+        window.cls = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentClass));
         window.studentsData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Students));
         window.reportData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ReportData));
     </script>
