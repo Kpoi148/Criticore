@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.20" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Class.Application\Class.Application.csproj" />
     <ProjectReference Include="..\Class.Domain\Class.Domain.csproj" />
   </ItemGroup>

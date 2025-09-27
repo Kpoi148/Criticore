@@ -2,10 +2,13 @@
 using Identity.Domain.Repositories;
 using Identity.Infrastructure.Models;
 using Identity.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
 
 namespace Identity.Api
 {
@@ -32,28 +35,59 @@ namespace Identity.Api
             builder.Logging.AddConsole();
 
 
-            // Authentication config
+            var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+
             builder.Services.AddAuthentication(options =>
             {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddCookie()
-            .AddGoogle(options =>
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+            })
+            .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
             {
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
                 options.CallbackPath = "/auth/callback";
 
-                // Event lưu user
                 options.Events.OnTicketReceived = async context =>
                 {
                     var userService = context.HttpContext.RequestServices.GetRequiredService<UserService>();
                     var user = await userService.CreateOrGetUserFromGoogleAsync(context.Principal);
 
-                    // Thêm claims
-                    var identity = (ClaimsIdentity)context.Principal.Identity!;
-                    identity.AddClaim(new Claim("UserId", user.UserId.ToString()));
+                    // Tạo JWT
+                    var jwtHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                    var key = Encoding.ASCII.GetBytes(context.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Key"]);
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity(new[]
+                        {
+                new Claim("UserId", user.UserId.ToString()),
+                new Claim(ClaimTypes.Email, user.Email)
+                        }),
+                        Expires = DateTime.UtcNow.AddMinutes(double.Parse(context.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:ExpireMinutes"])),
+                        Issuer = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Issuer"],
+                        Audience = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Audience"],
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    };
+                    var token = jwtHandler.CreateToken(tokenDescriptor);
+                    var jwtToken = jwtHandler.WriteToken(token);
+
+                    // Trả JWT cho FE, ví dụ redirect kèm query param
+                    var redirectUri = $"https://localhost:7186/Class/ClassList?token={jwtToken}";
+                    context.Response.Redirect(redirectUri);
+                    context.HandleResponse(); // dừng cookie
                 };
             });
 

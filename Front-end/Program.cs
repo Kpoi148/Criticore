@@ -1,6 +1,11 @@
 ﻿using Front_end.Pages.Admin;
 using Front_end.Services.Interfaces;
 using Front_end.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;  // Thêm cho CookieOptions
 
 namespace Front_end
 {
@@ -9,41 +14,76 @@ namespace Front_end
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
             builder.Services.AddRazorPages();
-            // Đăng ký HttpClient
             builder.Services.AddHttpClient();
-            // Đăng ký Named HttpClient
             builder.Services.AddHttpClient("GatewayClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7215"); // thay bằng API gateway hoặc backend
+                client.BaseAddress = new Uri("https://localhost:7215");
             });
-            // Đăng ký HttpClient cho IClassesService
             builder.Services.AddHttpClient<IClassesService, ClassesService>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7193/");
-                // sửa thành URL thật của BE Classes API
             });
-            var app = builder.Build();
 
-            // Configure the HTTP request pipeline. 
+            // Config JWT
+            var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? "your-super-secret-key-that-is-at-least-32-chars-long-abc123");
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "YourApp",
+                        ValidAudience = builder.Configuration["Jwt:Audience"] ?? "YourAppUsers",
+                        IssuerSigningKey = new SymmetricSecurityKey(key)
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var token = context.Request.Cookies["authToken"];  // Ưu tiên cookie
+                            if (!string.IsNullOrEmpty(token))
+                            {
+                                context.Token = token;
+                            }
+                            else if (context.Request.Query.ContainsKey("token"))
+                            {
+                                token = context.Request.Query["token"].ToString();
+                                context.Token = token;
+                                // Lưu vào cookie để reload vẫn có
+                                context.Response.Cookies.Append("authToken", token, new CookieOptions
+                                {
+                                    HttpOnly = true,  // Bảo mật, JS không đọc được
+                                    Secure = false,   // Dev: false; Prod: true
+                                    SameSite = SameSiteMode.Lax,
+                                    Expires = DateTime.UtcNow.AddMinutes(55)  // Trước token expire
+                                });
+                            }
+                            return Task.CompletedTask;
+                        },
+                        OnAuthenticationFailed = context =>
+                        {
+                            Console.WriteLine($"Auth fail: {context.Exception.Message}");  // Log debug
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+
+            var app = builder.Build();
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.MapRazorPages();
-
             app.Run();
         }
     }
