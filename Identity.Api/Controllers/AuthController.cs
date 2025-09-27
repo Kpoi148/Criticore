@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Identity.Application.Services;  // Using cho UserService
+
 
 namespace Identity.Api.Controllers
 {
@@ -19,6 +15,17 @@ namespace Identity.Api.Controllers
                 RedirectUri = "https://localhost:7186/Class/ClassList"  // Redirect sau auth thành công
             };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet("test-session")]
+        public IActionResult TestSession()
+        {
+            if (HttpContext.User.Identity?.IsAuthenticated == true)
+            {
+                var userId = HttpContext.User.FindFirst("UserId")?.Value;
+                return Ok(new { IsAuthenticated = true, UserId = userId });
+            }
+            return Ok(new { IsAuthenticated = false });
         }
     }
 }
