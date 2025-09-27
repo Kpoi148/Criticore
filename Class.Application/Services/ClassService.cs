@@ -1,4 +1,5 @@
-﻿using Class.Domain.DTOs;
+﻿using AutoMapper;
+using Class.Domain.DTOs;
 using Class.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -12,34 +13,60 @@ namespace Class.Application.Services
     {
         private readonly IClassRepository _classRepo;
         private readonly IClassMemberRepository _memberRepo;
+        private readonly IMapper _mapper;
 
-        public ClassService(IClassRepository classRepo, IClassMemberRepository memberRepo)
+        public ClassService(IClassRepository classRepo, IClassMemberRepository memberRepo, IMapper mapper)
         {
             _classRepo = classRepo;
             _memberRepo = memberRepo;
+            _mapper = mapper;
         }
-        public Task<IEnumerable<Class.Domain.Entities.Class>> GetAllAsync() => _classRepo.GetAllAsync();
-        public Task<Class.Domain.Entities.Class?> GetByIdAsync(int id) => _classRepo.GetByIdAsync(id);
-        public Task AddAsync(Class.Domain.Entities.Class cls) => _classRepo.AddAsync(cls);
-        public Task UpdateAsync(Class.Domain.Entities.Class cls) => _classRepo.UpdateAsync(cls);
-        public Task DeleteAsync(int id) => _classRepo.DeleteAsync(id);
-        // Tham gia lớp bằng mã mới, khi nhập mã sẽ tìm theo đúng lớp với mã đó và thêm học sinh vào lớp
-        public async Task<Class.Domain.Entities.Class?> JoinByCodeAsync(string joinCode, int userId)
+
+        public async Task<IEnumerable<ClassDto>> GetAllAsync()
         {
-            // Tim lớp theo mã học sinh nhập
+            var entities = await _classRepo.GetAllAsync();
+            return _mapper.Map<IEnumerable<ClassDto>>(entities);
+        }
+
+        public async Task<ClassDto?> GetByIdAsync(int id)
+        {
+            var entity = await _classRepo.GetByIdAsync(id);
+            return _mapper.Map<ClassDto?>(entity);
+        }
+
+        public async Task<ClassDto> AddAsync(ClassDto dto)
+        {
+            var entity = _mapper.Map<Class.Domain.Entities.Class>(dto);
+            await _classRepo.AddAsync(entity);
+            return _mapper.Map<ClassDto>(entity); // entity lúc này có ClassId
+        }
+
+        public async Task UpdateAsync(ClassDto dto)
+        {
+            var entity = _mapper.Map<Class.Domain.Entities.Class>(dto);
+            await _classRepo.UpdateAsync(entity);
+        }
+
+        public Task DeleteAsync(int id) => _classRepo.DeleteAsync(id);
+
+        public async Task<ClassDto?> JoinByCodeAsync(string joinCode, int userId)
+        {
             var cls = await _classRepo.GetByJoinCodeAsync(joinCode);
             if (cls == null) return null;
 
             await _memberRepo.AddStudentToClassAsync(cls.ClassId, userId);
-            return cls;
+            return _mapper.Map<ClassDto>(cls);
         }
-        // Thêm mới: Xem danh sách thành viên lớp
-        public Task<List<ClassMemberDto>> GetMembersByClassAsync(int classId)
-            => _memberRepo.GetMembersByClassAsync(classId);
 
-        // Thêm mới: Xóa thành viên khỏi lớp
+        public async Task<List<ClassMemberDto>> GetMembersByClassAsync(int classId)
+        {
+            var members = await _memberRepo.GetMembersByClassAsync(classId);
+            return _mapper.Map<List<ClassMemberDto>>(members);
+        }
+
         public Task RemoveMemberFromClassAsync(int classMemberId)
             => _memberRepo.RemoveMemberFromClassAsync(classMemberId);
     }
 }
+
 

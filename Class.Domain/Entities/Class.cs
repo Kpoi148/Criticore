@@ -41,5 +41,5 @@ public partial class Class
 
     public virtual ICollection<Topic> Topics { get; set; } = new List<Topic>();
 
-    public int MembersCount { get; set; }
+    //public int MembersCount { get; set; }
 }

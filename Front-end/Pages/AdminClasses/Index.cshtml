@@ -1,0 +1,33 @@
+﻿@page
+@model Front_end.Pages.AdminClasses.IndexModel
+@{
+}
+<h2>Danh sách Lớp học</h2>
+<a asp-page="Create" class="btn btn-primary">+ Tạo lớp</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã lớp</th>
+            <th>Tên lớp</th>
+            <th>Mô tả</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cls in Model.Classes)
+        {
+            <tr>
+                <td>@cls.ClassId</td>
+                <td>@cls.ClassName</td>
+                <td>@cls.Description</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@cls.ClassId" class="btn btn-info">Chi tiết</a>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@cls.ClassId" style="display:inline">
+                        <button type="submit" class="btn btn-danger">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

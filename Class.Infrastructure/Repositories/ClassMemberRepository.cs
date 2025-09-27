@@ -58,8 +58,8 @@ namespace Class.Infrastructure.Repositories
             {
                 ClassMemberId = cm.ClassMemberId,
                 UserId = cm.UserId,
-                UserName = cm.User.FullName ?? string.Empty, // Giả sử User có Name
-                UserEmail = cm.User.Email ?? string.Empty, // Giả sử User có Email
+                FullName = cm.User.FullName ?? string.Empty, // Giả sử User có Name
+                Email = cm.User.Email ?? string.Empty, // Giả sử User có Email
                 RoleInClass = cm.RoleInClass ?? string.Empty,
                 JoinedAt = cm.JoinedAt,
                 GroupId = cm.GroupId

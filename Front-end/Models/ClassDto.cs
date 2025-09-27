@@ -9,6 +9,8 @@
         public string? Description { get; set; }
         public string? Status { get; set; }
         public int CreatedBy { get; set; }
-
+        public string? JoinCode { get; set; }
+        //public int MembersCount { get; set; }
+        public List<ClassMemberDto> Members { get; set; } = new();
     }
 }

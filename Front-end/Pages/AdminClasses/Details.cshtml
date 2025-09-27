@@ -1,0 +1,21 @@
+﻿@page "{id:int}"
+@model Front_end.Pages.AdminClasses.DetailsModel
+@{
+    ViewData["Title"] = "Chi tiết lớp";
+}
+
+<h2>Chi tiết lớp</h2>
+
+@if (Model.ClassDetail == null)
+{
+    <p>Không tìm thấy lớp.</p>
+}
+else
+{
+    <p><strong>Mã lớp:</strong> @Model.ClassDetail.ClassId</p>
+    <p><strong>Tên lớp:</strong> @Model.ClassDetail.ClassName</p>
+    <p><strong>Mô tả:</strong> @Model.ClassDetail.Description</p>
+}
+
+<a asp-page="Index" class="btn btn-secondary">Quay lại</a>
+

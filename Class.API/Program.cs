@@ -1,4 +1,5 @@
 ﻿
+using Class.Application.Profiles;
 using Class.Application.Services;
 using Class.Domain.Repositories;
 using Class.Infrastructure.Models;
@@ -22,7 +23,7 @@ namespace Class.API
 
             // Đăng ký DbContext
             builder.Services.AddDbContext<ClassDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
             Console.WriteLine("👉 Connection string DefaultConnection: "
      + builder.Configuration.GetConnectionString("DefaultConnection"));
             Console.WriteLine("👉 Connection string LocConnection: "
@@ -40,6 +41,7 @@ namespace Class.API
             builder.Services.AddScoped<IGroupRepository, GroupRepository>();
             builder.Services.AddScoped<ITopicRepository, TopicRepository>();
             builder.Services.AddScoped<TopicService>();
+            builder.Services.AddAutoMapper(typeof(ClassProfile).Assembly);
 
             var app = builder.Build();
 

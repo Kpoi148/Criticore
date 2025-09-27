@@ -1,4 +1,6 @@
 ﻿using Front_end.Pages.Admin;
+using Front_end.Services.Interfaces;
+using Front_end.Services;
 
 namespace Front_end
 {
@@ -17,7 +19,12 @@ namespace Front_end
             {
                 client.BaseAddress = new Uri("https://localhost:7215"); // thay bằng API gateway hoặc backend
             });
-
+            // Đăng ký HttpClient cho IClassesService
+            builder.Services.AddHttpClient<IClassesService, ClassesService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7193/");
+                // sửa thành URL thật của BE Classes API
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline. 

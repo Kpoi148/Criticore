@@ -1,0 +1,21 @@
+﻿@page "{id:int}"
+@model Front_end.Pages.AdminClasses.EditModel
+@{
+    ViewData["Title"] = "Chỉnh sửa lớp";
+}
+
+<h2>Chỉnh sửa lớp</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="ClassInput.ClassId" />
+    <div class="form-group">
+        <label for="ClassName">Tên lớp</label>
+        <input asp-for="ClassInput.ClassName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Description">Mô tả</label>
+        <textarea asp-for="ClassInput.Description" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+    <a asp-page="Index" class="btn btn-secondary">Quay lại</a>
+</form>

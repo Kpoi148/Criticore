@@ -17,10 +17,15 @@ namespace Class.API.Controllers
             _groupservice = groupService;
         }
 
+        // Lấy danh sách lớp
         [HttpGet]
         public async Task<IActionResult> GetAll()
-            => Ok(await _service.GetAllAsync());
+        {
+            var classes = await _service.GetAllAsync();
+            return Ok(classes);
+        }
 
+        // Lấy chi tiết lớp theo Id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -28,27 +33,30 @@ namespace Class.API.Controllers
             return cls == null ? NotFound() : Ok(cls);
         }
 
+        // Tạo mới lớp
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Class.Domain.Entities.Class cls)
+        public async Task<IActionResult> Create([FromBody] ClassDto dto)
         {
-            await _service.AddAsync(cls);
-            return CreatedAtAction(nameof(GetById), new { id = cls.ClassId }, cls);
+            var created = await _service.AddAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = created.ClassId }, created);
         }
-
+        // Cập nhật lớp
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Class.Domain.Entities.Class cls)
+        public async Task<IActionResult> Update(int id, [FromBody] ClassDto dto)
         {
-            if (id != cls.ClassId) return BadRequest();
-            await _service.UpdateAsync(cls);
+            if (id != dto.ClassId) return BadRequest("ClassId không khớp.");
+            await _service.UpdateAsync(dto);
             return NoContent();
         }
 
+        // Xóa lớp
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteAsync(id);
             return NoContent();
         }
+
         // Tham gia lớp bằng mã mới, khi nhập mã sẽ tìm theo đúng lớp với mã đó và thêm học sinh vào lớp
         [HttpPost("join-by-code")]
         public async Task<IActionResult> JoinByCode([FromBody] JoinByCodeDto dto)
@@ -83,7 +91,7 @@ namespace Class.API.Controllers
         {
             // Kiểm tra classId hợp lệ nếu cần
             await _groupservice.AddMemberToGroupAsync(groupId, classMemberId);
-            return Ok();
+            return Ok(new { message = "Member added to group successfully" });
         }
 
         [HttpDelete("{id}/groups/{groupId}/members/{classMemberId}")]

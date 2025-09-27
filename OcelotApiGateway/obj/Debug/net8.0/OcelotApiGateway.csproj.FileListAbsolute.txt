@@ -83,3 +83,13 @@ E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.Diagnosti
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.dll
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Ocelot.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\FluentValidation.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\IPAddressRange.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.MiddlewareAnalysis.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DiagnosticAdapter.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Ocelot.dll

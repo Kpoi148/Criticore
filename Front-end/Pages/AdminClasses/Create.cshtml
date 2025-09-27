@@ -1,0 +1,47 @@
+﻿@page
+@model Front_end.Pages.AdminClasses.CreateModel
+@{
+    ViewData["Title"] = "Tạo lớp";
+}
+
+<h2>Tạo lớp mới</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="ClassInput.ClassName"></label>
+        <input asp-for="ClassInput.ClassName" class="form-control" />
+        <span asp-validation-for="ClassInput.ClassName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClassInput.SubjectCode"></label>
+        <input asp-for="ClassInput.SubjectCode" class="form-control" />
+        <span asp-validation-for="ClassInput.SubjectCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClassInput.Semester"></label>
+        <input asp-for="ClassInput.Semester" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClassInput.Description"></label>
+        <textarea asp-for="ClassInput.Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClassInput.Status"></label>
+        <select asp-for="ClassInput.Status" class="form-control">
+            <option value="">-- Chọn trạng thái --</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Tạo</button>
+    <a asp-page="Index" class="btn btn-secondary">Quay lại</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

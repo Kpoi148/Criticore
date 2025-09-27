@@ -19,6 +19,8 @@ public class TopicsController : ControllerBase
     [HttpGet("byclass/{classId}")]
     public async Task<IActionResult> GetByClass(int classId)
         => Ok(await _service.GetAllByClassAsync(classId));
+
+    [HttpGet]
     public async Task<IActionResult> GetAll()
         => Ok(await _service.GetAllAsync());
 
