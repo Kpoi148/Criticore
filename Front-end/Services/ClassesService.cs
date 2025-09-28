@@ -38,6 +38,10 @@ namespace Front_end.Services
             var res = await _http.PutAsJsonAsync($"api/classes/{id}", dto);
             return res.IsSuccessStatusCode;
         }
-
+        public async Task<List<ClassSummaryDto>> GetClassesByUserAsync(int userId)
+        {
+            return await _http.GetFromJsonAsync<List<ClassSummaryDto>>($"api/classes/by-user/{userId}")
+                   ?? new List<ClassSummaryDto>();
+        }
     }
 }

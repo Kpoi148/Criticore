@@ -13,10 +13,13 @@ namespace Class.Domain.Repositories
         Task<ClassMember?> GetByClassAndUserAsync(int classId, int userId);
         Task<ClassMember> AddStudentToClassAsync(int classId, int userId);
 
-        // Thêm mới: Xem danh sách thành viên lớp
+        // Xem danh sách thành viên lớp
         Task<List<ClassMemberDto>> GetMembersByClassAsync(int classId);
 
-        // Thêm mới: Xóa thành viên khỏi lớp (sử dụng ClassMemberId để chính xác)
+        // Xóa thành viên khỏi lớp (sử dụng ClassMemberId để chính xác)
         Task RemoveMemberFromClassAsync(int classMemberId);
+        // Lấy danh sách lớp theo userId
+        Task<List<Class.Domain.Entities.Class>> GetClassesByUserAsync(int userId);
+
     }
 }

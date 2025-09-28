@@ -87,5 +87,17 @@ namespace Class.Infrastructure.Repositories
             _db.ClassMembers.Remove(member);
             await _db.SaveChangesAsync();
         }
+        // Lấy danh sách lớp theo userId
+        public async Task<List<Class.Domain.Entities.Class>> GetClassesByUserAsync(int userId)
+        {
+            return await _db.ClassMembers
+                .Where(cm => cm.UserId == userId)
+                .Include(cm => cm.Class)
+                    .ThenInclude(c => c.ClassMembers)
+                        .ThenInclude(m => m.User)
+                .Select(cm => cm.Class)
+                .ToListAsync();
+        }
+
     }
 }

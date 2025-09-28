@@ -66,6 +66,30 @@ namespace Class.Application.Services
 
         public Task RemoveMemberFromClassAsync(int classMemberId)
             => _memberRepo.RemoveMemberFromClassAsync(classMemberId);
+
+        // Lấy danh sách lớp theo userId
+        public async Task<List<ClassSummaryDto>> GetClassesByUserAsync(int userId)
+        {
+            var classes = await _memberRepo.GetClassesByUserAsync(userId);
+
+            var result = classes.Select(c => new ClassSummaryDto
+            {
+                ClassId = c.ClassId,
+                ClassName = c.ClassName,
+                SubjectCode = c.SubjectCode,
+                Semester = c.Semester ?? "",
+                Description = c.Description ?? "",
+                Status = c.Status ?? "",
+                CreatedBy = c.CreatedBy,
+                JoinCode = c.JoinCode ?? "",
+                MemberCount = c.ClassMembers.Count(m => m.RoleInClass == "Student"),
+                Teacher = c.ClassMembers.FirstOrDefault(m => m.RoleInClass == "Teacher")?.User.FullName ?? "Unknown"
+            }).ToList();
+
+            return result;
+        }
+
+
     }
 }
 

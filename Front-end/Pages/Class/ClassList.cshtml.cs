@@ -1,43 +1,51 @@
 ﻿using Microsoft.AspNetCore.Authorization;  // Thêm
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using DomainClass = Class.Domain.Entities.Class;
 using Class.Domain.Entities;
+using Front_end.Services.Interfaces;
+using Front_end.Models;
 
 namespace Front_end.Pages.Class
 {
     [Authorize]  // Thêm: Tự redirect nếu không auth
     public class ClassListModel : PageModel
     {
-        public List<DomainClass> Classes { get; set; } = new List<DomainClass>();
-        public List<User> Students { get; set; } = new List<User>();
+        private readonly IClassesService _service;
+
+        public ClassListModel(IClassesService service)
+        {
+            _service = service;
+        }
+
+        public List<ClassSummaryDto> Classes { get; set; } = new();
+        public List<User> Students { get; set; } = new();
         public string? CurrentUserId { get; set; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            // Lấy userId từ claims (bây giờ sẽ có nếu token valid)
+            // Lấy userId từ claims
             CurrentUserId = User.FindFirst("UserId")?.Value;
-            Console.WriteLine($"UserId: {CurrentUserId}");  // Log test
+            Console.WriteLine($"UserId từ claims: {CurrentUserId}");
+
             if (string.IsNullOrEmpty(CurrentUserId))
             {
-                // Không redirect ngay, redirect với status 302
-                HttpContext.Response.Redirect("/Signin");
-                HttpContext.Response.StatusCode = 302;
-                return;
+                return RedirectToPage("/Signin");
             }
 
-            // Hardcode data
+            // Gọi service để lấy danh sách lớp theo userId
+            int userId = int.Parse(CurrentUserId);
+            Classes = await _service.GetClassesByUserAsync(userId);
+
+            // Demo danh sách Students cho chức năng tạo class (có thể load từ API sau)
             Students = new List<User>
             {
                 new() { UserId = 1, FullName = "Student1" },
                 new() { UserId = 2, FullName = "Student2" },
                 new() { UserId = 3, FullName = "Student3" }
             };
-            Classes = new List<DomainClass>
-            {
-                // Uncomment nếu cần demo
-                // new() { ... }
-            };
+
+            return Page();
         }
     }
+    
 }

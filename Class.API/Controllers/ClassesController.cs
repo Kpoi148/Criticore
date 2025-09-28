@@ -84,8 +84,6 @@ namespace Class.API.Controllers
             return NoContent();
         }
 
-        // Các endpoint khác cho Group (create, get, update, delete) có thể thêm ở đây
-
         [HttpPost("{groupId}/members")]
         public async Task<IActionResult> AddMember(int classId, int groupId, [FromBody] int classMemberId)
         {
@@ -100,6 +98,13 @@ namespace Class.API.Controllers
             // Kiểm tra id (classId) hợp lệ nếu cần (trong service)
             await _groupservice.RemoveMemberFromGroupAsync(groupId, classMemberId);
             return NoContent();
+        }
+
+        [HttpGet("by-user/{userId}")]
+        public async Task<IActionResult> GetClassesByUser(int userId)
+        {
+            var classes = await _service.GetClassesByUserAsync(userId);
+            return Ok(classes);
         }
     }
 }
