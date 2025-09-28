@@ -73,6 +73,12 @@ namespace Front_end
                 });
 
             var app = builder.Build();
+            app.MapPost("/api/logout", (HttpContext context) =>
+            {
+                // Xóa cookie chứa JWT
+                context.Response.Cookies.Delete("authToken");
+                return Results.Ok(new { message = "Logged out" });
+            });
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
