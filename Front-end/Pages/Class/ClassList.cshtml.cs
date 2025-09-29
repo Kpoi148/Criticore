@@ -37,12 +37,12 @@ namespace Front_end.Pages.Class
             Classes = await _service.GetClassesByUserAsync(userId);
 
             // Demo danh sách Students cho chức năng tạo class (có thể load từ API sau)
-            Students = new List<User>
-            {
-                new() { UserId = 1, FullName = "Student1" },
-                new() { UserId = 2, FullName = "Student2" },
-                new() { UserId = 3, FullName = "Student3" }
-            };
+            //Students = new List<User>
+            //{
+            //    new() { UserId = 1, FullName = "Student1" },
+            //    new() { UserId = 2, FullName = "Student2" },
+            //    new() { UserId = 3, FullName = "Student3" }
+            //};
 
             return Page();
         }
