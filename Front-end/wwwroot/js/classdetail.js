@@ -1,7 +1,10 @@
 ﻿// Thêm vào đầu file để init biến
 document.addEventListener('DOMContentLoaded', () => {
-    window.cls = window.classData;
     window.students = window.studentsData;
+    if (!window.cls) {
+        console.error('window.cls is undefined. Check Model serialization in Razor Page.');
+        return; // Dừng nếu undefined
+    }
     loadTopics();  // Gọi init
     renderMemberList();
     renderGroups();
@@ -12,20 +15,20 @@ const now = new Date();
 const tzoffset = now.getTimezoneOffset() * 60000; // bù múi giờ
 const localISOTime = new Date(now - tzoffset).toISOString().slice(0, 16);
 document.getElementById("topicEndTime").setAttribute("min", localISOTime);
-
+console.log('ClassId:', cls.ClassId);
 // Load topics từ API khi init
 async function loadTopics() {
     try {
-        const response = await fetch(`/api/topics/byclass/${cls.ClassId}`);  // Sửa endpoint
+        const response = await fetch(`https://localhost:7193/api/Topics/byclass/${cls.ClassId}`);  // Sửa endpoint
         if (response.ok) {
             const topics = await response.json();
             cls.topics = topics.map(t => ({
-                topic_id: t.TopicId.toString(),
-                title: t.Title,
-                description: t.Description,
-                end_time: t.EndTime,
-                created_by: t.CreatedBy,
-                created_at: t.CreatedAt,
+                topic_id: t.topicId ? t.topicId.toString() : '',  // Thêm kiểm tra null
+                title: t.title,
+                description: t.description,
+                end_time: t.endTime,
+                created_by: t.createdBy,
+                created_at: t.createdAt,
                 answers: []
             }));
             renderTopics();

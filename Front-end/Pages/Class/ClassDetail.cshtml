@@ -122,13 +122,14 @@
                         <div class="text-xs">Teacher</div>
                         <div class="flex items-center gap-2 text-base font-bold">
                             <div class="bg-gray-200 text-xs w-7 h-7 flex items-center justify-center rounded-full">NV</div>
-                            <span id="teacher">"Alice"</span>
+                            <span id="teacher">@Model.TeacherName</span>
                         </div>
                     </div>
                     <div>
                         <div class="text-xs">Members</div>
-                        <div class="text-base font-bold" id="members">50</div>
+                        <div class="text-base font-bold" id="members">@Model.MembersCount</div>
                     </div>
+
                     <div>
                         <div class="text-xs">Subject Code</div>
                         <div class="text-base font-bold" id="subjectCode">@Model.CurrentClass.SubjectCode</div>
@@ -272,6 +273,7 @@
         window.cls = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentClass));
         window.studentsData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Students));
         window.reportData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ReportData));
+        window.topicsData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Topics));
     </script>
     <script src="~/js/classdetail.js"></script>
     </body>

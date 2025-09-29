@@ -1,68 +1,49 @@
-﻿using Class.Domain.Entities;
+﻿using Class.Domain.DTOs;
+using Class.Domain.Entities;
+using Front_end.Models;
+using Front_end.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using DomainClass = Class.Domain.Entities.Class;
+using ClassDto = Front_end.Models.ClassDto;
+using TopicDto = Front_end.Models.TopicDto;
 
 namespace Front_end.Pages.Class
 {
     public class ClassDetailModel : PageModel
     {
-        public DomainClass CurrentClass { get; set; } = new();
+        public List<TopicDto> Topics { get; set; } = new();
+        public ClassDto CurrentClass { get; set; } = new();
         public List<User> Students { get; set; } = new();
         public List<object> ReportData { get; set; } = new();
+        public string TeacherName { get; set; } = "Unknown"; // Teacher động
+        public int MembersCount { get; set; } = 0; // Số members động
 
-        public void OnGet(int id)
+        private readonly ITopicService _topicService;
+        private readonly IClassesService _classesService;
+
+        public ClassDetailModel(ITopicService topicService, IClassesService classesService)
         {
-            // Mock danh sách học sinh
-            Students = new List<User>
-            {
-                new() { UserId = 1, FullName = "Student1" },
-                new() { UserId = 2, FullName = "Student2" },
-                new() { UserId = 3, FullName = "Student3" }
-            };
+            _topicService = topicService;
+            _classesService = classesService;
+        }
 
-            // Mock thông tin lớp
-            CurrentClass = new DomainClass
-            {
-                ClassId = id,
-                SubjectCode = "PRN212",
-                Semester = "Semester 1 - 2025",
-                ClassName = "Advanced Critical Thinking",
-                CreatedBy = 1,
-                Status = "In Progress",
-                CreatedByNavigation = new User { UserId = 4, FullName = "Nguyen Van A" }
-            };
+        public async Task OnGetAsync(int id)
+        {
+            CurrentClass = await _classesService.GetByIdAsync(id) ?? new ClassDto();
 
-            // Mock danh sách thành viên lớp
-            CurrentClass.ClassMembers = new List<ClassMember>
-            {
-                new()
-                {
-                    ClassMemberId = 1,
-                    UserId = 1,
-                    User = new User { UserId = 1, FullName = "Student1" }
-                },
-                new()
-                {
-                    ClassMemberId = 2,
-                    UserId = 2,
-                    User = new User { UserId = 2, FullName = "Student2" }
-                },
-                new()
-                {
-                    ClassMemberId = 3,
-                    UserId = 3,
-                    User = new User { UserId = 3, FullName = "Student3" }
-                },
-                new()
-                {
-                    ClassMemberId = 4,
-                    UserId = 4,
-                    User = new User { UserId = 4, FullName = "Nguyen Van A" },
-                    RoleInClass = "Teacher"
-                }
-            };
+            Students = CurrentClass.Members
+                .Where(m => m.RoleInClass != "Teacher")
+                .Select(m => new User { UserId = m.UserId, FullName = m.FullName })
+                .ToList();
 
-            // Mock dữ liệu báo cáo
+            // Lấy teacher động
+            var teacher = CurrentClass.Members.FirstOrDefault(m => m.RoleInClass == "Teacher");
+            TeacherName = teacher?.FullName ?? "Unknown";
+
+            // Tính số members
+            MembersCount = CurrentClass.Members.Count;
+
+            Topics = await _topicService.GetAllByClassAsync(id);
+
             ReportData = new List<object>
             {
                 new { senderName = "Student1", engagement = "Positive" },

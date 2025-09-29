@@ -16,6 +16,8 @@ namespace Front_end
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddRazorPages();
             builder.Services.AddHttpClient();
+
+            builder.Services.AddHttpClient<ITopicService, TopicService>();
             builder.Services.AddHttpClient("GatewayClient", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7215");

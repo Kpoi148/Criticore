@@ -21,6 +21,13 @@ namespace Class.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy => policy.WithOrigins("https://localhost:7186")
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
             // Đăng ký DbContext
             builder.Services.AddDbContext<ClassDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -51,7 +58,7 @@ namespace Class.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("AllowFrontend");
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
