@@ -48,7 +48,7 @@ function renderTopics() {
         return;
     }
     topicsList.innerHTML = cls.topics.map((t, idx) => `
-                <div class="p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition duration-200 bg-white relative" onclick="goToTopic('${cls.classId}','${t.topic_id}')">
+                <div class="p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition duration-200 bg-white relative" onclick="goToTopic('${cls.ClassId}','${t.topic_id}')">
                     <button class="topic-delete-btn text-red-500 hover:text-red-700 font-bold text-lg" title="Delete topic" onclick="event.stopPropagation(); deleteTopic(${idx}); return false;">×</button>
                     <div class="text-gray-900 font-semibold text-base">${t.title}</div>
                     <div class="text-gray-500 text-sm">by ${t.created_by}</div>
@@ -70,10 +70,32 @@ function renderTopics() {
     });
 }
 
-window.deleteTopic = function (idx) {
-    if (!confirm("Are you sure you want to delete this topic?")) return;
-    cls.topics.splice(idx, 1);
-    renderTopics();
+window.deleteTopic = async function (idx) {
+    if (!await Swal.fire({
+        icon: 'question',
+        title: 'Xác nhận',
+        text: 'Bạn có chắc muốn xóa topic này?',
+        showCancelButton: true,
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy'
+    }).then((result) => result.isConfirmed)) return;
+    const topicId = cls.topics[idx].topic_id; // Lấy ID topic
+    try {
+        const response = await fetch(`https://localhost:7193/api/Topics/${topicId}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        cls.topics.splice(idx, 1); // Xóa cục bộ sau khi API thành công
+        renderTopics();
+        loadTopics(); // Reload từ DB để đồng bộ
+        Swal.fire({ icon: 'success', title: 'Thành công', text: 'Topic đã xóa!', timer: 1500 });
+    } catch (error) {
+        console.error('Error deleting topic:', error);
+        Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không thể xóa topic. Vui lòng thử lại.' });
+    }
 };
 
 // Cập nhật thông tin số lượng thành viên và học viên
@@ -127,7 +149,10 @@ document.getElementById("addMemberBtn").addEventListener("click", () => {
     const currentIds = cls.memberList.map(m => m.userId);
     const availableToAdd = students.filter(s => !currentIds.includes(s.userId));
     if (availableToAdd.length === 0) {
-        alert("Không còn học viên nào để thêm.");
+        if (availableToAdd.length === 0) {
+            Swal.fire({ icon: 'info', title: 'Thông báo', text: 'Không còn học viên nào để thêm.' });
+            return;
+        }
         return;
     }
     availableStudentsList.innerHTML = availableToAdd.map((s, i) => `
@@ -147,7 +172,11 @@ confirmAddMember.addEventListener("click", () => {
     const checkedBoxes = document.querySelectorAll(".studentCheckbox:checked");
     const selectedIds = Array.from(checkedBoxes).map(cb => cb.value);
     if (selectedIds.length === 0) {
-        alert("No student selected.");
+        // Trong confirmAddMember
+        if (selectedIds.length === 0) {
+            Swal.fire({ icon: 'warning', title: 'Cảnh báo', text: 'Chưa chọn học viên nào.' });
+            return;
+        }
         return;
     }
     const toAdd = students.filter(s => selectedIds.includes(s.userId)).map(s => ({ userId: s.userId, fullName: s.fullName }));
@@ -218,25 +247,29 @@ document.getElementById("groupsTab").addEventListener("click", () => {
 document.getElementById("discussionsTab").click();
 
 window.goToTopic = function (classId, topicId) {
-    window.location.href = `topic-detail?class_id=${classId}&topic_id=${topicId}`;
+    window.location.href = `TopicDetail?class_id=${classId}&topic_id=${topicId}`;
 };
+
+
 
 // Thêm chủ đề mới - Gọi API
 document.getElementById("addTopicBtn").onclick = async () => {
     const title = document.getElementById("topicTitle").value.trim();
     const desc = document.getElementById("topicDesc").value.trim();
     const endTimeInput = document.getElementById("topicEndTime").value;
-
-    if (!title) { alert("Enter a title."); return; }
+    if (!title) {
+        Swal.fire({ icon: 'warning', title: 'Cảnh báo', text: 'Vui lòng nhập tiêu đề.' });
+        return;
+    }
     if (!endTimeInput) {
-        alert("Please select an end time for the topic!");
+        Swal.fire({ icon: 'warning', title: 'Cảnh báo', text: 'Vui lòng chọn thời gian kết thúc!' });
         document.getElementById("topicEndTime").focus();
         return;
     }
 
     const endTimeDate = new Date(endTimeInput);
     if (endTimeDate <= new Date()) {
-        alert("The end time must be later than the current time!");
+        Swal.fire({ icon: 'warning', title: 'Cảnh báo', text: 'Thời gian kết thúc phải sau thời gian hiện tại!' });
         document.getElementById("topicEndTime").focus();
         return;
     }
@@ -244,7 +277,7 @@ document.getElementById("addTopicBtn").onclick = async () => {
     const endTimeISO = endTimeDate.toISOString();
 
     try {
-        const response = await fetch('/api/topics', {
+        const response = await fetch('https://localhost:7193/api/Topics', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -253,7 +286,7 @@ document.getElementById("addTopicBtn").onclick = async () => {
                 description: desc,
                 type: "discussion",
                 endTime: endTimeISO,
-                createdBy: cls.CreatedByNavigation?.FullName || "Nguyen Van A"
+                createdBy: cls.CreatedBy || 1  // Sửa thành int UserId, fallback 1 nếu undefined
             })
         });
 
@@ -270,10 +303,11 @@ document.getElementById("addTopicBtn").onclick = async () => {
         document.getElementById("topicDesc").value = "";
         document.getElementById("topicEndTime").value = "";
 
-        alert("Topic created successfully!");
+        Swal.fire({ icon: 'success', title: 'Thành công', text: 'Topic đã được tạo!', timer: 1500 });
     } catch (error) {
         console.error('Error creating topic:', error);
-        alert("Failed to create topic. Please try again.");
+        // Lỗi
+        Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không thể tạo topic. Vui lòng thử lại.' });
     }
 };
 

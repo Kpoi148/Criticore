@@ -41,6 +41,11 @@ namespace Front_end.Pages.Class
 
             // Tính số members
             MembersCount = CurrentClass.Members.Count;
+            Console.WriteLine($"Members count: {CurrentClass.Members?.Count}");
+            foreach (var m in CurrentClass.Members)
+            {
+                Console.WriteLine($"{m.FullName} - {m.RoleInClass}");
+            }
 
             Topics = await _topicService.GetAllByClassAsync(id);
 

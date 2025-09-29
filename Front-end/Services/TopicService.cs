@@ -25,6 +25,11 @@ namespace Front_end.Services
             return await response.Content.ReadFromJsonAsync<TopicDto>();
         }
 
+        public async Task<TopicDto?> GetByIdAsync(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<TopicDto>($"api/Topics/{id}");
+        }
+
         // Implement các method khác tương tự nếu cần
     }
 }
