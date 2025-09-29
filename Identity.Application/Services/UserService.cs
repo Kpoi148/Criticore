@@ -31,7 +31,7 @@ public class UserService
                 PasswordHash = string.Empty,  // Để trống cho external auth
                 Role = "User",  // Default role
                 Status = "Active",
-                AvatarUrl = claims.FirstOrDefault(c => c.Type == "picture")?.Value,  // Nếu có từ Google
+                AvatarUrl = claims.FirstOrDefault(c => c.Type == "urn:google:picture")?.Value,  // Nếu có từ Google
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };

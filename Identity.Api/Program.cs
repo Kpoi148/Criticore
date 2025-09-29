@@ -2,12 +2,13 @@
 using Identity.Domain.Repositories;
 using Identity.Infrastructure.Models;
 using Identity.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 
 namespace Identity.Api
@@ -60,6 +61,7 @@ namespace Identity.Api
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
                 options.CallbackPath = "/auth/callback";
+                options.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
 
                 options.Events.OnTicketReceived = async context =>
                 {
