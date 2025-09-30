@@ -1,6 +1,7 @@
 ﻿@page
 @model Front_end.Pages.Class.TopicDetailModel
 @{
+    Layout = null;
 }
 <!DOCTYPE html>
 <html lang="vi">
@@ -63,7 +64,10 @@
     <span id="infoStudents"></span>
     <span id="infoAssignments"></span>
     <span id="infoDiscussions"></span>
-
+    <script>
+        window.cls = @Json.Serialize(Model.CurrentClass);
+        window.topic = @Json.Serialize(Model.CurrentTopic);
+    </script>
     <!-- Include file JS riêng -->
     <script src="~/js/TopicDetail.js"></script>
 </body>

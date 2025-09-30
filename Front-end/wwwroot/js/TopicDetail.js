@@ -17,6 +17,16 @@ const cls = window.cls;
 const topic = window.topic;
 
 // Hiển thị header và prompt
+function renderTopicInfo() {
+    if (!topic) {
+        console.error('Topic không tồn tại hoặc chưa load.');
+        document.getElementById("topicInfo").innerHTML = '<p>Lỗi: Không tìm thấy chủ đề.</p>';
+        return; // Bây giờ hợp lệ  
+    }
+
+}
+
+// Hiển thị header và prompt
 document.getElementById("topicInfo").innerHTML = `
     <a href="class-detail.html?id=${encodeURIComponent(classId)}" class="text-blue-600 text-sm">&larr; Back to class</a>
     <h1 class="text-3xl font-bold mt-2 mb-2">${topic.title}</h1>
