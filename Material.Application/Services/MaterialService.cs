@@ -20,8 +20,7 @@ namespace Material.Application.Services
         }
 
         // Upload file lên Cloudinary + lưu metadata vào DB
-        public async Task<Material.Domain.Entities.Material> UploadAndSaveAsync(
-        IFormFile file, int classId, int uploadedBy)
+        public async Task UploadAndSaveAsync(IFormFile file, int classId, int uploadedBy)
         {
             if (file == null || file.Length == 0)
                 throw new ArgumentException("File không hợp lệ.", nameof(file));
@@ -45,18 +44,60 @@ namespace Material.Application.Services
             };
 
             // Lưu vào DB qua repository
-            return await _materialRepo.AddAsync(material);
+            await _materialRepo.AddAsync(material);
         }
 
+        public async Task<Material.Domain.DTOs.MaterialDto?> GetByIdAsync(int id)
+        {
+            var material = await _materialRepo.GetByIdAsync(id);
 
-        public Task<Material.Domain.Entities.Material?> GetByIdAsync(int id)
-            => _materialRepo.GetByIdAsync(id);
+            if (material == null) return null;
 
-        public Task<IEnumerable<Material.Domain.Entities.Material>> GetByClassIdAsync(int classId)
-            => _materialRepo.GetByClassIdAsync(classId);
+            return new Material.Domain.DTOs.MaterialDto
+            {
+                MaterialId = material.MaterialId,
+                ClassId = material.ClassId,
+                UploadedBy = material.UploadedBy,
+                FileName = material.FileName,
+                FileUrl = material.FileUrl,
+                FileType = material.FileType,
+                FileSize = material.FileSize,
+                CreatedAt = material.CreatedAt
+            };
+        }
 
-        public Task<IEnumerable<Material.Domain.Entities.Material>> GetAllAsync()
-            => _materialRepo.GetAllAsync();
+        public async Task<IEnumerable<Material.Domain.DTOs.MaterialDto>> GetByClassIdAsync(int classId)
+        {
+            var materials = await _materialRepo.GetByClassIdAsync(classId);
+
+            return materials.Select(m => new Material.Domain.DTOs.MaterialDto
+            {
+                MaterialId = m.MaterialId,
+                ClassId = m.ClassId,
+                UploadedBy = m.UploadedBy,
+                FileName = m.FileName,
+                FileUrl = m.FileUrl,
+                FileType = m.FileType,
+                FileSize = m.FileSize,
+                CreatedAt = m.CreatedAt
+            });
+        }
+        public async Task<IEnumerable<Material.Domain.DTOs.MaterialDto>> GetAllAsync()
+        {
+            var materials = await _materialRepo.GetAllAsync();
+
+            return materials.Select(m => new Material.Domain.DTOs.MaterialDto
+            {
+                MaterialId = m.MaterialId,
+                ClassId = m.ClassId,
+                UploadedBy = m.UploadedBy,
+                FileName = m.FileName,
+                FileUrl = m.FileUrl,
+                FileType = m.FileType,
+                FileSize = m.FileSize,
+                CreatedAt = m.CreatedAt
+            });
+        }
 
         public Task DeleteAsync(int id)
             => _materialRepo.DeleteAsync(id);

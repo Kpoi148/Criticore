@@ -234,27 +234,59 @@
             </div>
 
             <!-- Resources Section -->
-            <div id="resourcesSection" class="bg-white p-4 rounded shadow mb-6 hidden">
-                <h3 class="text-lg font-semibold mb-2">Class Resources (5)</h3>
-                <p class="text-gray-500 text-sm mb-4">Materials and files shared in this class</p>
+            <div id="resourcesSection" class="bg-white p-4 rounded shadow mb-6 @(Model.Materials.Any() ? "" : "hidden")">
+                <h3 class="text-lg font-semibold mb-2">
+                    Class Resources (@Model.Materials.Count)
+                </h3>
+                <p class="text-gray-500 text-sm mb-4">
+                    Materials and files shared in this class
+                </p>
+
+                <!-- Upload form -->
+                <form method="post" enctype="multipart/form-data" asp-page-handler="Upload"
+                      class="flex items-center space-x-2 mb-4">
+                    <input type="file" asp-for="UploadFile"
+                           class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                      file:rounded-lg file:border-0 file:text-sm file:font-semibold
+                      file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" required />
+                               <input type="hidden" asp-for="ClassId" />   <!-- ✅ giữ lại ClassId -->
+                    <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Upload
+                    </button>
+                </form>
+
                 <div class="space-y-4">
-                    <div class="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
-                        <div class="text-gray-900 font-medium">Introduction to Critical Thinking</div>
-                        <div class="text-gray-500 text-sm">A guide to building critical thinking skills</div>
-                        <div class="text-gray-500 text-sm flex justify-end">PDF</div>
-                    </div>
-                    <div class="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
-                        <div class="text-gray-900 font-medium">Lecture Notes - Week 1</div>
-                        <div class="text-gray-500 text-sm">Notes from the first lecture</div>
-                        <div class="text-gray-500 text-sm flex justify-end">DOCX</div>
-                    </div>
-                    <div class="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
-                        <div class="text-gray-900 font-medium">Assignment 1 Guidelines</div>
-                        <div class="text-gray-500 text-sm">Details for the first assignment</div>
-                        <div class="text-gray-500 text-sm flex justify-end">PDF</div>
-                    </div>
+                    @foreach (var m in Model.Materials)
+                    {
+                        <div class="p-4 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <a href="@m.FileUrl" target="_blank" class="flex-1 cursor-pointer">
+                                    <div class="text-gray-900 font-medium">@m.FileName</div>
+                                    <div class="text-gray-500 text-sm">
+                                        Uploaded: @(m.CreatedAt?.ToLocalTime().ToString("g") ?? "N/A")
+                                    </div>
+                                    <div class="text-gray-500 text-sm flex justify-between">
+                                        <span>@m.FileType.ToUpper()</span>
+                                        <span>@ClassDetailModel.FormatFileSize(m.FileSize)</span>
+                                    </div>
+                                </a>
+
+                                <!-- Delete button -->
+                                <form method="post" asp-page-handler="Delete" class="ml-4">
+                                    <input type="hidden" name="id" value="@m.MaterialId" />
+                                        <input type="hidden" asp-for="ClassId" />   <!-- ✅ giữ lại ClassId -->
+                                    <button type="submit"
+                                            class="px-3 py-1 text-sm bg-red-100 text-red-600 rounded hover:bg-red-200">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
+
         </main>
 
         <!-- Add Member Modal -->

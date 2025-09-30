@@ -20,10 +20,9 @@ namespace Material.API.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> Upload([FromForm] MaterialUploadDto dto)
         {
-            var result = await _service.UploadAndSaveAsync(dto.File, dto.ClassId, dto.UploadedBy);
-            return Ok(result);
+            await _service.UploadAndSaveAsync(dto.File, dto.ClassId, dto.UploadedBy);
+            return Ok(new { message = "Tải lên tài liệu thành công" });
         }
-
 
         // Lấy danh sách tài liệu theo class
         [HttpGet("class/{classId}")]
