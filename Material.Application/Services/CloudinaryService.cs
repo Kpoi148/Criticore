@@ -34,7 +34,8 @@ namespace Material.Application.Services
             var uploadParams = new RawUploadParams()
             {
                 File = new FileDescription(file.FileName, stream),
-                Folder = folder
+                Folder = folder,
+                PublicId = Path.GetFileNameWithoutExtension(file.FileName) // giữ tên gốc
             };
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams);
