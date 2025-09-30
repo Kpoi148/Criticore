@@ -18,7 +18,12 @@ namespace Class.Infrastructure.Repositories
           => await _context.Classes.ToListAsync();
 
         public async Task<Class.Domain.Entities.Class?> GetByIdAsync(int id)
-            => await _context.Classes.FindAsync(id);
+        {
+            return await _context.Classes
+                .Include(c => c.ClassMembers) // nạp thêm Members
+                    .ThenInclude(m => m.User) // load thông tin user
+                .FirstOrDefaultAsync(c => c.ClassId == id);
+        }
 
         public async Task AddAsync(Class.Domain.Entities.Class cls)
         {
