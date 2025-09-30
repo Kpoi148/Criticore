@@ -4,6 +4,7 @@ using TopicDetail.Infrastructure.Models;
 using TopicDetail.Domain.Repositories;
 using TopicDetail.Infrastructure.Repositories;
 using TopicDetail.Application.Services;
+using TopicDetail.Application.Profiles;
 
 namespace TopicDetail.Api
 {
@@ -19,6 +20,7 @@ namespace TopicDetail.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAutoMapper(typeof(TopicDetailMapping).Assembly);
             // Đăng ký DbContext
             builder.Services.AddDbContext<TopicDetailDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

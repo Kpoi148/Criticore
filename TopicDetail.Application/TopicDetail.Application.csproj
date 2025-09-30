@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TopicDetail.Domain\TopicDetail.Domain.csproj" />
+    <ProjectReference Include="..\TopicDetail.Infrastructure\TopicDetail.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
