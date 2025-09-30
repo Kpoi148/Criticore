@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TopicDetail.Application.DTOs
+namespace Front_end.Models
 {
     public class AnswerDto
     {

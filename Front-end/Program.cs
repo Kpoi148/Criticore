@@ -18,6 +18,7 @@ namespace Front_end
             builder.Services.AddHttpClient();
 
             builder.Services.AddHttpClient<ITopicService, TopicService>();
+            builder.Services.AddHttpClient<ITopicDetailService, TopicDetailService>();
             builder.Services.AddHttpClient("GatewayClient", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7215");

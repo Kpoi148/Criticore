@@ -20,6 +20,13 @@ namespace TopicDetail.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy => policy.WithOrigins("https://localhost:7186")
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
             builder.Services.AddAutoMapper(typeof(TopicDetailMapping).Assembly);
             // Đăng ký DbContext
             builder.Services.AddDbContext<TopicDetailDbContext>(options =>
@@ -38,7 +45,7 @@ namespace TopicDetail.Api
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowFrontend");
             app.UseAuthorization();
 
 

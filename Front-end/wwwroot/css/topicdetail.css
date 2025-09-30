@@ -1,0 +1,65 @@
+﻿.fullscreen-answer {
+    width: 100vw !important;
+    left: 0 !important;
+    transform: none !important;
+    bottom: 0 !important;
+    border-radius: 0 !important;
+    padding: 1.5rem !important;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    z-index: 999;
+}
+
+    .fullscreen-answer textarea {
+        height: 100%;
+        font-size: 1.125rem;
+    }
+
+    .fullscreen-answer button {
+        margin-top: 1rem;
+        align-self: flex-end;
+    }
+
+.toast {
+    position: fixed;
+    top: 10px;
+    /* Chỉnh thông báo lên phía trên */
+    right: 10px;
+    /* Đặt thông báo ở góc phải */
+    background-color: #10b981;
+    /* Màu xanh cho thông báo thành công */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.star {
+    font-size: 1.5rem;
+    color: #d1d5db;
+    /* Màu xám cho sao chưa chọn */
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+    .star.selected {
+        color: #f59e0b;
+        /* Màu vàng cho sao đã chọn */
+    }
+
+    .star:hover {
+        color: #f59e0b;
+        /* Màu vàng khi hover */
+    }
+
+/* Hiển thị nhãn đánh giá */
+#ratingLabel {
+    font-size: 1rem;
+    font-weight: bold;
+}

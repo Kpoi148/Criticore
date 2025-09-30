@@ -21,54 +21,68 @@ function renderTopicInfo() {
     if (!topic) {
         console.error('Topic không tồn tại hoặc chưa load.');
         document.getElementById("topicInfo").innerHTML = '<p>Lỗi: Không tìm thấy chủ đề.</p>';
-        return; // Bây giờ hợp lệ  
+        return;
     }
+    document.getElementById("topicInfo").innerHTML = `
+        <a href="/Class/ClassDetail?id=${encodeURIComponent(classId)}" class="text-blue-600 text-sm">&larr; Back to class</a>
+        <h1 class="text-3xl font-bold mt-2 mb-2">${topic.title}</h1>
+        <div class="flex items-center gap-2 text-sm text-gray-600">
+            <span class="bg-gray-200 px-2 py-0.5 rounded-full text-xs font-semibold">${topic.role || "Teacher"}</span>
+            <span>${topic.created_by}</span>
+            <span>&bull;</span>
+            <span>${topic.created_at ? new Date(topic.created_at).toLocaleString() : ""}</span>
+        </div>
+    `;
+    document.getElementById("promptBlock").innerHTML = `
+      <p class="text-gray-800 mb-4">${topic.description}</p>
+      <div class="flex items-center gap-6 text-sm text-gray-500">
+        <div>💬 <span id="replyCount">${topic.replies || 0}</span> replies</div>
+      </div>
+    `;
+}
+renderTopicInfo();
 
+// Fetch và render answers từ API
+async function fetchAndRenderAnswers() {
+    try {
+        const response = await fetch(`https://localhost:7134/api/TopicDetail/topics/${topicId}/answers`);
+        if (!response.ok) throw new Error('Lỗi fetch answers');
+        const answers = await response.json();
+        topic.answers = answers; // Lưu tạm vào topic để dễ xử lý
+        renderAnswers(answers);
+        updateReplyCount(answers.length); // Cập nhật tổng replies
+    } catch (error) {
+        console.error(error);
+        showToast("Lỗi tải câu trả lời từ server!", 4000, "error");
+    }
 }
 
-// Hiển thị header và prompt
-document.getElementById("topicInfo").innerHTML = `
-    <a href="class-detail.html?id=${encodeURIComponent(classId)}" class="text-blue-600 text-sm">&larr; Back to class</a>
-    <h1 class="text-3xl font-bold mt-2 mb-2">${topic.title}</h1>
-    <div class="flex items-center gap-2 text-sm text-gray-600">
-        <span class="bg-gray-200 px-2 py-0.5 rounded-full text-xs font-semibold">${topic.role || "Teacher"}</span>
-        <span>${topic.created_by}</span>
-        <span>&bull;</span>
-        <span>${topic.created_at ? new Date(topic.created_at).toLocaleString() : ""}</span>
-    </div>
-`;
+// Cập nhật tổng replies ở prompt
+function updateReplyCount(count) {
+    document.getElementById("replyCount").innerText = count;
+}
 
-document.getElementById("promptBlock").innerHTML = `
-  <p class="text-gray-800 mb-4">${topic.description}</p>
-  <div class="flex items-center gap-6 text-sm text-gray-500">
-    <div>❤️ ${topic.likes || 0}</div>
-    <div>💬 ${topic.replies || (topic.answers || []).length} replies</div>
-  </div>
-`;
-
-// Cập nhật lại renderAnswers() để hiển thị sao khi trả lời được hiển thị
-function renderAnswers() {
+// Render answers với sao
+function renderAnswers(answers) {
     const box = document.getElementById("answersList");
-    if (!topic.answers || !topic.answers.length) {
+    if (!answers || !answers.length) {
         box.innerHTML = `<div class="text-gray-500">No answers yet.</div>`;
         return;
     }
-
-    box.innerHTML = topic.answers
+    box.innerHTML = answers
         .map((a, index) => {
-            // Xử lý avatar: span hoặc ảnh
-            let avatarHtml = a.picture.startsWith("<span")
-                ? a.picture
-                : `<img src="${a.picture}" alt="avatar" class="w-9 h-9 rounded-full object-cover"/>`;
-
+            console.log('Avatar URL for answer ' + a.answerId + ':', a.avatarUrl);
+            let avatarHtml = (a.avatarUrl && typeof a.avatarUrl === 'string' && a.avatarUrl.startsWith("<span"))
+                ? a.avatarUrl
+                : (a.avatarUrl ? `<img src="${a.avatarUrl}" alt="avatar" class="w-9 h-9 rounded-full object-cover"/>` : '<span class="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-white">?</span>');  // Fallback avatar mặc định
             return `
       <div onclick="openAnswerDetail(${index})"
            class="bg-white p-4 rounded-xl shadow hover:shadow-xl transition border cursor-pointer transform hover:scale-[1.02]">
         <div class="flex items-center gap-3 mb-3">
           ${avatarHtml}
           <div>
-            <div class="font-semibold">${a.created_by}</div>
-            <div class="text-xs text-gray-500">${a.created_at}</div>
+            <div class="font-semibold">${a.createdBy || 'Unknown User'}</div>
+            <div class="text-xs text-gray-500">${new Date(a.createdAt).toLocaleString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) || ''}</div>
           </div>
         </div>
         <div class="text-sm text-gray-700 max-h-32 overflow-y-auto whitespace-pre-line">
@@ -91,34 +105,40 @@ function renderAnswers() {
       </div>`;
         })
         .join("");
+    attachStarHoverHandlersToAll();
 }
 
+// Gọi fetch khi load
+fetchAndRenderAnswers();
 renderAnswers();
 attachStarHoverHandlersToAll();
 
 // Hàm xử lý khi người dùng chọn sao
-function rateAnswer(rating, index = null) {
+// Rate answer (PUT update rating)
+async function rateAnswer(rating, index = null) {
     let answer;
     if (index !== null) {
         answer = topic.answers[index];
-        answer.rating = rating;
-        localStorage.setItem("classes", JSON.stringify(classes));
-        renderAnswers();
-        // Nếu modal đang mở đúng answer này thì cập nhật sao luôn cho modal
-        if (
-            document.getElementById("answerModal") &&
-            !document.getElementById("answerModal").classList.contains("hidden") &&
-            typeof currentAnswerIndex === "number" &&
-            currentAnswerIndex === index
-        ) {
-            renderStars(answer.rating);
-        }
     } else if (typeof currentAnswerIndex === "number") {
         answer = topic.answers[currentAnswerIndex];
+    }
+    if (!answer) return;
+    
+    const updateDto = { rating }; // Giả sử UpdateAnswerDto có rating
+    
+    try {
+        const response = await fetch(`https://localhost:7134/api/TopicDetail/answers/${answer.answerId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updateDto),
+        });
+        if (!response.ok) throw new Error('Lỗi update rating');
         answer.rating = rating;
-        localStorage.setItem("classes", JSON.stringify(classes));
-        renderStars(answer.rating);
-        renderAnswers();
+        renderAnswers(topic.answers);
+        if (index === currentAnswerIndex) renderStars(rating);
+    } catch (error) {
+        console.error(error);
+        showToast("Lỗi cập nhật đánh giá!", 4000, "error");
     }
 }
 
@@ -291,35 +311,39 @@ function renderReplies() {
         .join("");
 }
 
-// Khi người dùng gửi trả lời
-function sendAnswer() {
+// Khi người dùng gửi trả lời (POST qua API)
+async function sendAnswer() {
     const ta = document.getElementById("answerContent");
     const content = ta.value.trim();
-
     if (!content) return alert("Nhập nội dung trả lời");
 
-    // Build object answer mới
+    // Kiểm tra và fallback googleUser
+    const userName = (window.googleUser && window.googleUser.name) ? window.googleUser.name : "Bạn";
+    const userPicture = (window.googleUser && window.googleUser.picture) ? window.googleUser.picture : "https://via.placeholder.com/40";
+
     const newAnswer = {
-        answer_id: "A" + ((topic.answers || []).length + 1),
         content,
-        created_by: googleUser.name || "Bạn",
-        created_at: new Date().toLocaleString(),
-        likes: 0,
-        picture: googleUser.picture || "https://via.placeholder.com/40",
+        topicId: parseInt(topicId),
+        createdBy: userName,
+        picture: userPicture,
     };
 
-    // Thêm vào đầu mảng và lưu lại
-    topic.answers = topic.answers || [];
-    topic.answers.unshift(newAnswer);
-    localStorage.setItem("classes", JSON.stringify(classes));
-    // Hiển thị thông báo thành công
-    showToast("✅ Câu trả lời đã được gửi thành công!", 4000, "success");
-    // Reset textarea và re-render
-    ta.value = "";
-    ta.style.height = "auto";
-    renderAnswers();
+    try {
+        const response = await fetch("https://localhost:7134/api/TopicDetail/answers", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newAnswer),
+        });
+        if (!response.ok) throw new Error('Lỗi gửi answer');
+        showToast("✅ Câu trả lời đã được gửi thành công!", 4000, "success");
+        ta.value = "";
+        ta.style.height = "auto";
+        fetchAndRenderAnswers(); // Refresh list
+    } catch (error) {
+        console.error(error);
+        showToast("Lỗi gửi câu trả lời!", 4000, "error");
+    }
 }
-
 // Tự động giãn textarea trả lời
 const answerContent = document.getElementById("answerContent");
 answerContent.addEventListener("input", function () {
@@ -390,3 +414,4 @@ document.getElementById("infoAssignments").innerText = (
 document.getElementById("infoDiscussions").innerText = (
     cls.topics || []
 ).length;
+document.getElementById("submitAnswer").addEventListener("click", sendAnswer);

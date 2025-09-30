@@ -19,7 +19,10 @@ namespace TopicDetail.Infrastructure.Repositories
         // CRUD for Answer
         public async Task<IEnumerable<Answer>> GetAnswersByTopicIdAsync(int topicId)
         {
-            return await _context.Answers.Where(a => a.TopicId == topicId).ToListAsync();
+            return await _context.Answers
+                .Where(a => a.TopicId == topicId)
+                .Include(a => a.User)  // Join với User entity (giả sử Answer có navigation property đến User)
+                .ToListAsync();
         }
 
         public async Task<Answer?> GetAnswerByIdAsync(int id)

@@ -8,7 +8,9 @@ namespace TopicDetail.Application.Profiles
     {
         public TopicDetailMapping()
         {
-            CreateMap<Answer, AnswerDto>();
+            CreateMap<Answer, AnswerDto>()
+    .ForMember(dest => dest.AvatarUrl, opt => opt.MapFrom(src => src.User != null ? src.User.AvatarUrl : "default-url"))
+    .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.User != null ? src.User.FullName : "Unknown"));
             CreateMap<CreateAnswerDto, Answer>();
             CreateMap<UpdateAnswerDto, Answer>();
         }

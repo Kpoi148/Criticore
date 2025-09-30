@@ -9,66 +9,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết chủ đề</title>
-    <!-- Thêm CSS nếu cần, ví dụ Tailwind hoặc custom -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <!-- Nếu cần marked, nhưng có thể loại nếu không dùng -->
+    <link rel="icon" type="image/png" href="~/images/Logo-Criticore.png" />
+    <link rel="stylesheet" href="~/css/topicdetail.css" />
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Thêm Tailwind CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+   
 </head>
 <body>
-    <div id="topicInfo"></div>
-    <div id="promptBlock"></div>
-    <div id="answersList"></div>
-
-    <!-- Modal chi tiết câu trả lời -->
-    <div id="answerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-xl shadow-xl max-w-lg w-full max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold">Chi tiết câu trả lời</h2>
-                <button onclick="closeAnswerDetail()" class="text-gray-500 hover:text-gray-700">&times;</button>
+    <!-- Header Topic Info -->
+    <div class="max-w-7xl mx-auto px-4 py-6" id="topicInfo">
+        <!-- JS sẽ fill vào -->
+    </div>
+    <!-- Main Content + Sidebar -->
+    <div class="max-w-7xl mx-auto px-4 flex gap-6">
+        <!-- Main -->
+        <main class="flex-1">
+            <!-- Prompt -->
+            <div class="bg-white rounded-lg p-6 shadow-sm border mb-8" id="promptBlock">
+                <!-- JS sẽ fill vào -->
             </div>
-            <div class="flex items-center gap-3 mb-3">
-                <div id="answerAvatar"></div>
-                <div>
-                    <div id="answerAuthor" class="font-semibold"></div>
-                    <div class="text-xs text-gray-500">Created at: <!-- Thêm nếu cần --></div>
+            <!-- Student Responses -->
+            <h2 class="text-lg font-semibold mb-4">Student Responses:</h2>
+            <div id="answersList" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-32"></div>
+        </main>
+        <!-- Sidebar -->
+        <aside class="w-72 flex-shrink-0">
+            <div class="bg-white rounded-lg p-4 shadow-sm border mb-4">
+                <h2 class="font-semibold text-lg mb-3">Quick Actions</h2>
+                <div class="flex flex-col gap-2">
+                    <a id="discussionLink" href="#"
+                       class="flex items-center gap-3 rounded-lg px-3 py-2 bg-black text-white text-sm">
+                        <span>💬</span><span>Discussion</span>
+                    </a>
+                    <a id="thisHomeworkLink" href="#"
+                       class="flex items-center gap-3 rounded-lg px-3 py-2 border hover:bg-gray-50 text-sm">
+                        <span>📚</span><span>Homework</span>
+                    </a>
                 </div>
             </div>
-            <div id="answerText" class="text-sm text-gray-700 mb-4"></div>
-            <div class="mt-3 text-sm text-gray-500">
-                <div id="likeCount">
-                    <!-- Sao sẽ render động -->
+            <div class="bg-white rounded-lg p-4 shadow-sm border">
+                <h2 class="font-semibold text-lg mb-3">Class Information</h2>
+                <div class="flex justify-between text-sm py-1">
+                    <span>Students:</span><span id="infoStudents" class="font-medium">0</span>
                 </div>
-                <span id="ratingLabel" class="text-gray-500 ml-2 hidden"></span>
+                <div class="flex justify-between text-sm py-1">
+                    <span>Assignments:</span><span id="infoAssignments" class="font-medium">0</span>
+                </div>
+                <div class="flex justify-between text-sm py-1">
+                    <span>Discussions:</span><span id="infoDiscussions" class="font-medium">0</span>
+                </div>
             </div>
-            <div class="mt-4">
-                <h3 class="font-medium mb-2">Phản hồi (<span id="replyCount"></span>)</h3>
-                <div id="replyList" class="space-y-4 max-h-48 overflow-y-auto"></div>
+        </aside>
+    </div>
+    <!-- Answer Bar -->
+    <div id="answerBar"
+         class="fixed left-1/2 bottom-6 transform -translate-x-1/2 bg-white border shadow-lg z-40 flex items-center px-3 py-2 gap-2 rounded-2xl transition-all duration-300 ease-in-out"
+         style="width: 420px; max-width: 94vw;">
+        <textarea id="answerContent" placeholder="Nhập câu trả lời..." rows="1"
+                  class="transition-all duration-300 ease-in-out w-full resize-none border rounded-xl px-4 py-3 bg-gray-50 focus:bg-white focus:outline-blue-400 text-base"
+                  style="min-height:48px; max-height:80vh; overflow-y:auto;"></textarea>
+        <button id="submitAnswer"
+                class="bg-blue-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-blue-700 transition">
+            Gửi
+        </button>
+    </div>
+    <!-- Answer Modal -->
+    <div id="answerModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl w-[95%] max-w-3xl max-h-[90vh] overflow-y-auto p-6 relative">
+            <button onclick="closeAnswerDetail()"
+                    class="absolute top-4 right-5 text-gray-500 hover:text-red-600 text-xl">
+                ×
+            </button>
+            <h2 class="text-xl font-bold mb-4">Student Response</h2>
+            <div class="bg-blue-50 rounded-lg p-5 mb-6">
+                <div class="flex items-start gap-4 mb-2">
+                    <div id="answerAvatar" class="w-10 h-10 shrink-0"></div>
+                    <div>
+                        <div class="font-semibold text-gray-900" id="answerAuthor">Alice Johnson</div>
+                        <div class="text-xs text-gray-500" id="answerTime">1 day ago</div>
+                    </div>
+                </div>
+                <div class="text-gray-800 text-sm leading-relaxed" id="answerText">
+                    Câu trả lời sẽ hiển thị ở đây
+                </div>
+                <div class="flex items-center text-sm text-gray-600 mt-4 gap-6">
+                    <div id="likeCount">
+                        <span class="star" onclick="rateAnswer(1)" onmouseover="showRatingLabel(1)"
+                              onmouseout="hideRatingLabel()">★</span>
+                        <span class="star" onclick="rateAnswer(2)" onmouseover="showRatingLabel(2)"
+                              onmouseout="hideRatingLabel()">★</span>
+                        <span class="star" onclick="rateAnswer(3)" onmouseover="showRatingLabel(3)"
+                              onmouseout="hideRatingLabel()">★</span>
+                        <span class="star" onclick="rateAnswer(4)" onmouseover="showRatingLabel(4)"
+                              onmouseout="hideRatingLabel()">★</span>
+                        <span class="star" onclick="rateAnswer(5)" onmouseover="showRatingLabel(5)"
+                              onmouseout="hideRatingLabel()">★</span>
+                    </div>
+                    <div id="ratingLabel" class="text-gray-500 mt-2 hidden"></div>
+                    <div id="replyCount">2 replies</div>
+                </div>
             </div>
-            <div class="mt-4 flex gap-2">
-                <textarea id="replyInput" placeholder="Nhập phản hồi..." class="flex-1 border p-2 rounded"></textarea>
-                <button id="submitReply" onclick="sendReply()" class="bg-blue-500 text-white px-4 py-2 rounded">Gửi</button>
+            <h3 class="text-sm font-semibold text-gray-700 mb-3">Replies:</h3>
+            <div id="replyList" class="space-y-4 mb-6">
+                <!-- Mỗi phản hồi sẽ render tại đây -->
+            </div>
+            <div class="flex items-start gap-3 border-t pt-4">
+                <div class="w-10 h-10 rounded-full bg-gray-200 shrink-0"></div>
+                <div class="flex-1">
+                    <textarea id="replyInput" rows="2"
+                              class="w-full border rounded-xl px-4 py-2 text-sm resize-none bg-gray-50 focus:bg-white focus:outline-blue-500 transition"
+                              placeholder="Reply to this response..."></textarea>
+                </div>
+                <button onclick="sendReply()"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-4 py-2 rounded-xl text-sm flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
+                    </svg>
+                    Reply
+                </button>
             </div>
         </div>
     </div>
-
-    <!-- Form gửi câu trả lời -->
-    <div id="answerBar" class="mt-6">
-        <textarea id="answerContent" placeholder="Nhập câu trả lời của bạn..." class="w-full border p-2 rounded"></textarea>
-        <button id="submitAnswer" onclick="sendAnswer()" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Gửi câu trả lời</button>
+    <!-- Floating Button Chatbot -->
+    <button id="openChat"
+            class="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-white-600 flex items-center justify-center shadow-lg hover:bg-blue-700 transition z-50"
+            title="Chat với AI">
+        <img src="~/images/bot-assistant.gif" alt="Chatbot Avatar" class="w-10 h-10 rounded-full object-cover">
+    </button>
+    <!-- Chatbot Popup -->
+    <div id="chatPopup"
+         class="hidden fixed bottom-24 right-6 w-[480px] h-[600px] bg-gray-900 text-white rounded-3xl shadow-2xl z-50 flex flex-col">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-700">
+            <div class="text-xl font-bold text-blue-400">AI Chatbot</div>
+            <button id="closeChat" class="text-gray-400 hover:text-red-400">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div id="messages" class="flex-1 px-6 py-5 overflow-y-auto" style="max-height: calc(100% - 160px);">
+            <!-- Tin nhắn sẽ append vào đây -->
+        </div>
+        <div class="px-6 py-5 border-t border-gray-700 flex gap-3 items-end">
+            <textarea id="userInput" rows="1"
+                      class="flex-1 resize-none rounded-2xl bg-gray-800 text-white px-5 py-4 outline-none border-2 border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-400 text-base shadow-sm transition"
+                      placeholder="Viết điều gì đó..."></textarea>
+            <button id="sendBtn"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-2xl text-base shadow-sm transition">
+                Gửi
+            </button>
+        </div>
+        <button id="clearChatHistory"
+                class="bg-red-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-red-700 transition">
+            Xóa lịch sử chat
+        </button>
     </div>
-
-    <!-- Toast thông báo -->
-    <div id="toast" class="fixed bottom-4 right-4 px-4 py-2 rounded text-white hidden transition-opacity"></div>
-
-    <!-- Các link và info khác -->
-    <a id="discussionLink" href="#">Thảo luận</a>
-    <a id="thisHomeworkLink" href="#">Bài tập</a>
-    <span id="infoStudents"></span>
-    <span id="infoAssignments"></span>
-    <span id="infoDiscussions"></span>
+    <!-- Toast -->
+    <div id="toast"
+         class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white px-6 py-3 rounded-xl shadow-lg text-base z-[1000] hidden transition">
+    </div>
     <script>
         window.cls = @Json.Serialize(Model.CurrentClass);
         window.topic = @Json.Serialize(Model.CurrentTopic);
     </script>
-    <!-- Include file JS riêng -->
+    <script src="~/js/API-AI.js"></script> <!-- Thêm nếu cần cho chatbot -->
     <script src="~/js/TopicDetail.js"></script>
 </body>
 </html>
