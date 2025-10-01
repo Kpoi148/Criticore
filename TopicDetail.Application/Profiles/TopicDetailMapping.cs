@@ -13,6 +13,11 @@ namespace TopicDetail.Application.Profiles
     .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.User != null ? src.User.FullName : "Unknown"));
             CreateMap<CreateAnswerDto, Answer>();
             CreateMap<UpdateAnswerDto, Answer>();
+
+            // Vote mappings
+            CreateMap<CreateVoteDto, Vote>();
+            CreateMap<UpdateVoteDto, Vote>();
+            CreateMap<Vote, VoteDto>();
         }
     }
 }

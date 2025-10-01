@@ -12,5 +12,13 @@ namespace TopicDetail.Domain.Repositories
         Task<Answer> CreateAnswerAsync(Answer answer);
         Task UpdateAnswerAsync(Answer answer);
         Task DeleteAnswerAsync(int id);
+
+        // CRUD for Vote
+        Task<IEnumerable<Vote>> GetVotesByAnswerIdAsync(int answerId);
+        Task<Vote?> GetVoteByIdAsync(int id);
+        Task<Vote?> GetVoteByAnswerAndUserAsync(int answerId, int userId);
+        Task<Vote> CreateVoteAsync(Vote vote);
+        Task UpdateVoteAsync(Vote vote);
+        Task DeleteVoteAsync(int id);
     }
 }

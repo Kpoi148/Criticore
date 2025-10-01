@@ -3,7 +3,7 @@ const googleUser = window.googleUser;
 const params = new URLSearchParams(window.location.search);
 const classId = params.get("class_id");
 const topicId = params.get("topic_id");
-
+let currentAnswerIndex = null;
 // Tên đánh giá tương ứng với mỗi sao
 const starLabels = {
     1: "Rất tệ",
@@ -12,10 +12,8 @@ const starLabels = {
     4: "Tốt",
     5: "Rất tốt",
 };
-
 const cls = window.cls;
 const topic = window.topic;
-
 // Hiển thị header và prompt
 function renderTopicInfo() {
     if (!topic) {
@@ -41,7 +39,6 @@ function renderTopicInfo() {
     `;
 }
 renderTopicInfo();
-
 // Fetch và render answers từ API
 async function fetchAndRenderAnswers() {
     try {
@@ -56,12 +53,10 @@ async function fetchAndRenderAnswers() {
         showToast("Lỗi tải câu trả lời từ server!", 4000, "error");
     }
 }
-
 // Cập nhật tổng replies ở prompt
 function updateReplyCount(count) {
     document.getElementById("replyCount").innerText = count;
 }
-
 // Render answers với sao
 function renderAnswers(answers) {
     const box = document.getElementById("answersList");
@@ -74,7 +69,7 @@ function renderAnswers(answers) {
             console.log('Avatar URL for answer ' + a.answerId + ':', a.avatarUrl);
             let avatarHtml = (a.avatarUrl && typeof a.avatarUrl === 'string' && a.avatarUrl.startsWith("<span"))
                 ? a.avatarUrl
-                : (a.avatarUrl ? `<img src="${a.avatarUrl}" alt="avatar" class="w-9 h-9 rounded-full object-cover"/>` : '<span class="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-white">?</span>');  // Fallback avatar mặc định
+                : (a.avatarUrl ? `<img src="${a.avatarUrl}" alt="avatar" class="w-9 h-9 rounded-full object-cover"/>` : '<span class="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-white">?</span>'); // Fallback avatar mặc định
             return `
       <div onclick="openAnswerDetail(${index})"
            class="bg-white p-4 rounded-xl shadow hover:shadow-xl transition border cursor-pointer transform hover:scale-[1.02]">
@@ -107,14 +102,12 @@ function renderAnswers(answers) {
         .join("");
     attachStarHoverHandlersToAll();
 }
-
 // Gọi fetch khi load
 fetchAndRenderAnswers();
 renderAnswers();
 attachStarHoverHandlersToAll();
-
 // Hàm xử lý khi người dùng chọn sao
-// Rate answer (PUT update rating)
+// Rate answer (POST create/update vote)
 async function rateAnswer(rating, index = null) {
     let answer;
     if (index !== null) {
@@ -123,36 +116,52 @@ async function rateAnswer(rating, index = null) {
         answer = topic.answers[currentAnswerIndex];
     }
     if (!answer) return;
-    
-    const updateDto = { rating }; // Giả sử UpdateAnswerDto có rating
-    
+
+    // Lấy token từ localStorage
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        showToast("Vui lòng đăng nhập trước!", 4000, "error");
+        return;
+    }
+    // Parse payload từ token để lấy UserId
+    const payload = token.split('.')[1];
+    const decodedPayload = JSON.parse(atob(payload));
+    const userId = parseInt(decodedPayload.UserId);
+
+    const voteDto = {
+        answerId: answer.answerId,
+        userId: userId,
+        voteType: "Rating", // Giả sử VoteType là "Rating" cho đánh giá sao
+        amount: rating
+    };
+
     try {
-        const response = await fetch(`https://localhost:7134/api/TopicDetail/answers/${answer.answerId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updateDto),
+        const response = await fetch(`https://localhost:7134/api/TopicDetail/votes`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // Thêm header auth nếu backend yêu cầu
+            },
+            body: JSON.stringify(voteDto),
         });
-        if (!response.ok) throw new Error('Lỗi update rating');
-        answer.rating = rating;
-        renderAnswers(topic.answers);
-        if (index === currentAnswerIndex) renderStars(rating);
+        if (!response.ok) throw new Error('Lỗi vote');
+        showToast("✅ Đánh giá đã được cập nhật!", 4000, "success");
+        fetchAndRenderAnswers(); // Refresh để lấy rating mới (average từ votes)
+        if (index === currentAnswerIndex) renderStars(rating); // Cập nhật tạm modal
     } catch (error) {
         console.error(error);
         showToast("Lỗi cập nhật đánh giá!", 4000, "error");
     }
 }
-
 // Hàm gán hiệu ứng hover cho tất cả sao trên danh sách
 function attachStarHoverHandlersToAll() {
     document.querySelectorAll("#answersList .star").forEach((star) => {
         const parent = star.parentElement;
         const allStars = Array.from(parent.querySelectorAll(".star"));
         const idx = allStars.indexOf(star);
-
         let rating = allStars.filter((s) =>
             s.classList.contains("selected")
         ).length;
-
         star.onmouseover = function () {
             allStars.forEach((s, i) => {
                 if (i <= idx) s.classList.add("selected");
@@ -167,7 +176,6 @@ function attachStarHoverHandlersToAll() {
         };
     });
 }
-
 // Hàm hiển thị các sao đã chọn
 function renderStars(rating = 0) {
     const stars = document.querySelectorAll("#answerModal #likeCount .star");
@@ -197,7 +205,6 @@ function renderStars(rating = 0) {
         };
     });
 }
-
 // Hàm hiển thị tên sao khi hover
 function showRatingLabel(rating, index = null) {
     let label;
@@ -210,7 +217,6 @@ function showRatingLabel(rating, index = null) {
     label.innerText = starLabels[rating] || "";
     label.classList.remove("hidden");
 }
-
 // Hàm ẩn tên sao khi không hover
 function hideRatingLabel(index = null) {
     let label;
@@ -222,62 +228,48 @@ function hideRatingLabel(index = null) {
     if (!label) return;
     label.classList.add("hidden");
 }
-// =================    Câu trả lời chi tiết ================
+// ================= Câu trả lời chi tiết ================
 // xem chi tiết câu trả lời
 function openAnswerDetail(index) {
     currentAnswerIndex = index;
     const ans = topic.answers[index];
-
     // avatar: span hay img
     const avatarHtml = ans.picture.startsWith("<span")
         ? ans.picture
         : `<img src="${ans.picture}" alt="avatar" class="w-10 h-10 rounded-full object-cover"/>`;
-
     // Mở modal chi tiết câu trả lời
     document.getElementById("answerModal").classList.remove("hidden");
-
     // ✅ Cập nhật avatar (innerHTML thay vì .src)
     document.getElementById("answerAvatar").innerHTML = avatarHtml;
-
     // Cập nhật thông tin câu trả lời
     document.getElementById("answerAuthor").innerText = ans.created_by || "Lỗi hiển thị";
     document.getElementById("answerText").innerText = ans.content;
-
     // Hiển thị đánh giá sao
     renderStars(ans.rating || 0);
-
     // Cập nhật số lượng phản hồi
     document.getElementById("replyCount").innerText = `${ans.replies?.length || 0} replies`;
-
     // Hiển thị các phản hồi
     renderReplies();
 }
-
-
 // đóng chi tiết câu trả lời
 function closeAnswerDetail() {
     document.getElementById("answerModal").classList.add("hidden");
     currentAnswerIndex = null;
 }
-
 function sendReply() {
     const input = document.getElementById("replyInput");
     const replyText = input.value.trim();
     if (!replyText) return alert("Nhập phản hồi trước khi gửi!");
-
     const answer = topic.answers[currentAnswerIndex];
     answer.replies = answer.replies || [];
-
     answer.replies.push({
         by: googleUser.name || "Bạn",
         text: replyText,
         at: new Date().toLocaleString(),
         picture: googleUser.picture || "https://via.placeholder.com/40", // <== thêm dòng này
     });
-
     // Lưu lại
     localStorage.setItem("classes", JSON.stringify(classes));
-
     input.value = "";
     renderReplies();
 }
@@ -285,12 +277,10 @@ function renderReplies() {
     const list = document.getElementById("replyList");
     const answer = topic.answers[currentAnswerIndex];
     const replies = answer.replies || [];
-
     if (!replies.length) {
         list.innerHTML = `<div class="text-gray-400 italic">Chưa có phản hồi nào.</div>`;
         return;
     }
-
     list.innerHTML = replies
         .map(
             (r) => `
@@ -310,28 +300,40 @@ function renderReplies() {
         )
         .join("");
 }
-
 // Khi người dùng gửi trả lời (POST qua API)
 async function sendAnswer() {
     const ta = document.getElementById("answerContent");
     const content = ta.value.trim();
     if (!content) return alert("Nhập nội dung trả lời");
-
-    // Kiểm tra và fallback googleUser
+    // Lấy token từ localStorage
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        showToast("Vui lòng đăng nhập trước!", 4000, "error");
+        return;
+    }
+    // Parse payload từ token để lấy UserId (phần giữa các dấu chấm)
+    const payload = token.split('.')[1];
+    const decodedPayload = JSON.parse(atob(payload)); // atob() decode base64
+    const userId = parseInt(decodedPayload.UserId); // Lấy UserId (là "1" trong token mẫu)
+    // Kiểm tra và fallback từ googleUser (nếu có)
     const userName = (window.googleUser && window.googleUser.name) ? window.googleUser.name : "Bạn";
     const userPicture = (window.googleUser && window.googleUser.picture) ? window.googleUser.picture : "https://via.placeholder.com/40";
-
+    // Body POST khớp với CreateAnswerDto (thêm userId)
     const newAnswer = {
-        content,
         topicId: parseInt(topicId),
-        createdBy: userName,
-        picture: userPicture,
+        userId: userId, // Thêm UserId từ token
+        content: content,
+        // Nếu backend hỗ trợ, thêm createdBy và picture (xem phần 4)
+        // createdBy: userName,
+        // picture: userPicture,
     };
-
     try {
         const response = await fetch("https://localhost:7134/api/TopicDetail/answers", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // Thêm header auth nếu backend yêu cầu
+            },
             body: JSON.stringify(newAnswer),
         });
         if (!response.ok) throw new Error('Lỗi gửi answer');
@@ -357,26 +359,21 @@ answerContent.addEventListener("keydown", function (e) {
         e.preventDefault();
     }
 });
-
 const textarea = document.getElementById("answerContent");
 const answerBar = document.getElementById("answerBar");
-
 textarea.addEventListener("focus", () => {
     answerBar.classList.add("fullscreen-answer");
 });
-
 textarea.addEventListener("blur", () => {
     // Delay để tránh mất khi click nút Gửi
     setTimeout(() => {
         answerBar.classList.remove("fullscreen-answer");
     }, 200);
 });
-
 // Hàm showToast để hiển thị thông báo
 function showToast(message, time = 3500, type = "warning") {
     const toast = document.getElementById("toast");
     toast.innerText = message;
-
     // Thay đổi màu sắc của toast tùy theo loại (warning, success, error)
     if (type === "success") {
         toast.style.backgroundColor = "#10b981"; // Màu xanh cho thành công
@@ -385,16 +382,13 @@ function showToast(message, time = 3500, type = "warning") {
     } else {
         toast.style.backgroundColor = "#f59e0b"; // Màu vàng cho cảnh báo
     }
-
     toast.classList.remove("hidden");
     toast.classList.add("opacity-100");
-
     setTimeout(() => {
         toast.classList.add("hidden");
         toast.classList.remove("opacity-100");
     }, time);
 }
-
 document.getElementById(
     "discussionLink"
 ).href = `topic-detail.html?class_id=${encodeURIComponent(
