@@ -2,34 +2,49 @@
 using Front_end.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Front_end.Pages.AdminClasses
 {
     public class CreateModel : PageModel
     {
         private readonly IClassesService _service;
-        public CreateModel(IClassesService service) => _service = service;
+        private readonly IUsersService _userService; // service để gọi api teachers
 
+        public CreateModel(IClassesService service, IUsersService userService)
+        {
+            _service = service;
+            _userService = userService;
+        }
         [BindProperty]
         public ClassCreateDto ClassInput { get; set; } = new();
+        public string? CurrentUserId { get; set; }
+        // Danh sách giáo viên để render ra dropdown
+        public List<SelectListItem> Teachers { get; set; } = new();
 
-        public void OnGet() { }
+        public async Task OnGetAsync()
+        {
+            // gọi API lấy teachers
+            var teachers = await _userService.GetTeachersAsync();
+            Teachers = teachers.Select(t => new SelectListItem
+            {
+                Value = t.UserId.ToString(),
+                Text = t.FullName
+            }).ToList();
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid) return Page();
+            // Lấy userId từ claims
+            CurrentUserId = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(CurrentUserId))
+            {
+                return RedirectToPage("/Signin");
+            }
+            int userId = int.Parse(CurrentUserId);
 
-            //// Lấy user id từ session (hoặc claims). Nếu null => yêu cầu login
-            //var userId = HttpContext.Session.GetInt32("UserId");
-            //if (userId == null || userId == 0)
-            //{
-            //    TempData["Error"] = "Bạn cần đăng nhập để tạo lớp.";
-            //    return RedirectToPage("/Account/Login");
-            //}
-
-            // Gán CreatedBy an toàn ở server-side
-            //ClassInput.CreatedBy = userId.Value;
-            ClassInput.CreatedBy = 1;
+            ClassInput.CreatedBy = userId;
 
             // Gọi service để tạo
             var createdId = await _service.CreateAsync(ClassInput);

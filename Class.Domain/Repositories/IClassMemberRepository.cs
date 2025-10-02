@@ -12,6 +12,8 @@ namespace Class.Domain.Repositories
     {
         Task<ClassMember?> GetByClassAndUserAsync(int classId, int userId);
         Task<ClassMember> AddStudentToClassAsync(int classId, int userId);
+        // Thêm thành viên vào lớp
+        Task AddAsync(ClassMember member);
 
         // Xem danh sách thành viên lớp
         Task<List<ClassMemberDto>> GetMembersByClassAsync(int classId);

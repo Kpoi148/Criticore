@@ -35,7 +35,7 @@ namespace Class.API.Controllers
 
         // Tạo mới lớp
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ClassDto dto)
+        public async Task<IActionResult> Create([FromBody] ClassCreateDto dto)
         {
             var created = await _service.AddAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = created.ClassId }, created);

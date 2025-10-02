@@ -12,10 +12,72 @@
 }
 else
 {
-    <p><strong>Mã lớp:</strong> @Model.ClassDetail.ClassId</p>
-    <p><strong>Tên lớp:</strong> @Model.ClassDetail.ClassName</p>
-    <p><strong>Mô tả:</strong> @Model.ClassDetail.Description</p>
+    <dl class="row">
+        <dt class="col-sm-3">Mã lớp:</dt>
+        <dd class="col-sm-9">@Model.ClassDetail.ClassId</dd>
+
+        <dt class="col-sm-3">Tên lớp:</dt>
+        <dd class="col-sm-9">@Model.ClassDetail.ClassName</dd>
+
+        <dt class="col-sm-3">Mã môn học:</dt>
+        <dd class="col-sm-9">@Model.ClassDetail.SubjectCode</dd>
+
+        <dt class="col-sm-3">Học kỳ:</dt>
+        <dd class="col-sm-9">@Model.ClassDetail.Semester</dd>
+
+        <dt class="col-sm-3">Mô tả:</dt>
+        <dd class="col-sm-9">@Model.ClassDetail.Description</dd>
+
+        <dt class="col-sm-3">Trạng thái:</dt>
+        <dd class="col-sm-9">@Model.ClassDetail.Status</dd>
+
+        <dt class="col-sm-3">Mã tham gia:</dt>
+        <dd class="col-sm-9">
+            @if (!string.IsNullOrEmpty(Model.ClassDetail.JoinCode))
+            {
+                <span class="badge bg-primary">@Model.ClassDetail.JoinCode</span>
+            }
+            else
+            {
+                <span class="text-muted">Chưa có</span>
+            }
+        </dd>
+
+        <dt class="col-sm-3">Người tạo:</dt>
+        <dd class="col-sm-9">@Model.ClassDetail.CreatedBy</dd>
+    </dl>
+
+    <h4>Danh sách thành viên</h4>
+    @if (Model.ClassDetail.Members != null && Model.ClassDetail.Members.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Vai trò</th>
+                    <th>Ngày tham gia</th>
+                    <th>Nhóm</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model.ClassDetail.Members)
+                {
+                    <tr>
+                        <td>@m.FullName</td>
+                        <td>@m.Email</td>
+                        <td>@m.RoleInClass</td>
+                        <td>@(m.JoinedAt?.ToString("dd/MM/yyyy") ?? "-")</td>
+                        <td>@(m.GroupId?.ToString() ?? "-")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p><em>Chưa có thành viên nào trong lớp này.</em></p>
+    }
 }
 
 <a asp-page="Index" class="btn btn-secondary">Quay lại</a>
-

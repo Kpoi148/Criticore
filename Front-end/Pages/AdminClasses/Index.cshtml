@@ -23,6 +23,7 @@
                 <td>@cls.Description</td>
                 <td>
                     <a asp-page="Details" asp-route-id="@cls.ClassId" class="btn btn-info">Chi tiết</a>
+                    <a asp-page="Edit" asp-route-id="@cls.ClassId" class="btn btn-warning">Sửa</a>
                     <form method="post" asp-page-handler="Delete" asp-route-id="@cls.ClassId" style="display:inline">
                         <button type="submit" class="btn btn-danger">Xóa</button>
                     </form>

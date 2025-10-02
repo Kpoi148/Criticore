@@ -23,27 +23,27 @@ public partial class User
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual ICollection<Aidocument> Aidocuments { get; set; } = new List<Aidocument>();
+    //public virtual ICollection<Aidocument> Aidocuments { get; set; } = new List<Aidocument>();
 
-    public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
+    //public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
 
-    public virtual ICollection<ChatSession> ChatSessions { get; set; } = new List<ChatSession>();
+    //public virtual ICollection<ChatSession> ChatSessions { get; set; } = new List<ChatSession>();
 
-    public virtual ICollection<ClassMember> ClassMembers { get; set; } = new List<ClassMember>();
+    //public virtual ICollection<ClassMember> ClassMembers { get; set; } = new List<ClassMember>();
 
-    public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
+    //public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 
-    public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+    //public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
 
-    public virtual ICollection<HomeWork> HomeWorks { get; set; } = new List<HomeWork>();
+    //public virtual ICollection<HomeWork> HomeWorks { get; set; } = new List<HomeWork>();
 
-    public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
+    //public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
 
-    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
+    //public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
-    public virtual ICollection<Submission> Submissions { get; set; } = new List<Submission>();
+    //public virtual ICollection<Submission> Submissions { get; set; } = new List<Submission>();
 
-    public virtual ICollection<Topic> Topics { get; set; } = new List<Topic>();
+    //public virtual ICollection<Topic> Topics { get; set; } = new List<Topic>();
 
-    public virtual ICollection<Vote> Votes { get; set; } = new List<Vote>();
+    //public virtual ICollection<Vote> Votes { get; set; } = new List<Vote>();
 }

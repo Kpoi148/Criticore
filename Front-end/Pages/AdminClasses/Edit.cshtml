@@ -4,18 +4,38 @@
     ViewData["Title"] = "Chỉnh sửa lớp";
 }
 
-<h2>Chỉnh sửa lớp</h2>
+<<h2>Sửa lớp học</h2>
 
 <form method="post">
-    <input type="hidden" asp-for="ClassInput.ClassId" />
     <div class="form-group">
-        <label for="ClassName">Tên lớp</label>
+        <label asp-for="ClassInput.ClassName"></label>
         <input asp-for="ClassInput.ClassName" class="form-control" />
+        <span asp-validation-for="ClassInput.ClassName" class="text-danger"></span>
     </div>
+
     <div class="form-group">
-        <label for="Description">Mô tả</label>
+        <label asp-for="ClassInput.SubjectCode"></label>
+        <input asp-for="ClassInput.SubjectCode" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClassInput.Semester"></label>
+        <input asp-for="ClassInput.Semester" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClassInput.Description"></label>
         <textarea asp-for="ClassInput.Description" class="form-control"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+
+    <div class="form-group">
+        <label asp-for="ClassInput.Status"></label>
+        <select asp-for="ClassInput.Status" class="form-control">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Lưu thay đổi</button>
     <a asp-page="Index" class="btn btn-secondary">Quay lại</a>
 </form>

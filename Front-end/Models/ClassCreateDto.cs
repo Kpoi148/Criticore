@@ -8,5 +8,7 @@
         public string? Description { get; set; }
         public string? Status { get; set; }
         public int CreatedBy { get; set; }
+        public int TeacherId { get; set; }
+        public string? JoinCode { get; set; }
     }
 }

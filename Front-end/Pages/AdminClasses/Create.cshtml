@@ -38,6 +38,22 @@
         </select>
     </div>
 
+    <!-- Thêm JoinCode -->
+    <div class="form-group">
+        <label asp-for="ClassInput.JoinCode">Mã tham gia</label>
+        <input asp-for="ClassInput.JoinCode" class="form-control" />
+        <span asp-validation-for="ClassInput.JoinCode" class="text-danger"></span>
+    </div>
+
+    <!-- Thêm dropdown chọn giáo viên -->
+    <div class="form-group">
+        <label asp-for="ClassInput.TeacherId">Giáo viên</label>
+        <select asp-for="ClassInput.TeacherId" class="form-control" asp-items="Model.Teachers">
+            <option value="">-- Chọn giáo viên --</option>
+        </select>
+        <span asp-validation-for="ClassInput.TeacherId" class="text-danger"></span>
+    </div>
+
     <button type="submit" class="btn btn-success">Tạo</button>
     <a asp-page="Index" class="btn btn-secondary">Quay lại</a>
 </form>

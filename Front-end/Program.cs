@@ -31,6 +31,10 @@ namespace Front_end
             {
                 client.BaseAddress = new Uri("https://localhost:7179/");
             });
+            builder.Services.AddHttpClient<IUsersService, UsersService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7281/");
+            });
             // Config JWT
             var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? "your-super-secret-key-that-is-at-least-32-chars-long-abc123");
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

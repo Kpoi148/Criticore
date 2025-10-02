@@ -84,10 +84,10 @@ public partial class IdentityDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__AIDocumen__Class__2739D489");
 
-            entity.HasOne(d => d.UploadedByNavigation).WithMany(p => p.Aidocuments)
-                .HasForeignKey(d => d.UploadedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AIDocumen__Uploa__282DF8C2");
+            //entity.HasOne(d => d.UploadedByNavigation).WithMany(p => p.Aidocuments)
+            //    .HasForeignKey(d => d.UploadedBy)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__AIDocumen__Uploa__282DF8C2");
         });
 
         modelBuilder.Entity<Answer>(entity =>
@@ -107,10 +107,10 @@ public partial class IdentityDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Answers__TopicID__09A971A2");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Answers)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Answers__UserID__0A9D95DB");
+            //entity.HasOne(d => d.User).WithMany(p => p.Answers)
+            //    .HasForeignKey(d => d.UserId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Answers__UserID__0A9D95DB");
         });
 
         modelBuilder.Entity<ChatSession>(entity =>
@@ -129,10 +129,10 @@ public partial class IdentityDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ChatSessi__Class__2BFE89A6");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ChatSessions)
-                .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ChatSessi__Creat__2CF2ADDF");
+            //entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ChatSessions)
+            //    .HasForeignKey(d => d.CreatedBy)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__ChatSessi__Creat__2CF2ADDF");
         });
 
         modelBuilder.Entity<Class>(entity =>
@@ -150,10 +150,10 @@ public partial class IdentityDbContext : DbContext
             entity.Property(e => e.SubjectCode).HasMaxLength(50);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Classes)
-                .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Classes__Created__75A278F5");
+            //entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Classes)
+            //    .HasForeignKey(d => d.CreatedBy)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Classes__Created__75A278F5");
         });
 
         modelBuilder.Entity<ClassMember>(entity =>
@@ -182,10 +182,10 @@ public partial class IdentityDbContext : DbContext
                 .HasForeignKey(d => d.GroupId)
                 .HasConstraintName("FK__ClassMemb__Group__01142BA1");
 
-            entity.HasOne(d => d.User).WithMany(p => p.ClassMembers)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ClassMemb__UserI__00200768");
+            //entity.HasOne(d => d.User).WithMany(p => p.ClassMembers)
+            //    .HasForeignKey(d => d.UserId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__ClassMemb__UserI__00200768");
         });
 
         modelBuilder.Entity<DocumentChunk>(entity =>
@@ -223,10 +223,10 @@ public partial class IdentityDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Group__ClassID__797309D9");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Groups)
-                .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Group__CreatedBy__7A672E12");
+            //entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Groups)
+            //    .HasForeignKey(d => d.CreatedBy)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Group__CreatedBy__7A672E12");
         });
 
         modelBuilder.Entity<HomeWork>(entity =>
@@ -244,10 +244,10 @@ public partial class IdentityDbContext : DbContext
             entity.Property(e => e.TopicId).HasColumnName("TopicID");
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.HomeWorks)
-                .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__HomeWorks__Creat__18EBB532");
+            //entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.HomeWorks)
+            //    .HasForeignKey(d => d.CreatedBy)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__HomeWorks__Creat__18EBB532");
 
             entity.HasOne(d => d.Topic).WithMany(p => p.HomeWorks)
                 .HasForeignKey(d => d.TopicId)
@@ -275,10 +275,10 @@ public partial class IdentityDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Materials__Class__22751F6C");
 
-            entity.HasOne(d => d.UploadedByNavigation).WithMany(p => p.Materials)
-                .HasForeignKey(d => d.UploadedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Materials__Uploa__236943A5");
+            //entity.HasOne(d => d.UploadedByNavigation).WithMany(p => p.Materials)
+            //    .HasForeignKey(d => d.UploadedBy)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Materials__Uploa__236943A5");
         });
 
         modelBuilder.Entity<Message>(entity =>
@@ -297,10 +297,10 @@ public partial class IdentityDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Messages__ChatSe__30C33EC3");
 
-            entity.HasOne(d => d.SenderNavigation).WithMany(p => p.Messages)
-                .HasForeignKey(d => d.Sender)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Messages__Sender__31B762FC");
+            //entity.HasOne(d => d.SenderNavigation).WithMany(p => p.Messages)
+            //    .HasForeignKey(d => d.Sender)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Messages__Sender__31B762FC");
         });
 
         modelBuilder.Entity<Submission>(entity =>
@@ -328,10 +328,10 @@ public partial class IdentityDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Submissio__Homew__1CBC4616");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Submissions)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Submissio__UserI__1DB06A4F");
+            //entity.HasOne(d => d.User).WithMany(p => p.Submissions)
+            //    .HasForeignKey(d => d.UserId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Submissio__UserI__1DB06A4F");
         });
 
         modelBuilder.Entity<Topic>(entity =>
@@ -354,10 +354,10 @@ public partial class IdentityDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Topics__ClassID__04E4BC85");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Topics)
-                .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Topics__CreatedB__05D8E0BE");
+            //entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Topics)
+            //    .HasForeignKey(d => d.CreatedBy)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Topics__CreatedB__05D8E0BE");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -400,10 +400,10 @@ public partial class IdentityDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Votes__AnswerID__0F624AF8");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Votes)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Votes__UserID__10566F31");
+            //entity.HasOne(d => d.User).WithMany(p => p.Votes)
+            //    .HasForeignKey(d => d.UserId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Votes__UserID__10566F31");
         });
 
         OnModelCreatingPartial(modelBuilder);

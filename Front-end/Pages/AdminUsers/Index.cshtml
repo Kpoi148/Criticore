@@ -1,0 +1,44 @@
+﻿@page
+@model Front_end.Pages.AdminUsers.IndexModel
+@{
+}
+<h2>User Management</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>UserId</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.UserId</td>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>@user.Status</td>
+                <td>
+                    <form method="post" asp-page-handler="Ban" asp-route-id="@user.UserId" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Ban</button>
+                    </form>
+                    <form method="post" asp-page-handler="Unban" asp-route-id="@user.UserId" style="display:inline;">
+                        <button type="submit" class="btn btn-success btn-sm">Unban</button>
+                    </form>
+                    <form method="post" asp-page-handler="ChangeRole" asp-route-id="@user.UserId" asp-route-roleType="1" style="display:inline;">
+                        <button type="submit" class="btn btn-primary btn-sm">Set User</button>
+                    </form>
+                    <form method="post" asp-page-handler="ChangeRole" asp-route-id="@user.UserId" asp-route-roleType="2" style="display:inline;">
+                        <button type="submit" class="btn btn-warning btn-sm">Set Teacher</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

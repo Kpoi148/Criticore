@@ -20,6 +20,8 @@ namespace Class.Application.Profiles
             CreateMap<Class.Domain.Entities.ClassMember, ClassMemberDto>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
                 .ReverseMap();
+            // Map từ ClassCreateDto sang Class entity
+            CreateMap<ClassCreateDto, Class.Domain.Entities.Class>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Class.Domain.DTOs;
+using Class.Domain.Entities;
 using Class.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -34,10 +35,25 @@ namespace Class.Application.Services
             return _mapper.Map<ClassDto?>(entity);
         }
 
-        public async Task<ClassDto> AddAsync(ClassDto dto)
+        public async Task<ClassDto> AddAsync(ClassCreateDto dto)
         {
             var entity = _mapper.Map<Class.Domain.Entities.Class>(dto);
+            // Lưu class trước để có ClassId
             await _classRepo.AddAsync(entity);
+            // thêm giáo viên vào classmember
+            if (dto.TeacherId > 0)
+            {
+                var teacherMember = new ClassMember
+                {
+                    ClassId = entity.ClassId,
+                    UserId = dto.TeacherId,
+                    RoleInClass = "Teacher",
+                    JoinedAt = DateTime.Now,
+                    CreatedAt = DateTime.Now
+                };
+
+                await _memberRepo.AddAsync(teacherMember);
+            }
             return _mapper.Map<ClassDto>(entity); // entity lúc này có ClassId
         }
 

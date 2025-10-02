@@ -26,6 +26,12 @@ namespace Class.Infrastructure.Repositories
             return await _db.ClassMembers
                 .FirstOrDefaultAsync(cm => cm.ClassId == classId && cm.UserId == userId);
         }
+        // Thêm thành viên vào lớp
+        public async Task AddAsync(ClassMember member)
+        {
+            _db.ClassMembers.Add(member);
+            await _db.SaveChangesAsync();
+        }
 
         public async Task<ClassMember> AddStudentToClassAsync(int classId, int userId)
         {

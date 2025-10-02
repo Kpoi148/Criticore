@@ -1,4 +1,5 @@
-﻿using Identity.Application.Services;
+﻿using Identity.Application.Profiles;
+using Identity.Application.Services;
 using Identity.Domain.Repositories;
 using Identity.Infrastructure.Models;
 using Identity.Infrastructure.Repositories;
@@ -26,7 +27,7 @@ namespace Identity.Api
 
             // Đăng ký DbContext
             builder.Services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
 
             // Đăng ký Repository và Service
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -34,7 +35,8 @@ namespace Identity.Api
             //
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole();
-
+            // Auto mapper
+            builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 
             var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
 

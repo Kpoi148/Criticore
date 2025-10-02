@@ -26,4 +26,19 @@ public class UserRepository : IUserRepository
     {
         await _context.SaveChangesAsync();
     }
+    public async Task<IEnumerable<User>> GetAllAsync()
+    {
+        return await _context.Users.ToListAsync();
+    }
+    public async Task<List<User>> GetByRoleAsync(string role)
+    {
+        return await _context.Users
+            .Where(u => u.Role == role)
+            .ToListAsync();
+    }
+
+    public async Task<User?> GetByIdAsync(int id)
+    {
+        return await _context.Users.FindAsync(id);
+    }
 }
