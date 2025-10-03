@@ -7,6 +7,7 @@
 <<h2>Sửa lớp học</h2>
 
 <form method="post">
+    <input type="hidden" asp-for="ClassInput.ClassId" />
     <div class="form-group">
         <label asp-for="ClassInput.ClassName"></label>
         <input asp-for="ClassInput.ClassName" class="form-control" />
@@ -21,6 +22,15 @@
     <div class="form-group">
         <label asp-for="ClassInput.Semester"></label>
         <input asp-for="ClassInput.Semester" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="teacherId">Giáo viên phụ trách</label>
+        <select name="teacherId"
+                asp-items="Model.TeacherOptions"
+                class="form-control">
+            <option value="">-- Chọn giáo viên --</option>
+        </select>
     </div>
 
     <div class="form-group">

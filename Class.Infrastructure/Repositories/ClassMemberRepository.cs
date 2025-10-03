@@ -72,7 +72,41 @@ namespace Class.Infrastructure.Repositories
             }).ToList();
         }
 
-        // Thêm mới: Xóa thành viên
+        // Thêm mới: Xem thành viên lớp
+        public async Task<List<ClassMemberDto>> GetTeachersByClassAsync(int classId)
+        {
+            var teachers = await _db.ClassMembers
+            .Where(cm => cm.ClassId == classId && cm.RoleInClass == "Teacher")
+                .Include(cm => cm.User) // Include User để lấy info
+                .ToListAsync();
+
+            return teachers.Select(cm => new ClassMemberDto
+            {
+                ClassMemberId = cm.ClassMemberId,
+                UserId = cm.UserId,
+                FullName = cm.User.FullName ?? string.Empty, // Giả sử User có Name
+                Email = cm.User.Email ?? string.Empty, // Giả sử User có Email
+                RoleInClass = cm.RoleInClass ?? string.Empty,
+                JoinedAt = cm.JoinedAt,
+                GroupId = cm.GroupId
+            }).ToList();
+        }
+        // Xóa tất cả thành viên
+        public async Task RemoveAllMembersFromClassAsync(int classId)
+        {
+            // Lấy tất cả member của lớp
+            var members = await _db.ClassMembers
+                .Where(cm => cm.ClassId == classId)
+                .ToListAsync();
+
+            if (members.Any())
+            {
+                _db.ClassMembers.RemoveRange(members);
+                await _db.SaveChangesAsync();
+            }
+        }
+
+        // Xóa thành viên
         public async Task RemoveMemberFromClassAsync(int classMemberId)
         {
             var member = await _db.ClassMembers

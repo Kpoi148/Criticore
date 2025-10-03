@@ -43,5 +43,16 @@ namespace Front_end.Services
             return await _http.GetFromJsonAsync<List<ClassSummaryDto>>($"api/classes/by-user/{userId}")
                    ?? new List<ClassSummaryDto>();
         }
+        public async Task<List<ClassMemberDto>> GetTeachersByClassAsync(int classId)
+        {
+            return await _http.GetFromJsonAsync<List<ClassMemberDto>>($"api/classes/{classId}/teachers")
+                   ?? new List<ClassMemberDto>();
+        }
+        public async Task<bool> AssignTeacherAsync(int classId, int teacherId)
+        {
+            var res = await _http.PutAsync($"api/classes/{classId}/assign-teacher/{teacherId}", null);
+            return res.IsSuccessStatusCode;
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Class.Domain.DTOs;
 namespace Class.Domain.Repositories
 {
     public interface IClassRepository
@@ -13,6 +14,5 @@ namespace Class.Domain.Repositories
         Task UpdateAsync(Class.Domain.Entities.Class cls);
         Task DeleteAsync(int id);
         Task<Class.Domain.Entities.Class?> GetByJoinCodeAsync(string joinCode);
-
     }
 }

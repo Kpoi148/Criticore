@@ -15,13 +15,17 @@ namespace Class.Domain.Repositories
         // Thêm thành viên vào lớp
         Task AddAsync(ClassMember member);
 
-        // Xem danh sách thành viên lớp
+        // Lấy danh sách thành viên lớp
         Task<List<ClassMemberDto>> GetMembersByClassAsync(int classId);
+        // Lấy danh sách giáo viên theo lớp
+        Task<List<ClassMemberDto>> GetTeachersByClassAsync(int classId);
+        Task RemoveAllMembersFromClassAsync(int classId);
 
         // Xóa thành viên khỏi lớp (sử dụng ClassMemberId để chính xác)
         Task RemoveMemberFromClassAsync(int classMemberId);
         // Lấy danh sách lớp theo userId
         Task<List<Class.Domain.Entities.Class>> GetClassesByUserAsync(int userId);
+
 
     }
 }

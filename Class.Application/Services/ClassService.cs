@@ -57,13 +57,43 @@ namespace Class.Application.Services
             return _mapper.Map<ClassDto>(entity); // entity lúc này có ClassId
         }
 
+        // File: Class.Application\Services\ClassService.cs
+
         public async Task UpdateAsync(ClassDto dto)
         {
-            var entity = _mapper.Map<Class.Domain.Entities.Class>(dto);
-            await _classRepo.UpdateAsync(entity);
+            // 1. TÌM KIẾM LỚP HỌC HIỆN TẠI (Đảm bảo lớp tồn tại và được theo dõi bởi DbContext)
+            var existingEntity = await _classRepo.GetByIdAsync(dto.ClassId);
+
+            if (existingEntity == null)
+            {
+                throw new Exception("Class not found");
+            }
+
+            // 2. ÁNH XẠ THỦ CÔNG (Manual Mapping)
+            // Gán các giá trị từ DTO vào Entity đã tồn tại, BỎ QUA các collection/navigation properties.
+            existingEntity.ClassName = dto.ClassName;
+            existingEntity.SubjectCode = dto.SubjectCode;
+            existingEntity.Semester = dto.Semester;
+            existingEntity.Description = dto.Description;
+            existingEntity.Status = dto.Status;
+
+            // BỎ QUA: ClassId (không thay đổi), ClassMembers (để tránh lỗi), CreatedBy, JoinCode (thường không cập nhật qua form này)
+
+            // 3. GỌI REPOSITORY ĐỂ LƯU THAY ĐỔI
+            // Vì existingEntity đã được track, EF Core chỉ cập nhật các trường đã thay đổi.
+            await _classRepo.UpdateAsync(existingEntity);
         }
 
-        public Task DeleteAsync(int id) => _classRepo.DeleteAsync(id);
+        public async Task DeleteAsync(int classId)
+        {
+            // hiện tại chưa xóa group khi nào làm group xong thì cần chỉnh lại
+            // Xóa hết member trước
+            await _memberRepo.RemoveAllMembersFromClassAsync(classId);
+
+            // Xóa lớp
+            await _classRepo.DeleteAsync(classId);
+        }
+
 
         public async Task<ClassDto?> JoinByCodeAsync(string joinCode, int userId)
         {
@@ -78,6 +108,11 @@ namespace Class.Application.Services
         {
             var members = await _memberRepo.GetMembersByClassAsync(classId);
             return _mapper.Map<List<ClassMemberDto>>(members);
+        }
+        public async Task<List<ClassMemberDto>> GetTeachersByClassAsync(int classId)
+        {
+            var teachers = await _memberRepo.GetTeachersByClassAsync(classId);
+            return _mapper.Map<List<ClassMemberDto>>(teachers);
         }
 
         public Task RemoveMemberFromClassAsync(int classMemberId)
@@ -104,8 +139,30 @@ namespace Class.Application.Services
 
             return result;
         }
+        public async Task<bool> AssignTeacherAsync(int classId, int teacherId)
+        {
+            // Lấy tất cả teacher hiện tại trong lớp
+            var currentTeachers = await _memberRepo.GetTeachersByClassAsync(classId);
 
+            // Xóa tất cả teacher cũ
+            foreach (var t in currentTeachers)
+            {
+                await _memberRepo.RemoveMemberFromClassAsync(t.ClassMemberId);
+            }
 
+            // Thêm giáo viên mới
+            var newTeacher = new ClassMember
+            {
+                ClassId = classId,
+                UserId = teacherId,
+                RoleInClass = "Teacher",
+                JoinedAt = DateTime.Now,
+                CreatedAt = DateTime.Now
+            };
+
+            await _memberRepo.AddAsync(newTeacher);
+            return true;
+        }
     }
 }
 

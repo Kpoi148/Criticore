@@ -10,5 +10,7 @@ namespace Front_end.Services.Interfaces
         Task<bool> DeleteAsync(int id);
         Task<bool> UpdateAsync(int id, ClassDto dto);
         Task<List<ClassSummaryDto>> GetClassesByUserAsync(int userId);
+        Task<List<ClassMemberDto>> GetTeachersByClassAsync(int classId);
+        Task<bool> AssignTeacherAsync(int classId, int teacherId);
     }
 }

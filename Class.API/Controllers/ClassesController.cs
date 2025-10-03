@@ -74,6 +74,13 @@ namespace Class.API.Controllers
             var members = await _service.GetMembersByClassAsync(id);
             return Ok(members);
         }
+        // Thêm mới: Xem danh sách thành viên lớp
+        [HttpGet("{id}/teachers")]
+        public async Task<IActionResult> GetTeachers(int id)
+        {
+            var teachers = await _service.GetTeachersByClassAsync(id);
+            return Ok(teachers);
+        }
 
         // Thêm mới: Xóa thành viên khỏi lớp
         [HttpDelete("{id}/members/{memberId}")]
@@ -106,5 +113,14 @@ namespace Class.API.Controllers
             var classes = await _service.GetClassesByUserAsync(userId);
             return Ok(classes);
         }
+        // Gán giáo viên cho lớp
+        [HttpPut("{id}/assign-teacher/{teacherId}")]
+        public async Task<IActionResult> AssignTeacher(int id, int teacherId)
+        {
+            var success = await _service.AssignTeacherAsync(id, teacherId);
+            if (!success) return BadRequest("Không thể gán giáo viên.");
+            return NoContent();
+        }
+
     }
 }
