@@ -27,7 +27,7 @@ namespace Identity.Api
 
             // Đăng ký DbContext
             builder.Services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Đăng ký Repository và Service
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -73,26 +73,37 @@ namespace Identity.Api
                     // Tạo JWT
                     var jwtHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
                     var key = Encoding.ASCII.GetBytes(context.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Key"]);
+
+                    var claims = new List<Claim>
+                    {
+                        new Claim("UserId", user.UserId.ToString()),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Role, user.Role ?? "User")   // ✅ thêm role
+                    };
+
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        Subject = new ClaimsIdentity(new[]
-                        {
-                new Claim("UserId", user.UserId.ToString()),
-                new Claim(ClaimTypes.Email, user.Email)
-                        }),
-                        Expires = DateTime.UtcNow.AddMinutes(double.Parse(context.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:ExpireMinutes"])),
+                        Subject = new ClaimsIdentity(claims),
+                        Expires = DateTime.UtcNow.AddMinutes(
+                            double.Parse(context.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:ExpireMinutes"])),
                         Issuer = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Issuer"],
                         Audience = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Audience"],
-                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                        SigningCredentials = new SigningCredentials(
+                            new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                     };
+
                     var token = jwtHandler.CreateToken(tokenDescriptor);
                     var jwtToken = jwtHandler.WriteToken(token);
 
-                    // Trả JWT cho FE, ví dụ redirect kèm query param
-                    var redirectUri = $"https://localhost:7186/Class/ClassList?token={jwtToken}";
+                    // Nếu là Admin thì redirect sang admin page, còn không thì về ClassList
+                    var redirectUri = user.Role == "Admin"
+                        ? $"https://localhost:7186/adminclasses/index?token={jwtToken}"
+                        : $"https://localhost:7186/Class/ClassList?token={jwtToken}";
+
                     context.Response.Redirect(redirectUri);
-                    context.HandleResponse(); // dừng cookie
+                    context.HandleResponse(); // Dừng xử lý cookie
                 };
+
             });
 
             var app = builder.Build();

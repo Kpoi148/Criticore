@@ -19,17 +19,29 @@ console.log('ClassId:', cls.ClassId);
 // Load topics từ API khi init
 async function loadTopics() {
     try {
-        const response = await fetch(`https://localhost:7193/api/Topics/byclass/${cls.ClassId}`);  // Sửa endpoint
+        const response = await fetch(`https://localhost:7193/api/Topics/byclass/${cls.ClassId}`);
         if (response.ok) {
-            const topics = await response.json();
-            cls.topics = topics.map(t => ({
-                topic_id: t.topicId ? t.topicId.toString() : '',  // Thêm kiểm tra null
-                title: t.title,
-                description: t.description,
-                end_time: t.endTime,
-                created_by: t.createdBy,
-                created_at: t.createdAt,
-                answers: []
+            let topics = await response.json();
+            cls.topics = await Promise.all(topics.map(async (t) => {
+                try {
+                    const ansResponse = await fetch(`https://localhost:7134/api/TopicDetail/topics/${t.topicId}/answers`);
+                    const answers = ansResponse.ok ? await ansResponse.json() : [];
+                    return {
+                        topic_id: t.topicId ? t.topicId.toString() : '',
+                        title: t.title,
+                        description: t.description,
+                        end_time: t.endTime,
+                        created_by: t.createdBy,
+                        created_at: t.createdAt,
+                        answers: answers  // Lưu full answers để dùng length
+                    };
+                } catch (err) {
+                    console.error(`Lỗi fetch answers cho topic ${t.topicId}:`, err);
+                    return {
+                        ...t,
+                        answers: []  // Fallback nếu lỗi
+                    };
+                }
             }));
             renderTopics();
         }

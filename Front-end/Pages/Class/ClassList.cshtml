@@ -107,11 +107,11 @@
 
     <script>
                 // Lưu token từ URL ngay khi load trang
-        window.addEventListener('load', () => {
+                window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get('token');
             if (token) {
-                localStorage.setItem('authToken', token);
+                sessionStorage.setItem('authToken', token); // 🔥 đổi localStorage → sessionStorage
                 console.log('✅ Token lưu thành công:', token.substring(0, 20) + '...');
                 // Xóa query param khỏi URL để bảo mật
                 window.history.replaceState({}, '', window.location.pathname);
@@ -120,17 +120,15 @@
             }
 
             // Kiểm tra session đã lưu
-            const storedToken = localStorage.getItem('authToken');
+            const storedToken = sessionStorage.getItem('authToken'); // 🔥 sessionStorage
             if (storedToken) {
                 console.log('✅ Session OK');
-                // Optional: Gửi token cho API calls (nếu dùng fetch/axios)
-                // fetch('/api/protected', { headers: { Authorization: `Bearer ${storedToken}` } })
-                //     .then(res => console.log('API test:', res.status));
             } else {
                 console.log('❌ Chưa có session, redirect login');
-                // window.location.href = '/auth/login';  // Uncomment nếu cần
+                // window.location.href = '/auth/login';
             }
         });
+
         let classes = @Html.Raw(Json.Serialize(Model.Classes)); // Chuyển data sang JS
         let currentStatus = "All";
         let currentSemester = "All";

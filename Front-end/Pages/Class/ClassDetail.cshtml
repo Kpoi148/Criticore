@@ -48,47 +48,15 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-8h-2m-12 0H4m16.24 6.24l-1.42-1.42M6.24 6.24l-1.42-1.42m12.02 12.02l1.42-1.42M6.24 17.76l-1.42 1.42" />
                     </svg>
                     Classrooms
-                </a>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16h6m2 4H7a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2z" />
-                    </svg>
-                    Features 1
-                </a>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3v2h6v-2c0-1.657-1.343-3-3-3z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 20h14a2 2 0 002-2v-4H3v4a2 2 0 002 2z" />
-                    </svg>
-                    Features 2
-                </a>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18" />
-                    </svg>
-                    Features 3
-                </a>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h6v6m2 4H7a2 2 0 01-2-2V7a2 2 0 012-2h4l2-2h4a2 2 0 012 2v12a2 2 0 01-2 2z" />
-                    </svg>
-                    Features 4
-                </a>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A6.002 6.002 0 0112 15c1.657 0 3.157.672 4.243 1.76M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Features 5
-                </a>
+                </a>              
                 <form method="post" asp-page="/Account/Logout" class="m-0">
-                    <button type="submit" class="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded">
+                    <button type="submit" class="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded" onclick="logout()">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
                         </svg>
                         Sign out
                     </button>
                 </form>
-
             </nav>
         </aside>
 
@@ -309,6 +277,18 @@
         window.studentsData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Students));
         window.reportData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ReportData));
         window.topicsData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Topics));
+
+                 async function logout() {
+                // Gọi API logout để backend xoá cookie
+                await fetch('/api/logout', { method: 'POST' });
+
+                // Xoá localStorage
+                localStorage.removeItem('authToken');
+                // hoặc: localStorage.clear();
+
+                // Redirect về trang login/home
+                window.location.href = "https://localhost:7186";
+            }
     </script>
     <script src="~/js/classdetail.js"></script>
     </body>

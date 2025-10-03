@@ -68,8 +68,7 @@ namespace Front_end
                                 {
                                     HttpOnly = true,  // Bảo mật, JS không đọc được
                                     Secure = false,   // Dev: false; Prod: true
-                                    SameSite = SameSiteMode.Lax,
-                                    Expires = DateTime.UtcNow.AddMinutes(55)  // Trước token expire
+                                    SameSite = SameSiteMode.Lax,                                  
                                 });
                             }
                             return Task.CompletedTask;

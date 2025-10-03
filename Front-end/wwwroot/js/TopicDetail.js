@@ -4,6 +4,18 @@ const params = new URLSearchParams(window.location.search);
 const classId = params.get("class_id");
 const topicId = params.get("topic_id");
 let currentAnswerIndex = null;
+
+const notyf = new Notyf({
+    duration: 4000, // Thời gian hiển thị (ms)
+    ripple: true,   // Effect ripple hiện đại
+    position: { x: 'right', y: 'top' }, // Vị trí top-right
+    dismissible: true, // Cho phép click để đóng
+    types: [
+        { type: 'success', background: '#10b981', icon: false }, // Màu xanh Tailwind green-500
+        { type: 'error', background: '#ef4444', icon: false },   // Màu đỏ Tailwind red-500
+        { type: 'warning', background: '#f59e0b', icon: false }  // Màu vàng Tailwind yellow-500
+    ]
+});
 // Tên đánh giá tương ứng với mỗi sao
 const starLabels = {
     1: "Rất tệ",
@@ -50,7 +62,7 @@ async function fetchAndRenderAnswers() {
         updateReplyCount(answers.length); // Cập nhật tổng replies
     } catch (error) {
         console.error(error);
-        showToast("Lỗi tải câu trả lời từ server!", 4000, "error");
+        notyf.error("Lỗi tải câu trả lời từ server!");
     }
 }
 // Cập nhật tổng replies ở prompt
@@ -120,7 +132,7 @@ async function rateAnswer(rating, index = null) {
     // Lấy token từ localStorage
     const token = localStorage.getItem('authToken');
     if (!token) {
-        showToast("Vui lòng đăng nhập trước!", 4000, "error");
+        notyf.error("Vui lòng đăng nhập trước!");
         return;
     }
     // Parse payload từ token để lấy UserId
@@ -145,12 +157,12 @@ async function rateAnswer(rating, index = null) {
             body: JSON.stringify(voteDto),
         });
         if (!response.ok) throw new Error('Lỗi vote');
-        showToast("✅ Đánh giá đã được cập nhật!", 4000, "success");
+        notyf.success("Đánh giá đã được cập nhật!");
         fetchAndRenderAnswers(); // Refresh để lấy rating mới (average từ votes)
         if (index === currentAnswerIndex) renderStars(rating); // Cập nhật tạm modal
     } catch (error) {
         console.error(error);
-        showToast("Lỗi cập nhật đánh giá!", 4000, "error");
+        notyf.success("Lỗi cập nhật đánh giá!");
     }
 }
 // Hàm gán hiệu ứng hover cho tất cả sao trên danh sách
@@ -259,7 +271,7 @@ function closeAnswerDetail() {
 function sendReply() {
     const input = document.getElementById("replyInput");
     const replyText = input.value.trim();
-    if (!replyText) return alert("Nhập phản hồi trước khi gửi!");
+    if (!replyText) return notyf.error("Nhập phản hồi trước khi gửi!");
     const answer = topic.answers[currentAnswerIndex];
     answer.replies = answer.replies || [];
     answer.replies.push({
@@ -304,11 +316,11 @@ function renderReplies() {
 async function sendAnswer() {
     const ta = document.getElementById("answerContent");
     const content = ta.value.trim();
-    if (!content) return alert("Nhập nội dung trả lời");
+    if (!content) return notyf.error("Nhập nội dung trả lời");
     // Lấy token từ localStorage
     const token = localStorage.getItem('authToken');
     if (!token) {
-        showToast("Vui lòng đăng nhập trước!", 4000, "error");
+        notyf.error("Vui lòng đăng nhập trước!");
         return;
     }
     // Parse payload từ token để lấy UserId (phần giữa các dấu chấm)
@@ -337,13 +349,13 @@ async function sendAnswer() {
             body: JSON.stringify(newAnswer),
         });
         if (!response.ok) throw new Error('Lỗi gửi answer');
-        showToast("✅ Câu trả lời đã được gửi thành công!", 4000, "success");
+        notyf.success("Câu trả lời đã được gửi thành công!");
         ta.value = "";
         ta.style.height = "auto";
         fetchAndRenderAnswers(); // Refresh list
     } catch (error) {
         console.error(error);
-        showToast("Lỗi gửi câu trả lời!", 4000, "error");
+        notyf.error("Lỗi gửi câu trả lời!");
     }
 }
 // Tự động giãn textarea trả lời
@@ -370,25 +382,25 @@ textarea.addEventListener("blur", () => {
         answerBar.classList.remove("fullscreen-answer");
     }, 200);
 });
-// Hàm showToast để hiển thị thông báo
-function showToast(message, time = 3500, type = "warning") {
-    const toast = document.getElementById("toast");
-    toast.innerText = message;
-    // Thay đổi màu sắc của toast tùy theo loại (warning, success, error)
-    if (type === "success") {
-        toast.style.backgroundColor = "#10b981"; // Màu xanh cho thành công
-    } else if (type === "error") {
-        toast.style.backgroundColor = "#ef4444"; // Màu đỏ cho lỗi
-    } else {
-        toast.style.backgroundColor = "#f59e0b"; // Màu vàng cho cảnh báo
-    }
-    toast.classList.remove("hidden");
-    toast.classList.add("opacity-100");
-    setTimeout(() => {
-        toast.classList.add("hidden");
-        toast.classList.remove("opacity-100");
-    }, time);
-}
+//// Hàm showToast để hiển thị thông báo
+//function showToast(message, time = 3500, type = "warning") {
+//    const toast = document.getElementById("toast");
+//    toast.innerText = message;
+//    // Thay đổi màu sắc của toast tùy theo loại (warning, success, error)
+//    if (type === "success") {
+//        toast.style.backgroundColor = "#10b981"; // Màu xanh cho thành công
+//    } else if (type === "error") {
+//        toast.style.backgroundColor = "#ef4444"; // Màu đỏ cho lỗi
+//    } else {
+//        toast.style.backgroundColor = "#f59e0b"; // Màu vàng cho cảnh báo
+//    }
+//    toast.classList.remove("hidden");
+//    toast.classList.add("opacity-100");
+//    setTimeout(() => {
+//        toast.classList.add("hidden");
+//        toast.classList.remove("opacity-100");
+//    }, time);
+//}
 document.getElementById(
     "discussionLink"
 ).href = `topic-detail.html?class_id=${encodeURIComponent(
