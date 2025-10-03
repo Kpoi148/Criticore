@@ -130,7 +130,7 @@ async function rateAnswer(rating, index = null) {
     if (!answer) return;
 
     // Lấy token từ localStorage
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('authToken'); 
     if (!token) {
         notyf.error("Vui lòng đăng nhập trước!");
         return;
@@ -318,7 +318,7 @@ async function sendAnswer() {
     const content = ta.value.trim();
     if (!content) return notyf.error("Nhập nội dung trả lời");
     // Lấy token từ localStorage
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('authToken'); 
     if (!token) {
         notyf.error("Vui lòng đăng nhập trước!");
         return;
@@ -421,3 +421,66 @@ document.getElementById("infoDiscussions").innerText = (
     cls.topics || []
 ).length;
 document.getElementById("submitAnswer").addEventListener("click", sendAnswer);
+
+// Thêm script SignalR nếu chưa có (trong HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>)
+
+// Kết nối SignalR
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("https://localhost:7134/topicHub")  // URL API của TopicDetail (thay bằng production URL)
+    .withAutomaticReconnect()  // Tự reconnect
+    .build();
+
+connection.start()
+    .then(() => console.log("Kết nối SignalR thành công!"))
+    .catch(err => console.error("Lỗi kết nối SignalR:", err));
+
+// Listen events từ server
+connection.on("NewAnswer", (newAnswer) => {
+    // Append answer mới vào list mà không reload
+    topic.answers.push(newAnswer);
+    renderAnswers(topic.answers);
+    updateReplyCount(topic.answers.length);
+    notyf.success("Có câu trả lời mới!");
+});
+
+connection.on("UpdatedAnswer", (updatedData) => {
+    // Tìm và update answer trong list
+    const index = topic.answers.findIndex(a => a.answerId === updatedData.AnswerId);
+    if (index !== -1) {
+        topic.answers[index].content = updatedData.UpdatedContent;  // Update field cần
+        renderAnswers(topic.answers);
+        if (currentAnswerIndex === index) {
+            document.getElementById("answerText").innerText = updatedData.UpdatedContent;  // Update modal nếu mở
+        }
+        notyf.success("Câu trả lời đã được cập nhật!");
+    }
+});
+
+connection.on("DeletedAnswer", (deletedId) => {
+    // Xóa answer khỏi list
+    topic.answers = topic.answers.filter(a => a.answerId !== deletedId);
+    renderAnswers(topic.answers);
+    updateReplyCount(topic.answers.length);
+    if (currentAnswerIndex !== null && topic.answers[currentAnswerIndex]?.answerId === deletedId) {
+        closeAnswerDetail();  // Đóng modal nếu đang xem answer bị xóa
+    }
+    notyf.warning("Câu trả lời đã bị xóa!");
+});
+
+connection.on("UpdatedVote", (updatedVoteData) => {
+    // Update rating cho answer (giả sử server gửi average rating mới)
+    const index = topic.answers.findIndex(a => a.answerId === updatedVoteData.AnswerId);
+    if (index !== -1) {
+        // Giả sử bạn tính average rating từ votes (cập nhật topic.answers[index].rating nếu cần)
+        renderAnswers(topic.answers);  // Re-render để update stars
+        if (currentAnswerIndex === index) {
+            renderStars(updatedVoteData.UpdatedVote.amount);  // Update modal
+        }
+        notyf.success("Đánh giá đã được cập nhật!");
+    }
+});
+
+connection.on("DeletedVote", (deletedId) => {
+    // Tương tự, update rating nếu cần
+    fetchAndRenderAnswers();  // Re-fetch đơn giản để update
+});

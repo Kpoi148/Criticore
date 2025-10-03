@@ -1,10 +1,11 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using TopicDetail.Infrastructure.Models;
-using TopicDetail.Domain.Repositories;
-using TopicDetail.Infrastructure.Repositories;
-using TopicDetail.Application.Services;
+using TopicDetail.Api.Hubs;
 using TopicDetail.Application.Profiles;
+using TopicDetail.Application.Services;
+using TopicDetail.Domain.Repositories;
+using TopicDetail.Infrastructure.Models;
+using TopicDetail.Infrastructure.Repositories;
 
 namespace TopicDetail.Api
 {
@@ -19,13 +20,16 @@ namespace TopicDetail.Api
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+            // Thêm dịch vụ SignalR
+            builder.Services.AddSignalR();
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend",
                     policy => policy.WithOrigins("https://localhost:7186")
                                     .AllowAnyMethod()
-                                    .AllowAnyHeader());
+                                    .AllowAnyHeader()
+                                    .AllowCredentials());
             });
             builder.Services.AddAutoMapper(typeof(TopicDetailMapping).Assembly);
             // Đăng ký DbContext
@@ -48,7 +52,8 @@ namespace TopicDetail.Api
             app.UseCors("AllowFrontend");
             app.UseAuthorization();
 
-
+            // Map endpoint cho Hub
+            app.MapHub<TopicHub>("/topicHub");  // Endpoint: ws://localhost:port/topicHub
             app.MapControllers();
 
             app.Run();
