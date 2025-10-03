@@ -48,11 +48,23 @@ namespace Front_end.Services
             return await _http.GetFromJsonAsync<List<ClassMemberDto>>($"api/classes/{classId}/teachers")
                    ?? new List<ClassMemberDto>();
         }
+        // phân công giáo viên cho lớp học
         public async Task<bool> AssignTeacherAsync(int classId, int teacherId)
         {
             var res = await _http.PutAsync($"api/classes/{classId}/assign-teacher/{teacherId}", null);
             return res.IsSuccessStatusCode;
         }
+        // nhập mã vào lớp học
+        public async Task<ClassDto?> JoinByCodeAsync(string code, int userId)
+        {
+            var res = await _http.PostAsJsonAsync("api/classes/join-by-code", new
+            {
+                joinCode = code,
+                userId = userId
+            });
 
+            if (!res.IsSuccessStatusCode) return null;
+            return await res.Content.ReadFromJsonAsync<ClassDto>();
+        }
     }
 }

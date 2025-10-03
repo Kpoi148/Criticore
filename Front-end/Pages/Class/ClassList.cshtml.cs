@@ -20,7 +20,8 @@ namespace Front_end.Pages.Class
         public List<ClassSummaryDto> Classes { get; set; } = new();
         public List<User> Students { get; set; } = new();
         public string? CurrentUserId { get; set; }
-
+        [BindProperty]
+        public string JoinCode { get; set; } = string.Empty;
         public async Task<IActionResult> OnGetAsync()
         {
             // Lấy userId từ claims
@@ -45,6 +46,43 @@ namespace Front_end.Pages.Class
             //};
 
             return Page();
+        }
+        public async Task<IActionResult> OnPostJoinAsync()
+        {
+            if (string.IsNullOrWhiteSpace(JoinCode))
+            {
+                ModelState.AddModelError("", "Class code cannot be empty.");
+
+                // Load lại danh sách lớp
+                var userIdStr = User.FindFirst("UserId")?.Value;
+                if (!string.IsNullOrEmpty(userIdStr))
+                {
+                    int userId = int.Parse(userIdStr);
+                    Classes = await _service.GetClassesByUserAsync(userId);
+                }
+
+                return Page();
+            }
+
+            // Lấy userId từ claims
+            var userIdStr2 = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userIdStr2)) return RedirectToPage("/Signin");
+            int userId2 = int.Parse(userIdStr2);
+
+            // Gọi service join
+            var cls = await _service.JoinByCodeAsync(JoinCode, userId2);
+            if (cls == null)
+            {
+                ModelState.AddModelError("", "Invalid or expired class code.");
+
+                // Load lại danh sách lớp
+                Classes = await _service.GetClassesByUserAsync(userId2);
+
+                return Page();
+            }
+
+            // Redirect sang chi tiết lớp
+            return RedirectToPage("/Class/ClassDetail", new { id = cls.ClassId });
         }
     }
     

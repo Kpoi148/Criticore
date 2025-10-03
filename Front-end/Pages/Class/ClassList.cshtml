@@ -47,6 +47,10 @@
                     @* <button onclick="openCreateClassModal()" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition"> *@
                     @*     + Create Class *@
                     @* </button> *@
+                    <button onclick="openJoinClassModal()"
+                            class="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700 transition">
+                        + Join by Code
+                    </button>
                 </div>
 
                 <p class="text-gray-600 mb-6">
@@ -104,6 +108,23 @@
     @*         </div> *@
     @*     </div> *@
     @* </div> *@
+    <!-- Modal nhập mã vào lớp học -->
+    <div id="joinClassModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <h2 class="text-lg font-semibold mb-4">Join a Class by Code</h2>
+            <form method="post" asp-page-handler="Join">
+                <input asp-for="JoinCode" placeholder="Enter class code"
+                       class="w-full border px-3 py-2 mb-3 rounded-md" />
+                <span asp-validation-for="JoinCode" class="text-red-500"></span>
+
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeJoinClassModal()" class="px-4 py-2 bg-gray-300 rounded-md">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md">Join</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <script>
                 // Lưu token từ URL ngay khi load trang
@@ -203,7 +224,7 @@
         });
 
         renderClasses();
-
+        // Đóng mở modal
         // function openCreateClassModal() {
         //     document.getElementById("createClassModal").classList.remove("hidden");
         //     document.getElementById("createClassModal").classList.add("flex");
@@ -212,7 +233,16 @@
         // function closeCreateClassModal() {
         //     document.getElementById("createClassModal").classList.add("hidden");
         // }
+        // Đóng mở modal
+        function openJoinClassModal() {
+            document.getElementById("joinClassModal").classList.remove("hidden");
+            document.getElementById("joinClassModal").classList.add("flex");
+        }
 
+        function closeJoinClassModal() {
+            document.getElementById("joinClassModal").classList.add("hidden");
+            document.getElementById("joinClassModal").classList.remove("flex");
+        }
                          async function logout() {
             // Gọi API logout để backend xoá cookie
             await fetch('/api/logout', { method: 'POST' });

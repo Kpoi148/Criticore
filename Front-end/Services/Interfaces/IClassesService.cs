@@ -12,5 +12,6 @@ namespace Front_end.Services.Interfaces
         Task<List<ClassSummaryDto>> GetClassesByUserAsync(int userId);
         Task<List<ClassMemberDto>> GetTeachersByClassAsync(int classId);
         Task<bool> AssignTeacherAsync(int classId, int teacherId);
+        Task<ClassDto?> JoinByCodeAsync(string code, int userId);
     }
 }
