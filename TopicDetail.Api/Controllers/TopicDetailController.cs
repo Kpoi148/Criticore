@@ -88,17 +88,27 @@ namespace TopicDetail.Api.Controllers
                     VoteType = dto.VoteType,
                     Amount = dto.Amount
                 };
+
                 await _service.UpdateVoteAsync(existingVote.VoteId, updateDto);
-                return Ok(await _service.GetVoteByIdAsync(existingVote.VoteId));
+                var updated = await _service.GetVoteByIdAsync(existingVote.VoteId);
+
+                // 🔔 Push real-time: Gửi event "UpdatedVote"
+                await _hubContext.Clients.All.SendAsync("UpdatedVote", updated);
+
+                return Ok(updated);
             }
             else
             {
                 // Create new vote
                 var created = await _service.CreateVoteAsync(dto);
+
+                // 🔔 Push real-time: Gửi event "CreatedVote"
+                await _hubContext.Clients.All.SendAsync("CreatedVote", created);
+
                 return CreatedAtAction(nameof(GetVoteById), new { id = created.VoteId }, created);
             }
-
         }
+
         [HttpPut("votes/{id}")]
         public async Task<IActionResult> UpdateVote(int id, [FromBody] UpdateVoteDto dto)
         {

@@ -129,7 +129,7 @@ async function rateAnswer(rating, index = null) {
     }
     if (!answer) return;
 
-    // Lấy token từ localStorage
+    // Lấy token từ sessionStorage
     const token = sessionStorage.getItem('authToken'); 
     if (!token) {
         notyf.error("Vui lòng đăng nhập trước!");
@@ -467,20 +467,36 @@ connection.on("DeletedAnswer", (deletedId) => {
     notyf.warning("Câu trả lời đã bị xóa!");
 });
 
-connection.on("UpdatedVote", (updatedVoteData) => {
-    // Update rating cho answer (giả sử server gửi average rating mới)
-    const index = topic.answers.findIndex(a => a.answerId === updatedVoteData.AnswerId);
+// Lắng nghe vote mới được tạo
+connection.on("CreatedVote", (newVote) => {
+    // Tìm answer có id tương ứng
+    const index = topic.answers.findIndex(a => a.answerId === newVote.answerId);
     if (index !== -1) {
-        // Giả sử bạn tính average rating từ votes (cập nhật topic.answers[index].rating nếu cần)
-        renderAnswers(topic.answers);  // Re-render để update stars
-        if (currentAnswerIndex === index) {
-            renderStars(updatedVoteData.UpdatedVote.amount);  // Update modal
-        }
-        notyf.success("Đánh giá đã được cập nhật!");
+        // Cập nhật dữ liệu vote cho answer
+        // (tùy bạn lưu votes ở đâu, ví dụ: topic.answers[index].votes.push(newVote))
+        fetchAndRenderAnswers(); // hoặc render lại nhanh nếu cần
+        notyf.success("Có lượt đánh giá mới!");
     }
 });
 
+// Lắng nghe vote được cập nhật
+connection.on("UpdatedVote", (updatedVote) => {
+    const index = topic.answers.findIndex(a => a.answerId === updatedVote.answerId);
+    if (index !== -1) {
+        // Cập nhật lại dữ liệu vote
+        // (tùy theo structure, có thể update topic.answers[index].votes)
+        renderAnswers(topic.answers);
+        if (currentAnswerIndex === index) {
+            renderStars(updatedVote.amount); // Cập nhật UI chi tiết
+        }
+        notyf.success("Lượt đánh giá đã được cập nhật!");
+    }
+});
+
+
+// Lắng nghe vote bị xóa
 connection.on("DeletedVote", (deletedId) => {
-    // Tương tự, update rating nếu cần
-    fetchAndRenderAnswers();  // Re-fetch đơn giản để update
+    // Có thể re-fetch hoặc tự trừ số vote nếu bạn đang giữ cache
+    fetchAndRenderAnswers();
+    notyf.warning("Một lượt đánh giá đã bị xóa!");
 });
