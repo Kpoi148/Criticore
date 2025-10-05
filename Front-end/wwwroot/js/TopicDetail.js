@@ -483,12 +483,16 @@ connection.on("CreatedVote", (newVote) => {
 connection.on("UpdatedVote", (updatedVote) => {
     const index = topic.answers.findIndex(a => a.answerId === updatedVote.answerId);
     if (index !== -1) {
-        // Cập nhật lại dữ liệu vote
-        // (tùy theo structure, có thể update topic.answers[index].votes)
-        renderAnswers(topic.answers);
-        if (currentAnswerIndex === index) {
-            renderStars(updatedVote.amount); // Cập nhật UI chi tiết
+        topic.answers[index].rating = updatedVote.newAverage; // Giả sử server gửi newAverage
+        topic.answers[index].voteCount = updatedVote.newVoteCount;
+        // Update DOM trực tiếp mà không render toàn bộ
+        const answerElement = document.querySelectorAll("#answersList > div")[index];
+        if (answerElement) {
+            const likeCount = answerElement.querySelector("#likeCount");
+            // Re-render chỉ phần stars và count trong likeCount (sử dụng hàm renderStars nhỏ)
+            likeCount.innerHTML = /* HTML stars mới với average */ ;
         }
+        if (currentAnswerIndex === index) renderStars(updatedVote.newAverage);
         notyf.success("Lượt đánh giá đã được cập nhật!");
     }
 });
