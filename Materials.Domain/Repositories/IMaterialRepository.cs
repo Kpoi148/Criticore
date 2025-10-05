@@ -12,5 +12,6 @@ namespace Material.Domain.Repositories
         Task<IEnumerable<Domain.Entities.Material>> GetByClassIdAsync(int classId);
         Task<IEnumerable<Domain.Entities.Material>> GetAllAsync();
         Task DeleteAsync(int id);
+        Task<IEnumerable<Domain.Entities.Material>> GetByHomeworkIdAsync(int homeworkId);
     }
 }

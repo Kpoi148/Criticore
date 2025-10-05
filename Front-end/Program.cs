@@ -35,6 +35,7 @@ namespace Front_end
             {
                 client.BaseAddress = new Uri("https://localhost:7281/");
             });
+            builder.Services.AddHttpClient<IHomeworkService, HomeworkService>();
             // Config JWT
             var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? "your-super-secret-key-that-is-at-least-32-chars-long-abc123");
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

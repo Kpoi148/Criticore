@@ -1,0 +1,160 @@
+﻿@page
+@model Front_end.Pages.Class.HomeworkListModel
+@{
+    Layout = null;
+}@if (TempData["Success"] != null)
+{
+    <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">@TempData["Error"]</div>
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Homework Assignments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="~/images/Logo-Criticore.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        <div class="flex gap-6">
+            <!-- Main -->
+            <main class="flex-1">
+                <a asp-page="/Class/ClassDetail" asp-route-id="@Model.CurrentClass.ClassId"
+                   class="text-blue-600 text-sm">
+                    &larr; Back to Class
+                </a>
+                <h1 class="text-2xl font-bold mb-6">Homework Assignments</h1>
+
+                <!-- Homework list -->
+                <div id="homeworkList" class="flex flex-col gap-6">
+                    @if (Model.Homeworks != null && Model.Homeworks.Any())
+                    {
+                        foreach (var hw in Model.Homeworks)
+                        {
+                            <div class="bg-white rounded-lg shadow-sm border p-6">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h2 class="text-xl font-semibold">@hw.Title</h2>
+                                        <p class="text-gray-600 mt-1">@hw.Description</p>
+                                        <p class="text-sm text-gray-500 mt-2">
+                                            Due: @(hw.DueDate?.ToString("g") ?? "No due date")
+                                        </p>
+                                    </div>
+                                    @* <div class="text-sm bg-gray-100 px-3 py-1 rounded-full"> *@
+                                    @*     @((hw.Submissions?.Count ?? 0)) submitted *@
+                                    @* </div> *@
+                                </div>
+
+                                <div class="mt-4">
+                                    <p class="text-sm text-gray-600 italic">Submissions will appear here...</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="bg-white rounded-lg p-6 shadow-sm border text-gray-500">
+                            No homeworks available.
+                        </div>
+                    }
+                </div>
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="w-72 flex-shrink-0">
+                <div class="bg-white rounded-lg p-4 shadow-sm border mb-4">
+                    <h2 class="font-semibold text-lg mb-3">Quick Actions</h2>
+                    <div class="flex flex-col gap-2">
+                        <a asp-page="/Class/TopicDetail"
+                           asp-route-class_id="@Model.CurrentClass.ClassId"
+                           asp-route-topic_id="@Model.CurrentTopic.TopicId"
+                           class="flex items-center gap-3 rounded-lg px-3 py-2 border hover:bg-gray-50 text-sm">
+                            <span>💬</span><span>Discussion</span>
+                        </a>
+                        <a href="#"
+                           class="flex items-center gap-3 rounded-lg px-3 py-2 bg-black text-white text-sm">
+                            <span>📚</span><span>Homework</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <a href="#"
+                       id="openCreateHomework"
+                       class="flex items-center justify-center gap-2 px-3 py-2 border border-blue-500 text-blue-600 hover:bg-blue-50 text-sm rounded-lg font-medium">
+                        <span>➕</span><span>Create Homework</span>
+                    </a>
+                </div>
+
+                @* <div class="bg-white rounded-lg p-4 shadow-sm border"> *@
+                @*     <h2 class="font-semibold text-lg mb-3">Class Information</h2> *@
+                @*     <div class="flex justify-between text-sm py-1"> *@
+                @*         <span>Students:</span><span id="infoStudents" class="font-medium">@Model.StudentCount</span> *@
+                @*     </div> *@
+                @*     <div class="flex justify-between text-sm py-1"> *@
+                @*         <span>Assignments:</span><span id="infoAssignments" class="font-medium">@Model.Homeworks.Count</span> *@
+                @*     </div> *@
+                @*     <div class="flex justify-between text-sm py-1"> *@
+                @*         <span>Discussions:</span><span id="infoDiscussions" class="font-medium">@Model.DiscussionCount</span> *@
+                @*     </div> *@
+                @* </div> *@
+            </aside>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast"
+         class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white px-5 py-2 rounded-lg shadow-lg hidden z-50">
+    </div>
+
+    <!-- Modal Create Homework -->
+    <div id="createHomeworkModal"
+         class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
+            <button type="button" id="closeCreateHomework"
+                    class="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-2xl">
+                &times;
+            </button>
+
+            <h2 class="text-xl font-bold mb-4">Create Homework</h2>
+
+            <form method="post" asp-page-handler="Create">
+                <input type="hidden" name="TopicID" value="@Model.CurrentTopic.TopicId" />
+                <input type="hidden" name="ClassID" value="@Model.CurrentClass.ClassId" />
+                <label class="block text-sm font-medium">Title</label>
+                <input name="Title" type="text" class="w-full border rounded-lg px-3 py-2 mb-3"
+                       placeholder="Homework title" required />
+
+                <label class="block text-sm font-medium">Description</label>
+                <textarea name="Description" rows="3" class="w-full border rounded-lg px-3 py-2 mb-3"
+                          placeholder="Homework description"></textarea>
+
+                <label class="block text-sm font-medium">Due Date</label>
+                <input name="DueDate" type="datetime-local" class="w-full border rounded-lg px-3 py-2 mb-3" />
+
+                <div class="flex justify-end gap-3">
+                    <button type="button" id="cancelCreateHomework" class="px-4 py-2 border rounded-lg">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+    <script>
+        window.CurrentClass = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentClass));
+        window.CurrentTopic = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentTopic));
+        window.Homeworks = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Homeworks));
+    </script>
+    <script src="~/js/homework-list.js"></script>
+</body>
+</html>

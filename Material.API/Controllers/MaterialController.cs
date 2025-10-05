@@ -20,7 +20,7 @@ namespace Material.API.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> Upload([FromForm] MaterialUploadDto dto)
         {
-            await _service.UploadAndSaveAsync(dto.File, dto.ClassId, dto.UploadedBy);
+            await _service.UploadAndSaveAsync(dto.File, dto.ClassId, dto.UploadedBy, dto.HomeworkId);
             return Ok(new { message = "Tải lên tài liệu thành công" });
         }
 
@@ -39,6 +39,13 @@ namespace Material.API.Controllers
             var material = await _service.GetByIdAsync(id);
             if (material == null) return NotFound();
             return Ok(material);
+        }
+        // Lấy danh sách tài liệu theo homework
+        [HttpGet("homework/{homeworkId}")]
+        public async Task<IActionResult> GetByHomework(int homeworkId)
+        {
+            var list = await _service.GetByHomeworkIdAsync(homeworkId);
+            return Ok(list);
         }
 
         // Xóa tài liệu

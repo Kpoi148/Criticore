@@ -20,8 +20,5 @@ public partial class Material
     public long FileSize { get; set; }
 
     public DateTime? CreatedAt { get; set; }
-
-    public virtual Class Class { get; set; } = null!;
-
-    public virtual User UploadedByNavigation { get; set; } = null!;
+    public int? HomeworkId { get; set; }
 }
