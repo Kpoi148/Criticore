@@ -20,7 +20,8 @@ namespace Material.Application.Services
         }
 
         // Upload file lên Cloudinary + lưu metadata vào DB
-        public async Task UploadAndSaveAsync(IFormFile file, int classId, int uploadedBy)
+        public async Task UploadAndSaveAsync(IFormFile file, int classId, int uploadedBy,
+            int? homeworkId = null)
         {
             if (file == null || file.Length == 0)
                 throw new ArgumentException("File không hợp lệ.", nameof(file));
@@ -40,9 +41,13 @@ namespace Material.Application.Services
                 FileUrl = url,
                 FileType = extension,
                 FileSize = file.Length,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
             };
-
+            // Nếu có homeworkId hợp lệ thì thêm vào
+            if (homeworkId.HasValue && homeworkId.Value != 0)
+            {
+                material.HomeworkId = homeworkId.Value;
+            }
             // Lưu vào DB qua repository
             await _materialRepo.AddAsync(material);
         }
@@ -62,7 +67,8 @@ namespace Material.Application.Services
                 FileUrl = material.FileUrl,
                 FileType = material.FileType,
                 FileSize = material.FileSize,
-                CreatedAt = material.CreatedAt
+                CreatedAt = material.CreatedAt,
+                HomeworkId = material.HomeworkId
             };
         }
 
@@ -79,7 +85,8 @@ namespace Material.Application.Services
                 FileUrl = m.FileUrl,
                 FileType = m.FileType,
                 FileSize = m.FileSize,
-                CreatedAt = m.CreatedAt
+                CreatedAt = m.CreatedAt,
+                HomeworkId = m.HomeworkId
             });
         }
         public async Task<IEnumerable<Material.Domain.DTOs.MaterialDto>> GetAllAsync()
@@ -95,7 +102,25 @@ namespace Material.Application.Services
                 FileUrl = m.FileUrl,
                 FileType = m.FileType,
                 FileSize = m.FileSize,
-                CreatedAt = m.CreatedAt
+                CreatedAt = m.CreatedAt,
+                HomeworkId = m.HomeworkId
+            });
+        }
+        public async Task<IEnumerable<Material.Domain.DTOs.MaterialDto>> GetByHomeworkIdAsync(int homeworkId)
+        {
+            var materials = await _materialRepo.GetByHomeworkIdAsync(homeworkId);
+
+            return materials.Select(m => new Material.Domain.DTOs.MaterialDto
+            {
+                MaterialId = m.MaterialId,
+                ClassId = m.ClassId,
+                UploadedBy = m.UploadedBy,
+                FileName = m.FileName,
+                FileUrl = m.FileUrl,
+                FileType = m.FileType,
+                FileSize = m.FileSize,
+                CreatedAt = m.CreatedAt,
+                HomeworkId = m.HomeworkId
             });
         }
 

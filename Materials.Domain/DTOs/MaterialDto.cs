@@ -16,5 +16,6 @@ namespace Material.Domain.DTOs
         public string FileType { get; set; } = "";
         public long FileSize { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public int? HomeworkId { get; set; }
     }
 }

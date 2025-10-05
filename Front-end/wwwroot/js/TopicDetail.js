@@ -406,11 +406,9 @@ document.getElementById(
 ).href = `topic-detail.html?class_id=${encodeURIComponent(
     classId
 )}&topic_id=${encodeURIComponent(topicId)}`;
-document.getElementById(
-    "thisHomeworkLink"
-).href = `homework-list.html?class_id=${encodeURIComponent(
-    classId
-)}&topic_id=${encodeURIComponent(topicId)}`;
+document.getElementById("thisHomeworkLink").href =
+    `/Class/HomeworkList?class_id=${encodeURIComponent(classId)}&topic_id=${encodeURIComponent(topicId)}`;
+
 document.getElementById("infoStudents").innerText = (
     cls.memberList || []
 ).length;

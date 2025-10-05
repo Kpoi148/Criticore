@@ -15,5 +15,6 @@ namespace Material.Domain.DTOs
 
         [FromForm]
         public IFormFile File { get; set; } = default!;
+        public int? HomeworkId { get; set; }   // nếu là file của homework
     }
 }

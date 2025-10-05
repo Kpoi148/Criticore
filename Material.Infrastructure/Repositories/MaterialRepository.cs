@@ -45,6 +45,13 @@ namespace Material.Infrastructure.Repositories
                                  .OrderByDescending(m => m.CreatedAt)
                                  .ToListAsync();
         }
+        public async Task<IEnumerable<Domain.Entities.Material>> GetByHomeworkIdAsync(int homeworkId)
+        {
+            return await _context.Materials
+                                 .Where(m => m.HomeworkId == homeworkId)
+                                 .OrderByDescending(m => m.CreatedAt)
+                                 .ToListAsync();
+        }
 
         public async Task DeleteAsync(int id)
         {
