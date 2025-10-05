@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\Payment.Api.csproj": {}
+    "E:\\C#\\Criticore\\Payment.Api\\Payment.Api.csproj": {}
   },
   "projects": {
-    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\Payment.Api.csproj": {
+    "E:\\C#\\Criticore\\Payment.Api\\Payment.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\Payment.Api.csproj",
+        "projectUniqueName": "E:\\C#\\Criticore\\Payment.Api\\Payment.Api.csproj",
         "projectName": "Payment.Api",
-        "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\Payment.Api.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\obj\\",
+        "projectPath": "E:\\C#\\Criticore\\Payment.Api\\Payment.Api.csproj",
+        "packagesPath": "C:\\Users\\luuch\\.nuget\\packages\\",
+        "outputPath": "E:\\C#\\Criticore\\Payment.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\luuch\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -75,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

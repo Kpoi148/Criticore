@@ -4,16 +4,15 @@ const params = new URLSearchParams(window.location.search);
 const classId = params.get("class_id");
 const topicId = params.get("topic_id");
 let currentAnswerIndex = null;
-
 const notyf = new Notyf({
     duration: 4000, // Thời gian hiển thị (ms)
-    ripple: true,   // Effect ripple hiện đại
+    ripple: true, // Effect ripple hiện đại
     position: { x: 'right', y: 'top' }, // Vị trí top-right
     dismissible: true, // Cho phép click để đóng
     types: [
         { type: 'success', background: '#10b981', icon: false }, // Màu xanh Tailwind green-500
-        { type: 'error', background: '#ef4444', icon: false },   // Màu đỏ Tailwind red-500
-        { type: 'warning', background: '#f59e0b', icon: false }  // Màu vàng Tailwind yellow-500
+        { type: 'error', background: '#ef4444', icon: false }, // Màu đỏ Tailwind red-500
+        { type: 'warning', background: '#f59e0b', icon: false } // Màu vàng Tailwind yellow-500
     ]
 });
 // Tên đánh giá tương ứng với mỗi sao
@@ -69,7 +68,7 @@ async function fetchAndRenderAnswers() {
 function updateReplyCount(count) {
     document.getElementById("replyCount").innerText = count;
 }
-// Render answers với sao
+// Render answers với sao (cập nhật để hỗ trợ fractional rating và voteCount)
 function renderAnswers(answers) {
     const box = document.getElementById("answersList");
     if (!answers || !answers.length) {
@@ -82,6 +81,17 @@ function renderAnswers(answers) {
             let avatarHtml = (a.avatarUrl && typeof a.avatarUrl === 'string' && a.avatarUrl.startsWith("<span"))
                 ? a.avatarUrl
                 : (a.avatarUrl ? `<img src="${a.avatarUrl}" alt="avatar" class="w-9 h-9 rounded-full object-cover"/>` : '<span class="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-white">?</span>'); // Fallback avatar mặc định
+
+            const rating = a.rating || 0;
+            const fullStars = Math.floor(rating);
+            const hasHalf = rating % 1 >= 0.5;
+            const starsHtml = [1, 2, 3, 4, 5].map(star => {
+                let className = 'star';
+                if (star <= fullStars) className += ' selected';
+                else if (star === fullStars + 1 && hasHalf) className += ' half';
+                return `<span class="${className}" onclick="rateAnswer(${star}, ${index}); event.stopPropagation();" onmouseover="showRatingLabel(${star}, ${index})" onmouseout="hideRatingLabel(${index})">★</span>`;
+            }).join("");
+
             return `
       <div onclick="openAnswerDetail(${index})"
            class="bg-white p-4 rounded-xl shadow hover:shadow-xl transition border cursor-pointer transform hover:scale-[1.02]">
@@ -97,15 +107,8 @@ function renderAnswers(answers) {
         </div>
         <div class="mt-3 text-sm text-gray-500">
           <div id="likeCount">
-            ${[1, 2, 3, 4, 5]
-                    .map(
-                        (star) =>
-                            `<span class="star ${star <= (a.rating || 0) ? "selected" : ""
-                            }" onclick="rateAnswer(${star}, ${index}); event.stopPropagation();" onmouseover="showRatingLabel(${star}, ${index})" onmouseout="hideRatingLabel(${index})">
-              ★
-            </span>`
-                    )
-                    .join("")}
+            ${starsHtml}
+            <span class="text-gray-500 ml-2">(${a.voteCount || 0} đánh giá, trung bình ${rating.toFixed(1)})</span>
             <span id="ratingLabel${index}" class="text-gray-500 ml-2 hidden"></span>
           </div>
         </div>
@@ -128,9 +131,8 @@ async function rateAnswer(rating, index = null) {
         answer = topic.answers[currentAnswerIndex];
     }
     if (!answer) return;
-
     // Lấy token từ sessionStorage
-    const token = sessionStorage.getItem('authToken'); 
+    const token = sessionStorage.getItem('authToken');
     if (!token) {
         notyf.error("Vui lòng đăng nhập trước!");
         return;
@@ -139,14 +141,12 @@ async function rateAnswer(rating, index = null) {
     const payload = token.split('.')[1];
     const decodedPayload = JSON.parse(atob(payload));
     const userId = parseInt(decodedPayload.UserId);
-
     const voteDto = {
         answerId: answer.answerId,
         userId: userId,
         voteType: "Rating", // Giả sử VoteType là "Rating" cho đánh giá sao
         amount: rating
     };
-
     try {
         const response = await fetch(`https://localhost:7134/api/TopicDetail/votes`, {
             method: "POST",
@@ -158,11 +158,24 @@ async function rateAnswer(rating, index = null) {
         });
         if (!response.ok) throw new Error('Lỗi vote');
         notyf.success("Đánh giá đã được cập nhật!");
-        fetchAndRenderAnswers(); // Refresh để lấy rating mới (average từ votes)
-        if (index === currentAnswerIndex) renderStars(rating); // Cập nhật tạm modal
+
+        // Temp update: Giả sử rating mới (cho user thấy thay đổi ngay, SignalR sẽ override average thực)
+        topic.answers[index].rating = rating; // Placeholder (chỉ đúng nếu vote đầu, nhưng tốt cho UX)
+        updateAnswerStars(index); // Update list ngay
+        if (index === currentAnswerIndex) renderStars(rating); // Update modal
+
+        // Optional fallback nếu SignalR delay > 2s: Re-fetch single answer
+        setTimeout(async () => {
+            const resp = await fetch(`https://localhost:7134/api/TopicDetail/answers/${answer.answerId}`);
+            const updatedAnswer = await resp.json();
+            topic.answers[index].rating = updatedAnswer.rating;
+            topic.answers[index].voteCount = updatedAnswer.voteCount;
+            updateAnswerStars(index);
+            if (index === currentAnswerIndex) renderStars(updatedAnswer.rating);
+        }, 2000); // Fallback nếu SignalR không trigger
     } catch (error) {
         console.error(error);
-        notyf.success("Lỗi cập nhật đánh giá!");
+        notyf.error("Lỗi cập nhật đánh giá!");
     }
 }
 // Hàm gán hiệu ứng hover cho tất cả sao trên danh sách
@@ -188,26 +201,30 @@ function attachStarHoverHandlersToAll() {
         };
     });
 }
-// Hàm hiển thị các sao đã chọn
+// Hàm hiển thị các sao đã chọn (cập nhật để hỗ trợ fractional)
 function renderStars(rating = 0) {
     const stars = document.querySelectorAll("#answerModal #likeCount .star");
+    const fullStars = Math.floor(rating);
+    const hasHalf = rating % 1 >= 0.5;
     stars.forEach((star, index) => {
-        if (index < rating) {
+        star.classList.remove("selected", "half");
+        if (index < fullStars) {
             star.classList.add("selected");
-        } else {
-            star.classList.remove("selected");
+        } else if (index === fullStars && hasHalf) {
+            star.classList.add("half");
         }
         star.onmouseover = function () {
             stars.forEach((s, i) => {
+                s.classList.remove("selected", "half");
                 if (i <= index) s.classList.add("selected");
-                else s.classList.remove("selected");
             });
             showRatingLabel(index + 1, null);
         };
         star.onmouseout = function () {
             stars.forEach((s, i) => {
-                if (i < rating) s.classList.add("selected");
-                else s.classList.remove("selected");
+                s.classList.remove("selected", "half");
+                if (i < fullStars) s.classList.add("selected");
+                else if (i === fullStars && hasHalf) s.classList.add("half");
             });
             hideRatingLabel(null);
         };
@@ -318,7 +335,7 @@ async function sendAnswer() {
     const content = ta.value.trim();
     if (!content) return notyf.error("Nhập nội dung trả lời");
     // Lấy token từ localStorage
-    const token = sessionStorage.getItem('authToken'); 
+    const token = sessionStorage.getItem('authToken');
     if (!token) {
         notyf.error("Vui lòng đăng nhập trước!");
         return;
@@ -384,22 +401,22 @@ textarea.addEventListener("blur", () => {
 });
 //// Hàm showToast để hiển thị thông báo
 //function showToast(message, time = 3500, type = "warning") {
-//    const toast = document.getElementById("toast");
-//    toast.innerText = message;
-//    // Thay đổi màu sắc của toast tùy theo loại (warning, success, error)
-//    if (type === "success") {
-//        toast.style.backgroundColor = "#10b981"; // Màu xanh cho thành công
-//    } else if (type === "error") {
-//        toast.style.backgroundColor = "#ef4444"; // Màu đỏ cho lỗi
-//    } else {
-//        toast.style.backgroundColor = "#f59e0b"; // Màu vàng cho cảnh báo
-//    }
-//    toast.classList.remove("hidden");
-//    toast.classList.add("opacity-100");
-//    setTimeout(() => {
-//        toast.classList.add("hidden");
-//        toast.classList.remove("opacity-100");
-//    }, time);
+// const toast = document.getElementById("toast");
+// toast.innerText = message;
+// // Thay đổi màu sắc của toast tùy theo loại (warning, success, error)
+// if (type === "success") {
+// toast.style.backgroundColor = "#10b981"; // Màu xanh cho thành công
+// } else if (type === "error") {
+// toast.style.backgroundColor = "#ef4444"; // Màu đỏ cho lỗi
+// } else {
+// toast.style.backgroundColor = "#f59e0b"; // Màu vàng cho cảnh báo
+// }
+// toast.classList.remove("hidden");
+// toast.classList.add("opacity-100");
+// setTimeout(() => {
+// toast.classList.add("hidden");
+// toast.classList.remove("opacity-100");
+// }, time);
 //}
 document.getElementById(
     "discussionLink"
@@ -408,7 +425,6 @@ document.getElementById(
 )}&topic_id=${encodeURIComponent(topicId)}`;
 document.getElementById("thisHomeworkLink").href =
     `/Class/HomeworkList?class_id=${encodeURIComponent(classId)}&topic_id=${encodeURIComponent(topicId)}`;
-
 document.getElementById("infoStudents").innerText = (
     cls.memberList || []
 ).length;
@@ -419,19 +435,15 @@ document.getElementById("infoDiscussions").innerText = (
     cls.topics || []
 ).length;
 document.getElementById("submitAnswer").addEventListener("click", sendAnswer);
-
 // Thêm script SignalR nếu chưa có (trong HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>)
-
 // Kết nối SignalR
 const connection = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost:7134/topicHub")  // URL API của TopicDetail (thay bằng production URL)
-    .withAutomaticReconnect()  // Tự reconnect
+    .withUrl("https://localhost:7134/topicHub") // URL API của TopicDetail (thay bằng production URL)
+    .withAutomaticReconnect() // Tự reconnect
     .build();
-
 connection.start()
     .then(() => console.log("Kết nối SignalR thành công!"))
     .catch(err => console.error("Lỗi kết nối SignalR:", err));
-
 // Listen events từ server
 connection.on("NewAnswer", (newAnswer) => {
     // Append answer mới vào list mà không reload
@@ -440,65 +452,90 @@ connection.on("NewAnswer", (newAnswer) => {
     updateReplyCount(topic.answers.length);
     notyf.success("Có câu trả lời mới!");
 });
-
 connection.on("UpdatedAnswer", (updatedData) => {
     // Tìm và update answer trong list
     const index = topic.answers.findIndex(a => a.answerId === updatedData.AnswerId);
     if (index !== -1) {
-        topic.answers[index].content = updatedData.UpdatedContent;  // Update field cần
+        topic.answers[index].content = updatedData.UpdatedContent; // Update field cần
         renderAnswers(topic.answers);
         if (currentAnswerIndex === index) {
-            document.getElementById("answerText").innerText = updatedData.UpdatedContent;  // Update modal nếu mở
+            document.getElementById("answerText").innerText = updatedData.UpdatedContent; // Update modal nếu mở
         }
         notyf.success("Câu trả lời đã được cập nhật!");
     }
 });
-
 connection.on("DeletedAnswer", (deletedId) => {
     // Xóa answer khỏi list
     topic.answers = topic.answers.filter(a => a.answerId !== deletedId);
     renderAnswers(topic.answers);
     updateReplyCount(topic.answers.length);
     if (currentAnswerIndex !== null && topic.answers[currentAnswerIndex]?.answerId === deletedId) {
-        closeAnswerDetail();  // Đóng modal nếu đang xem answer bị xóa
+        closeAnswerDetail(); // Đóng modal nếu đang xem answer bị xóa
     }
     notyf.warning("Câu trả lời đã bị xóa!");
 });
-
-// Lắng nghe vote mới được tạo
-connection.on("CreatedVote", (newVote) => {
-    // Tìm answer có id tương ứng
-    const index = topic.answers.findIndex(a => a.answerId === newVote.answerId);
+// Update listeners SignalR với debug
+connection.on("CreatedVote", (data) => {
+    console.log("CreatedVote received:", data); // Debug
+    const index = topic.answers.findIndex(a => a.answerId === data.AnswerId);
     if (index !== -1) {
-        // Cập nhật dữ liệu vote cho answer
-        // (tùy bạn lưu votes ở đâu, ví dụ: topic.answers[index].votes.push(newVote))
-        fetchAndRenderAnswers(); // hoặc render lại nhanh nếu cần
+        topic.answers[index].rating = data.NewAverage;
+        topic.answers[index].voteCount = data.NewVoteCount;
+        updateAnswerStars(index);
         notyf.success("Có lượt đánh giá mới!");
     }
 });
 
-// Lắng nghe vote được cập nhật
-connection.on("UpdatedVote", (updatedVote) => {
-    const index = topic.answers.findIndex(a => a.answerId === updatedVote.answerId);
+connection.on("UpdatedVote", (data) => {
+    console.log("UpdatedVote received:", data); // Debug
+    const index = topic.answers.findIndex(a => a.answerId === data.AnswerId);
     if (index !== -1) {
-        topic.answers[index].rating = updatedVote.newAverage; // Giả sử server gửi newAverage
-        topic.answers[index].voteCount = updatedVote.newVoteCount;
-        // Update DOM trực tiếp mà không render toàn bộ
-        const answerElement = document.querySelectorAll("#answersList > div")[index];
-        if (answerElement) {
-            const likeCount = answerElement.querySelector("#likeCount");
-            // Re-render chỉ phần stars và count trong likeCount (sử dụng hàm renderStars nhỏ)
-            likeCount.innerHTML = /* HTML stars mới với average */ ;
+        topic.answers[index].rating = data.NewAverage;
+        topic.answers[index].voteCount = data.NewVoteCount;
+        updateAnswerStars(index);
+        if (currentAnswerIndex === index) {
+            renderStars(data.NewAverage);
         }
-        if (currentAnswerIndex === index) renderStars(updatedVote.newAverage);
         notyf.success("Lượt đánh giá đã được cập nhật!");
     }
 });
-
-
 // Lắng nghe vote bị xóa
-connection.on("DeletedVote", (deletedId) => {
-    // Có thể re-fetch hoặc tự trừ số vote nếu bạn đang giữ cache
-    fetchAndRenderAnswers();
-    notyf.warning("Một lượt đánh giá đã bị xóa!");
+connection.on("DeletedVote", (data) => {
+    const index = topic.answers.findIndex(a => a.answerId === data.AnswerId);
+    if (index !== -1) {
+        topic.answers[index].rating = data.NewAverage;
+        topic.answers[index].voteCount = data.NewVoteCount;
+        updateAnswerStars(index);
+        if (currentAnswerIndex === index) {
+            renderStars(data.NewAverage); // Update modal nếu đang mở
+        }
+        notyf.warning("Một lượt đánh giá đã bị xóa!");
+    }
 });
+
+// Hàm mới: Update chỉ phần stars của 1 answer cụ thể (selective DOM update)
+function updateAnswerStars(index) {
+    const answerElements = document.querySelectorAll("#answersList > div");
+    const answerElement = answerElements[index];
+    if (!answerElement) return;
+
+    const likeCount = answerElement.querySelector("#likeCount");
+    const rating = topic.answers[index].rating || 0;
+    const voteCount = topic.answers[index].voteCount || 0;
+
+    const fullStars = Math.floor(rating);
+    const hasHalf = rating % 1 >= 0.5;
+    const starsHtml = [1, 2, 3, 4, 5].map(star => {
+        let className = 'star';
+        if (star <= fullStars) className += ' selected';
+        else if (star === fullStars + 1 && hasHalf) className += ' half';
+        return `<span class="${className}" onclick="rateAnswer(${star}, ${index}); event.stopPropagation();" onmouseover="showRatingLabel(${star}, ${index})" onmouseout="hideRatingLabel(${index})">★</span>`;
+    }).join("");
+
+    likeCount.innerHTML = `
+        ${starsHtml}
+        <span class="text-gray-500 ml-2">(${voteCount} đánh giá, trung bình ${rating.toFixed(1)})</span>
+        <span id="ratingLabel${index}" class="text-gray-500 ml-2 hidden"></span>
+    `;
+    attachStarHoverHandlersToAll(); // Re-attach hover nếu cần
+}

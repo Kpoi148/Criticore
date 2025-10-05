@@ -55,31 +55,35 @@ namespace Front_end
                     {
                         OnMessageReceived = context =>
                         {
-                            var token = context.Request.Cookies["authToken"];  // Ưu tiên cookie
-                            if (!string.IsNullOrEmpty(token))
-                            {
-                                context.Token = token;
-                            }
-                            else if (context.Request.Query.ContainsKey("token"))
+                            var token = context.Request.Cookies["authToken"];
+
+                            // Nếu có token mới trong query → Xóa cũ, lưu lại mới
+                            if (context.Request.Query.ContainsKey("token"))
                             {
                                 token = context.Request.Query["token"].ToString();
-                                context.Token = token;
-                                // Lưu vào cookie để reload vẫn có
+                                // Xóa cookie cũ nếu có
+                                context.Response.Cookies.Delete("authToken");
+
+                                // Lưu lại cookie mới
                                 context.Response.Cookies.Append("authToken", token, new CookieOptions
                                 {
-                                    HttpOnly = true,  // Bảo mật, JS không đọc được
-                                    Secure = false,   // Dev: false; Prod: true
-                                    SameSite = SameSiteMode.Lax,                                  
+                                    HttpOnly = true,
+                                    Secure = false, // true nếu deploy HTTPS thật
+                                    SameSite = SameSiteMode.Lax,
+                                    Expires = DateTimeOffset.UtcNow.AddHours(1) // hạn token
                                 });
+
+                                context.Token = token;
                             }
+                            else if (!string.IsNullOrEmpty(token))
+                            {
+                                context.Token = token;
+                            }
+
                             return Task.CompletedTask;
                         },
-                        OnAuthenticationFailed = context =>
-                        {
-                            Console.WriteLine($"Auth fail: {context.Exception.Message}");  // Log debug
-                            return Task.CompletedTask;
-                        }
                     };
+
                 });
 
             var app = builder.Build();

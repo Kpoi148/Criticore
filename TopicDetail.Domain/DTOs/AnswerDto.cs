@@ -12,6 +12,7 @@ namespace TopicDetail.Application.DTOs
         public string? AvatarUrl { get; set; }
         public string? CreatedBy { get; set; } // Thêm trường này (từ User.FullName)
         public double Rating { get; set; } // Average rating từ Votes (thêm trường này)
+        public int VoteCount { get; set; }
     }
     public class CreateAnswerDto
     {
