@@ -15,7 +15,7 @@ namespace Front_end.Services
                    ?? new List<MaterialDto>();
         }
 
-        public async Task<bool> UploadAsync(IFormFile file, int classId, int uploadedBy)
+        public async Task<bool> UploadAsync(IFormFile file, int classId, int uploadedBy, int? homeworkId = null)
         {
             using var content = new MultipartFormDataContent();
             var streamContent = new StreamContent(file.OpenReadStream());
@@ -24,6 +24,8 @@ namespace Front_end.Services
             content.Add(streamContent, "file", file.FileName);
             content.Add(new StringContent(classId.ToString()), "classId");
             content.Add(new StringContent(uploadedBy.ToString()), "uploadedBy");
+            if (homeworkId.HasValue)
+                content.Add(new StringContent(homeworkId.Value.ToString()), "homeworkId");
 
             var res = await _http.PostAsync("api/Material/upload", content);
             return res.IsSuccessStatusCode;
@@ -34,5 +36,12 @@ namespace Front_end.Services
             var res = await _http.DeleteAsync($"api/Material/{materialId}");
             return res.IsSuccessStatusCode;
         }
+        public async Task<List<MaterialDto>> GetByHomeworkAsync(int homeworkId)
+        {
+            return await _http.GetFromJsonAsync<List<MaterialDto>>(
+                $"api/material/homework/{homeworkId}"
+            ) ?? new List<MaterialDto>();
+        }
+
     }
 }

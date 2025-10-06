@@ -48,6 +48,28 @@
                                             Due: @(hw.DueDate?.ToString("g") ?? "No due date")
                                         </p>
                                     </div>
+                                    @* hiển thị file đính kèm của bài tập *@
+                                    @if (Model.HomeworkFiles.ContainsKey(hw.HomeworkID) && Model.HomeworkFiles[hw.HomeworkID].Any())
+                                    {
+                                        <ul class="mt-3 list-disc list-inside text-sm text-blue-600">
+                                            @foreach (var file in Model.HomeworkFiles[hw.HomeworkID])
+                                            {
+                                                var sizeKB = file.FileSize / 1024.0;
+                                                var sizeText = sizeKB >= 1024
+                                                ? $"{sizeKB / 1024:F2} MB"
+                                                : $"{sizeKB:F1} KB";
+
+                                                <li class="flex items-center gap-2">
+                                                    <a href="@file.FileUrl" target="_blank" class="hover:underline flex items-center gap-1">
+                                                        📂 <span>@file.FileName</span>
+                                                    </a>
+                                                    <span class="text-gray-500 text-xs">(@sizeText)</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+
+
                                     @* <div class="text-sm bg-gray-100 px-3 py-1 rounded-full"> *@
                                     @*     @((hw.Submissions?.Count ?? 0)) submitted *@
                                     @* </div> *@
@@ -126,7 +148,7 @@
 
             <h2 class="text-xl font-bold mb-4">Create Homework</h2>
 
-            <form method="post" asp-page-handler="Create">
+            <form method="post" asp-page-handler="Create" enctype="multipart/form-data">
                 <input type="hidden" name="TopicID" value="@Model.CurrentTopic.TopicId" />
                 <input type="hidden" name="ClassID" value="@Model.CurrentClass.ClassId" />
                 <label class="block text-sm font-medium">Title</label>
@@ -139,6 +161,10 @@
 
                 <label class="block text-sm font-medium">Due Date</label>
                 <input name="DueDate" type="datetime-local" class="w-full border rounded-lg px-3 py-2 mb-3" />
+
+                <!-- phần chọn file -->
+                <label class="block text-sm font-medium">Attach Material (optional)</label>
+                <input type="file" name="File" class="w-full border rounded-lg px-3 py-2 mb-3" />
 
                 <div class="flex justify-end gap-3">
                     <button type="button" id="cancelCreateHomework" class="px-4 py-2 border rounded-lg">Cancel</button>

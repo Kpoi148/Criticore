@@ -43,6 +43,7 @@ namespace Homework.Application.Services
             var entity = _mapper.Map<Homework.Domain.Entities.HomeWork>(dto);
 
             // Gán các giá trị từ server/context
+            entity.Status = "Open";
             entity.CreatedBy = createdByUserId;
             entity.CreatedAt = DateTime.Now;
 

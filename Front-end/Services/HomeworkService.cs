@@ -14,20 +14,20 @@ namespace Front_end.Services
             _http.BaseAddress = new Uri("https://localhost:7154/"); // base URL của Homework API
         }
 
-        // ✅ Lấy danh sách homework theo TopicId (khớp với backend route)
+        // Lấy danh sách homework theo TopicId (khớp với backend route)
         public async Task<List<HomeworkDto>> GetByTopicAsync(int topicId)
         {
             return await _http.GetFromJsonAsync<List<HomeworkDto>>($"api/topics/{topicId}/homeworks")
                    ?? new List<HomeworkDto>();
         }
 
-        // ✅ Lấy chi tiết homework theo ID
+        // Lấy chi tiết homework theo ID
         public async Task<HomeworkDto?> GetByIdAsync(int id)
         {
             return await _http.GetFromJsonAsync<HomeworkDto>($"api/homeworks/{id}");
         }
 
-        // ✅ Tạo mới homework
+        // Tạo mới homework
         public async Task<HomeworkDto?> CreateAsync(HomeworkCreateDto dto)
         {
             var response = await _http.PostAsJsonAsync("api/homeworks", dto);
@@ -37,7 +37,7 @@ namespace Front_end.Services
             return await response.Content.ReadFromJsonAsync<HomeworkDto>();
         }
 
-        // ✅ Xóa homework
+        // Xóa homework
         public async Task<bool> DeleteAsync(int homeworkId)
         {
             var response = await _http.DeleteAsync($"api/homeworks/{homeworkId}");
