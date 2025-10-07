@@ -16,35 +16,39 @@ namespace ChatBot.Api
 
             // Add services to the container.
             builder.Services.AddControllers();
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
             builder.Services.AddHttpClient();
 
-            // Đăng ký OpenAiClient với Scoped (khớp constructor nhận IHttpClientFactory và IConfiguration)
+            // 🟢 Lấy API key từ biến môi trường thay vì appsettings.json
+            var openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+
+            if (string.IsNullOrEmpty(openAiApiKey))
+            {
+                Console.WriteLine("⚠️ WARNING: OPENAI_API_KEY environment variable is not set!");
+            }
+
+            // 🟢 Đăng ký HttpClient cho OpenAiClient
             builder.Services.AddHttpClient<IOpenAiClient, OpenAiClient>(client =>
             {
                 client.BaseAddress = new Uri("https://api.openai.com/v1/");
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {builder.Configuration["OpenAi:ApiKey"]}");
+                if (!string.IsNullOrEmpty(openAiApiKey))
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {openAiApiKey}");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
 
-
-            // Đăng ký HttpClient cho IAiRAGProxy (giữ nguyên)
+            // Các service khác
             builder.Services.AddScoped<IAiRAGProxy, AiRAGProxy>();
-
             builder.Services.AddScoped<IAiInteractionService, AiInteractionService>();
 
-            // Thêm CORS để tránh lỗi cross-origin
+            // CORS
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
                     policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
 
-            // Nếu dùng session (như trong controller), thêm đây
+            // Session
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
@@ -53,16 +57,11 @@ namespace ChatBot.Api
                 options.Cookie.IsEssential = true;
             });
 
-            // Thêm logging để debug (tùy chọn, nhưng hữu ích)
+            // Logging
             builder.Services.AddLogging();
-
-            // Nếu dùng auth (JWT hoặc Identity), thêm đây. Nếu không, xóa UseAuthorization() ở dưới
-            // builder.Services.AddAuthentication("Scheme").AddJwtBearer(options => { /* config */ });
-            // builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -70,14 +69,9 @@ namespace ChatBot.Api
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(); // CORS trước auth
-            app.UseSession(); // Nếu dùng session
-
-            // Nếu không dùng auth, xóa dòng này để tránh lỗi
-            // app.UseAuthorization();
-
-            app.MapControllers(); // Map API controllers
-
+            app.UseCors();
+            app.UseSession();
+            app.MapControllers();
             app.Run();
         }
     }
