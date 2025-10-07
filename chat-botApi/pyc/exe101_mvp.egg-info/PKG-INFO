@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: exe101-mvp
+Version: 0.1.0
+Summary: Educational platform with RAG integration
+Requires-Python: >=3.9
+Requires-Dist: fastapi
+Requires-Dist: uvicorn[standard]
+Requires-Dist: pypdf2
+Requires-Dist: python-multipart
+Requires-Dist: langchain-google-genai>=2.1.12
+Requires-Dist: langchain-cerebras>=0.5.0

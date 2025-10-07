@@ -4,6 +4,7 @@ const params = new URLSearchParams(window.location.search);
 const classId = params.get("class_id");
 const topicId = params.get("topic_id");
 let currentAnswerIndex = null;
+let lastAIReply = ""; // Lưu phản hồi AI cuối cùng để kiểm tra tương đồng
 const notyf = new Notyf({
     duration: 4000, // Thời gian hiển thị (ms)
     ripple: true, // Effect ripple hiện đại
@@ -81,7 +82,6 @@ function renderAnswers(answers) {
             let avatarHtml = (a.avatarUrl && typeof a.avatarUrl === 'string' && a.avatarUrl.startsWith("<span"))
                 ? a.avatarUrl
                 : (a.avatarUrl ? `<img src="${a.avatarUrl}" alt="avatar" class="w-9 h-9 rounded-full object-cover"/>` : '<span class="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-white">?</span>'); // Fallback avatar mặc định
-
             const rating = a.rating || 0;
             const fullStars = Math.floor(rating);
             const hasHalf = rating % 1 >= 0.5;
@@ -91,7 +91,6 @@ function renderAnswers(answers) {
                 else if (star === fullStars + 1 && hasHalf) className += ' half';
                 return `<span class="${className}" onclick="rateAnswer(${star}, ${index}); event.stopPropagation();" onmouseover="showRatingLabel(${star}, ${index})" onmouseout="hideRatingLabel(${index})">★</span>`;
             }).join("");
-
             return `
       <div onclick="openAnswerDetail(${index})"
            class="bg-white p-4 rounded-xl shadow hover:shadow-xl transition border cursor-pointer transform hover:scale-[1.02]">
@@ -158,12 +157,10 @@ async function rateAnswer(rating, index = null) {
         });
         if (!response.ok) throw new Error('Lỗi vote');
         notyf.success("Đánh giá đã được cập nhật!");
-
         // Temp update: Giả sử rating mới (cho user thấy thay đổi ngay, SignalR sẽ override average thực)
         topic.answers[index].rating = rating; // Placeholder (chỉ đúng nếu vote đầu, nhưng tốt cho UX)
         updateAnswerStars(index); // Update list ngay
         if (index === currentAnswerIndex) renderStars(rating); // Update modal
-
         // Optional fallback nếu SignalR delay > 2s: Re-fetch single answer
         setTimeout(async () => {
             const resp = await fetch(`https://localhost:7134/api/TopicDetail/answers/${answer.answerId}`);
@@ -334,6 +331,19 @@ async function sendAnswer() {
     const ta = document.getElementById("answerContent");
     const content = ta.value.trim();
     if (!content) return notyf.error("Nhập nội dung trả lời");
+    // Chuẩn hóa nội dung và gợi ý AI
+    let normalizedInput = normalizeText(content);
+    let normalizedAI = normalizeText(lastAIReply);
+    let sim = diceCoefficient(normalizedInput, normalizedAI);
+    // Nếu độ tương đồng lớn hơn 50%, cảnh báo và không gửi
+    if (sim > 0.5) {
+        notyf.warning(
+            "⚠️ Câu trả lời của bạn quá giống gợi ý AI (" +
+            Math.round(sim * 100) +
+            "%)! Hãy tự diễn đạt lại."
+        );
+        return; // Chặn không cho gửi
+    }
     // Lấy token từ localStorage
     const token = sessionStorage.getItem('authToken');
     if (!token) {
@@ -485,7 +495,6 @@ connection.on("CreatedVote", (data) => {
         notyf.success("Có lượt đánh giá mới!");
     }
 });
-
 connection.on("UpdatedVote", (data) => {
     console.log("UpdatedVote received:", data); // Debug
     const index = topic.answers.findIndex(a => a.answerId === data.AnswerId);
@@ -512,17 +521,14 @@ connection.on("DeletedVote", (data) => {
         notyf.warning("Một lượt đánh giá đã bị xóa!");
     }
 });
-
 // Hàm mới: Update chỉ phần stars của 1 answer cụ thể (selective DOM update)
 function updateAnswerStars(index) {
     const answerElements = document.querySelectorAll("#answersList > div");
     const answerElement = answerElements[index];
     if (!answerElement) return;
-
     const likeCount = answerElement.querySelector("#likeCount");
     const rating = topic.answers[index].rating || 0;
     const voteCount = topic.answers[index].voteCount || 0;
-
     const fullStars = Math.floor(rating);
     const hasHalf = rating % 1 >= 0.5;
     const starsHtml = [1, 2, 3, 4, 5].map(star => {
@@ -531,7 +537,6 @@ function updateAnswerStars(index) {
         else if (star === fullStars + 1 && hasHalf) className += ' half';
         return `<span class="${className}" onclick="rateAnswer(${star}, ${index}); event.stopPropagation();" onmouseover="showRatingLabel(${star}, ${index})" onmouseout="hideRatingLabel(${index})">★</span>`;
     }).join("");
-
     likeCount.innerHTML = `
         ${starsHtml}
         <span class="text-gray-500 ml-2">(${voteCount} đánh giá, trung bình ${rating.toFixed(1)})</span>
@@ -539,3 +544,135 @@ function updateAnswerStars(index) {
     `;
     attachStarHoverHandlersToAll(); // Re-attach hover nếu cần
 }
+// ================= Tính năng chat với AI ================
+async function callAiAPI(userInput, useRAG = false) {
+    const history = JSON.parse(localStorage.getItem('conversationHistory') || '[]');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const senderId = user.sub || null;
+    const senderName = user.name || "Unknown";
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+    let currentClassId = localStorage.getItem('currentClassId') || (classes[0]?.class_id || null);
+    try {
+        const response = await fetch('https://localhost:7209/api/ai/ask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userInput, history, useRAG })
+        });
+        if (!response.ok) {
+            const errorText = await response.text(); // Lấy text để debug
+            throw new Error(`Lỗi HTTP! Status: ${response.status}, Message: ${errorText || 'Không có chi tiết'}`);
+        }
+        const data = await response.json();
+        history.push({ role: "user", content: userInput });
+        history.push({ role: "assistant", content: data.reply });
+        localStorage.setItem('conversationHistory', JSON.stringify(history));
+        return data.reply;
+    } catch (error) {
+        console.error('Chi tiết lỗi AI API:', error); // Log chi tiết hơn
+        return `Lỗi gọi AI: ${error.message}`; // Trả về thông báo cụ thể cho user
+    }
+}
+async function sendMessage() {
+    const input = document.getElementById("userInput");
+    const messages = document.getElementById("messages");
+    const textInput = input.value.trim();
+    if (!textInput) return;
+    let loadingId = `loading-${Date.now()}`;
+    // Show user message
+    messages.innerHTML += `
+      <div class="mb-1 flex justify-end">
+        <div class="bg-blue-500 text-white px-4 py-2 rounded-lg max-w-xs break-words">
+          ${escapeHtml(textInput)}
+        </div>
+      </div>`;
+    messages.innerHTML += `<div id="${loadingId}" class="mb-2"><span class="bg-gray-700 rounded-lg px-3 py-2 inline-block text-gray-300">AI đang xử lý...</span></div>`;
+    messages.scrollTop = messages.scrollHeight;
+    try {
+        // Gọi API AI (có thể thêm logic cho PDF nếu cần, nhưng tạm thời chỉ text)
+        const aiReply = await callAiAPI(textInput, false); // useRAG = false cho chat cơ bản
+        // Remove loading indicator and display response
+        document.getElementById(loadingId).remove();
+        lastAIReply = aiReply;
+        messages.innerHTML += `
+      <div class="mb-2 text-left">
+        <span class="bg-gray-800 rounded-lg px-3 py-2 inline-block text-white break-words max-w-[80%] whitespace-pre-line">
+          ${marked.parse(aiReply)}
+        </span>
+      </div>`;
+    } catch (error) {
+        // Better error handling
+        document.getElementById(loadingId).remove();
+        messages.innerHTML += `
+      <div class="mb-2 text-left">
+        <span class="bg-red-800 rounded-lg px-3 py-2 inline-block text-white break-words max-w-[80%]">
+          Error: ${escapeHtml(error.message || 'Không thể kết nối đến AI')}
+        </span>
+      </div>`;
+        console.error("AI Chat Error:", error);
+    }
+    // Clear inputs
+    input.value = "";
+    input.style.height = "auto";
+    messages.scrollTop = messages.scrollHeight;
+}
+function toggleChat(show) {
+    document.getElementById("chatPopup").classList.toggle("hidden", !show);
+    if (show) setTimeout(() => document.getElementById("userInput").focus(), 100);
+}
+function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, function (m) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+        }[m];
+    });
+}
+function normalizeText(str) {
+    if (!str) return "";
+    return str
+        .toLowerCase()
+        .replace(/[\.\,\!\?\:\;\-\_\"\"\"\'\(\)\[\]\{\}]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+function diceCoefficient(a, b) {
+    // Tách thành các bigrams (cặp ký tự liên tiếp)
+    function bigrams(str) {
+        let s = " " + str + " ";
+        let arr = [];
+        for (let i = 0; i < s.length - 1; i++) {
+            arr.push(s.slice(i, i + 2));
+        }
+        return arr;
+    }
+    let bgA = bigrams(a),
+        bgB = bigrams(b);
+    let matches = 0;
+    let bgs = bgB.slice();
+    for (let i = 0; i < bgA.length; i++) {
+        let idx = bgs.indexOf(bgA[i]);
+        if (idx !== -1) {
+            matches++;
+            bgs.splice(idx, 1);
+        }
+    }
+    return (2 * matches) / (bgA.length + bgB.length);
+}
+// Event listeners cho chat AI
+document.getElementById("openChat").addEventListener("click", () => toggleChat(true));
+document.getElementById("closeChat").addEventListener("click", () => toggleChat(false));
+document.getElementById("sendBtn").addEventListener("click", sendMessage);
+const userInput = document.getElementById("userInput");
+userInput.addEventListener("input", function () {
+    this.style.height = "auto";
+    this.style.height = this.scrollHeight + "px";
+});
+userInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+        sendMessage();
+        e.preventDefault();
+    }
+});
