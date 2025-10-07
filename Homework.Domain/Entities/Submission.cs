@@ -21,9 +21,9 @@ public partial class Submission
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual Group? Group { get; set; }
+    //public virtual Group? Group { get; set; }
 
     public virtual HomeWork Homework { get; set; } = null!;
 
-    public virtual User User { get; set; } = null!;
+    //public virtual User User { get; set; } = null!;
 }

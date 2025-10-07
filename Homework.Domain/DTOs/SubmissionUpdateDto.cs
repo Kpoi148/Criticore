@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Homework.Domain.DTOs
 {
-    public class SubmissionCreateDto
+    public class SubmissionUpdateDto
     {
-        public int HomeworkId { get; set; }
-        public int UserId { get; set; }
-        public int? GroupId { get; set; }
         public string? Content { get; set; }
         public string? AttachmentUrl { get; set; }
     }

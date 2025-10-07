@@ -22,6 +22,9 @@ namespace Homework.Api
                 options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
             builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
             builder.Services.AddScoped<HomeworkService>();
+            builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
+            builder.Services.AddScoped<SubmissionService>();
+
             builder.Services.AddAutoMapper(typeof(HomeworkProfile).Assembly);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

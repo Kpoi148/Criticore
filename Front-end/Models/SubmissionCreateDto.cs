@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Homework.Domain.DTOs
+namespace Front_end.Models
 {
     public class SubmissionCreateDto
     {

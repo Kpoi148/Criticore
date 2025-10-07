@@ -359,19 +359,19 @@ public partial class HomeworkDbContext : DbContext
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.Group).WithMany(p => p.Submissions)
-                .HasForeignKey(d => d.GroupId)
-                .HasConstraintName("FK__Submissio__Group__656C112C");
+            //entity.HasOne(d => d.Group).WithMany(p => p.Submissions)
+            //    .HasForeignKey(d => d.GroupId)
+            //    .HasConstraintName("FK__Submissio__Group__656C112C");
 
             entity.HasOne(d => d.Homework).WithMany(p => p.Submissions)
                 .HasForeignKey(d => d.HomeworkId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Submissio__Homew__6383C8BA");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Submissions)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Submissio__UserI__6477ECF3");
+            //entity.HasOne(d => d.User).WithMany(p => p.Submissions)
+            //    .HasForeignKey(d => d.UserId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Submissio__UserI__6477ECF3");
         });
 
         modelBuilder.Entity<Topic>(entity =>
