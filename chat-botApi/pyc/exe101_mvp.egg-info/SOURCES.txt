@@ -1,0 +1,6 @@
+pyproject.toml
+pyc/exe101_mvp.egg-info/PKG-INFO
+pyc/exe101_mvp.egg-info/SOURCES.txt
+pyc/exe101_mvp.egg-info/dependency_links.txt
+pyc/exe101_mvp.egg-info/requires.txt
+pyc/exe101_mvp.egg-info/top_level.txt

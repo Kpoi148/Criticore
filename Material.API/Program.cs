@@ -18,7 +18,7 @@ namespace Material.API
             builder.Services.AddControllers();
             // Đăng ký DbContext
             builder.Services.AddDbContext<MaterialContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Đăng ký CloudinaryService (singleton, vì config cố định)
             builder.Services.AddSingleton<CloudinaryService>();
