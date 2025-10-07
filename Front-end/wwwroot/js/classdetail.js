@@ -33,23 +33,27 @@ async function loadTopics() {
                         end_time: t.endTime,
                         created_by: t.createdBy,
                         created_at: t.createdAt,
-                        answers: answers  // Lưu full answers để dùng length
+                        answers: answers  // Đã có rating và userId trong answers
                     };
                 } catch (err) {
                     console.error(`Lỗi fetch answers cho topic ${t.topicId}:`, err);
-                    return {
-                        ...t,
-                        answers: []  // Fallback nếu lỗi
-                    };
+                    return { ...t, answers: [] };
                 }
             }));
             renderTopics();
+
+            // Thêm: Tính rating sau khi load đầy đủ
+            await calculateMemberRatings();
+
+            // Optional: Re-render ranking nếu modal mở
+            if (!document.getElementById("rankModal").classList.contains("hidden")) {
+                renderRankModal();
+            }
         }
     } catch (error) {
         console.error('Lỗi load topics:', error);
     }
 }
-
 function renderTopics() {
     // Xóa hết timer cũ trước khi render lại
     countdownTimers.forEach((id) => clearTimeout(id));
@@ -126,27 +130,28 @@ function updateMemberSection() {
     studentCountEl.textContent = studentCount;
 }
 
+// Cập nhật renderMemberList() để dùng cls.Members
 function renderMemberList() {
     const container = document.getElementById("memberListContainer");
     container.innerHTML = "";
-    if (!cls.memberList) cls.memberList = [];
-    cls.memberList.forEach((member, index) => {
-        const isTeacher = member.fullName === cls.teacher;
+    if (!cls.Members) cls.Members = [];  // Fallback nếu undefined
+    cls.Members.forEach((member, index) => {
+        const isTeacher = member.RoleInClass === "Teacher";  // Dùng RoleInClass từ Members
         const div = document.createElement("div");
         div.className = "p-4 bg-blue-50 rounded-lg flex items-center justify-between";
         div.innerHTML = `
-                    <div>
-                        <div class="flex items-center space-x-2">
-                            <span class="bg-gray-200 text-xs w-7 h-7 flex items-center justify-center rounded-full">
-                                ${member.fullName.split(" ").map(w => w[0]).join("").toUpperCase()}
-                            </span>
-                            <span class="font-medium">${member.fullName}</span>
-                            <span class="text-gray-500 text-sm">${isTeacher ? "Teacher" : "Student"}</span>
-                        </div>
-                        <div class="text-gray-500 text-sm">${isTeacher ? "Instructor" : ""}</div>
-                    </div>
-                    ${!isTeacher ? `<button class="text-red-600 text-sm hover:underline" onclick="removeMemberById('${member.userId}')">❌ Remove</button>` : ""}
-                `;
+            <div>
+                <div class="flex items-center space-x-2">
+                    <span class="bg-gray-200 text-xs w-7 h-7 flex items-center justify-center rounded-full">
+                        ${member.FullName.split(" ").map(w => w[0]).join("").toUpperCase()}
+                    </span>
+                    <span class="font-medium">${member.FullName}</span>
+                    <span class="text-gray-500 text-sm">${isTeacher ? "Teacher" : "Student"}</span>
+                </div>
+                <div class="text-gray-500 text-sm">${isTeacher ? "Instructor" : ""}</div>
+            </div>
+            ${!isTeacher ? `<button class="text-red-600 text-sm hover:underline" onclick="removeMemberById('${member.UserId}')">❌ Remove</button>` : ""}
+        `;
         container.appendChild(div);
     });
     updateMemberSection(); // cập nhật số lượng hiển thị
@@ -478,8 +483,7 @@ function renderRankModal(page = 1) {
                                             <span class="font-medium ${globalIndex <= 3 ? "text-gray-900" : "text-gray-700"}">${m.fullName}</span>
                                         </td>
                                         <td class="py-3 px-4 text-center font-medium border-b border-gray-200">
-                                            ${m.rating || 0}
-                                            <span class="rank-star">★</span>
+                                            ${m.rating.toFixed(1) || 0} <span class="rank-star">★</span> <!-- Format 1 chữ số thập phân -->
                                         </td>
                                     </tr>
                                 `;
@@ -606,6 +610,47 @@ function renderReportModal() {
                 </div>
             `;
     container.innerHTML = tableHTML;
+}
+
+// Function mới: Tính rating average cho mỗi member từ tất cả answers trong topics
+async function calculateMemberRatings() {
+    if (!cls.memberList || cls.memberList.length === 0 || !cls.topics) return;
+
+    // Reset rating cũ
+    cls.memberList.forEach(m => m.rating = 0);
+
+    // Object để track tổng rating và count per userId
+    const userRatings = {};
+    cls.memberList.forEach(m => {
+        userRatings[m.userId] = { totalRating: 0, count: 0 };
+    });
+
+    // Duyệt qua tất cả topics và answers
+    cls.topics.forEach(topic => {
+        if (topic.answers && topic.answers.length > 0) {
+            topic.answers.forEach(answer => {
+                const userId = answer.userId; // Từ AnswerDto
+                if (userRatings[userId]) {
+                    const rating = answer.rating || 0; // Từ API, average sao
+                    userRatings[userId].totalRating += rating;
+                    userRatings[userId].count++;
+                }
+            });
+        }
+    });
+
+    // Gán average rating vào memberList
+    cls.memberList.forEach(m => {
+        const stats = userRatings[m.userId];
+        if (stats.count > 0) {
+            m.rating = Math.round((stats.totalRating / stats.count) * 10) / 10; // Round 1 chữ số thập phân
+        } else {
+            m.rating = 0;
+        }
+    });
+
+    // Optional: Sort memberList theo rating descending để dễ dùng ở ranking
+    cls.memberList.sort((a, b) => (b.rating || 0) - (a.rating || 0));
 }
 
 // Init

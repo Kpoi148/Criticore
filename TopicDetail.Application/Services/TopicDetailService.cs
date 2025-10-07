@@ -49,7 +49,15 @@ namespace TopicDetail.Application.Services
             var answer = _mapper.Map<Answer>(dto);
             answer.CreatedAt = DateTime.UtcNow;
             var created = await _repository.CreateAnswerAsync(answer);
-            return _mapper.Map<AnswerDto>(created);
+
+            // Fix: Lấy full entity với populate (CreatedBy, Rating, etc.)
+            var fullAnswer = await GetAnswerByIdAsync(created.AnswerId);
+            if (fullAnswer == null)
+            {
+                throw new Exception("Error retrieving created answer");
+            }
+
+            return fullAnswer;  // Trả full DTO với CreatedBy đầy đủ
         }
 
         public async Task UpdateAnswerAsync(int id, UpdateAnswerDto dto)
