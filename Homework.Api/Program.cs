@@ -24,6 +24,8 @@ namespace Homework.Api
             builder.Services.AddScoped<HomeworkService>();
             builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
             builder.Services.AddScoped<SubmissionService>();
+            builder.Services.AddHttpClient<CopyleaksService>();
+            builder.Services.AddScoped<CopyleaksService>();
 
             builder.Services.AddAutoMapper(typeof(HomeworkProfile).Assembly);
 
