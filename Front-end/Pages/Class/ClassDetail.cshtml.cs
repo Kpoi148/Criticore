@@ -87,14 +87,7 @@ namespace Front_end.Pages.Class
 
             Materials = await _materialService.GetByClassIdAsync(id);
             Console.WriteLine($"Materials count: {Materials.Count}");
-
-            ReportData = new List<object>
-            {
-                new { senderName = "Student1", engagement = "Positive" },
-                new { senderName = "Student1", engagement = "Neutral" },
-                new { senderName = "Student2", engagement = "Negative" },
-                new { senderName = "Student3", engagement = "Positive" }
-            };
+           
             Console.WriteLine($"ReportData count: {ReportData.Count}");
 
             // Debug: Kết thúc OnGetAsync

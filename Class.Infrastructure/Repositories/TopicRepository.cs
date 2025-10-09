@@ -11,7 +11,6 @@ namespace Class.Infrastructure.Repositories;
 public class TopicRepository : ITopicRepository
 {
     private readonly ClassDbContext _context; // Thay bằng DbContext của bạn
-
     public TopicRepository(ClassDbContext context)
     {
         _context = context;
@@ -19,17 +18,22 @@ public class TopicRepository : ITopicRepository
 
     public async Task<IEnumerable<Topic>> GetAllAsync()
     {
-        return await _context.Topics.ToListAsync();
+        return await _context.Topics
+            .Include(t => t.CreatedByNavigation) // Include navigation để fetch user nếu cần tên
+            .ToListAsync();
     }
 
     public async Task<Topic?> GetByIdAsync(int id)
     {
-        return await _context.Topics.FindAsync(id);
+        return await _context.Topics
+            .Include(t => t.CreatedByNavigation) // Include để fetch user
+            .FirstOrDefaultAsync(t => t.TopicId == id);
     }
 
     public async Task AddAsync(Topic topic)
     {
         topic.CreatedAt = DateTime.UtcNow;
+        topic.UpdatedAt = DateTime.UtcNow; // Thêm UpdatedAt để nhất quán
         _context.Topics.Add(topic);
         await _context.SaveChangesAsync();
     }
@@ -54,6 +58,9 @@ public class TopicRepository : ITopicRepository
     // Trong TopicRepository.cs (EF Core)
     public async Task<IEnumerable<Topic>> GetAllByClassAsync(int classId)
     {
-        return await _context.Topics.Where(t => t.ClassId == classId).ToListAsync();
+        return await _context.Topics
+            .Where(t => t.ClassId == classId)
+            .Include(t => t.CreatedByNavigation) // Include để fetch user name ở service
+            .ToListAsync();
     }
 }

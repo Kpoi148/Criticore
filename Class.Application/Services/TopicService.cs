@@ -51,7 +51,8 @@ public class TopicService
 
     public async Task<TopicDto> AddAsync(CreateTopicDto dto)
     {
-        var topic = new Topic
+        // Manual map CreateTopicDto sang Topic entity
+        var entity = new Topic
         {
             ClassId = dto.ClassId,
             Title = dto.Title,
@@ -59,36 +60,59 @@ public class TopicService
             Type = dto.Type,
             EndTime = dto.EndTime,
             CreatedBy = dto.CreatedBy
+            // CreatedAt và UpdatedAt sẽ được set trong repository
         };
-        await _repository.AddAsync(topic);
-        return new TopicDto
+
+        await _repository.AddAsync(entity);
+
+        // Reload entity với include để lấy CreatedByUser
+        var fullEntity = await _repository.GetByIdAsync(entity.TopicId);
+
+        if (fullEntity == null)
         {
-            TopicId = topic.TopicId,  // ID tự động sinh sau khi add
-            ClassId = topic.ClassId,
-            Title = topic.Title,
-            Description = topic.Description,
-            Type = topic.Type,
-            EndTime = topic.EndTime,
-            CreatedBy = topic.CreatedBy,
-            CreatedAt = topic.CreatedAt,
-            UpdatedAt = topic.UpdatedAt
+            throw new Exception("Topic not found after creation.");
+        }
+
+        // Manual map Topic entity sang TopicDto
+        var topicDto = new TopicDto
+        {
+            TopicId = fullEntity.TopicId,
+            ClassId = fullEntity.ClassId,
+            Title = fullEntity.Title,
+            Description = fullEntity.Description,
+            Type = fullEntity.Type,
+            EndTime = fullEntity.EndTime,
+            CreatedBy = fullEntity.CreatedBy,
+            CreatedByName = fullEntity.CreatedByNavigation?.FullName ?? "Unknown", // Populate tên từ navigation property
+            CreatedAt = fullEntity.CreatedAt,
+            UpdatedAt = fullEntity.UpdatedAt
         };
+
+        return topicDto;
     }
     public async Task<IEnumerable<TopicDto>> GetAllByClassAsync(int classId)
     {
-        var topics = await _repository.GetAllByClassAsync(classId);
-        return topics.Select(t => new TopicDto
+        var entities = await _repository.GetAllByClassAsync(classId);
+        var dtos = new List<TopicDto>();
+
+        foreach (var entity in entities)
         {
-            TopicId = t.TopicId,
-            ClassId = t.ClassId,
-            Title = t.Title,
-            Description = t.Description,
-            Type = t.Type,
-            EndTime = t.EndTime,
-            CreatedBy = t.CreatedBy,
-            CreatedAt = t.CreatedAt,
-            UpdatedAt = t.UpdatedAt
-        });
+            dtos.Add(new TopicDto
+            {
+                TopicId = entity.TopicId,
+                ClassId = entity.ClassId,
+                Title = entity.Title,
+                Description = entity.Description,
+                Type = entity.Type,
+                EndTime = entity.EndTime,
+                CreatedBy = entity.CreatedBy,
+                CreatedByName = entity.CreatedByNavigation?.FullName ?? "Unknown",
+                CreatedAt = entity.CreatedAt,
+                UpdatedAt = entity.UpdatedAt
+            });
+        }
+
+        return dtos;
     }
 
     public async Task UpdateAsync(int id, UpdateTopicDto dto)
