@@ -2,7 +2,9 @@
 @model Front_end.Pages.Class.ClassDetailModel
 @{
     ViewData["Title"] = "Criticore - Class Detail";
-    Layout = "~/Pages/Shared/_HomepageLayout.cshtml";
+    // Layout = "~/Pages/Shared/_HomepageLayout.cshtml";
+    Layout = "~/Pages/Shared/_Sidebar.cshtml";
+
 }
 
 <!DOCTYPE html>
@@ -36,32 +38,6 @@
         </div>
 
     <div class="flex min-h-screen">
-        <!-- Thêm div wrap này để giống ClassList, ổn định layout -->
-        <!-- Sidebar (copy từ ClassList, giống hệt) -->
-        <aside class="w-64 bg-white border-r hidden md:flex flex-col items-center py-6">
-            <div class="mb-8">
-                <img src="~/images/CriticoreLogoText.png" alt="Criticore Logo" class="h-12 mx-auto">
-            </div>
-            <nav class="flex flex-col w-full space-y-1 text-sm px-4">
-                <a href="/Class/Classlist" class="flex items-center gap-3 px-3 py-2 bg-gray-100 text-gray-900 rounded font-medium">
-                    <!-- Icon sách -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 6H6a2 2 0 00-2 2v10a2 2 0 002 2h6m6-14h-6a2 2 0 00-2 2v10a2 2 0 002 2h6a2 2 0 002-2V8a2 2 0 00-2-2z" />
-                    </svg>
-                    Classrooms
-                </a>
-                <form method="post" asp-page="/Account/Logout" class="m-0">
-                    <button type="submit" class="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded" onclick="logout()">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
-                        </svg>
-                        Sign out
-                    </button>
-                </form>
-            </nav>
-        </aside>
-
         <!-- Main Content -->
         <main class="flex-1 bg-gray-50 p-6">
             <div class="flex justify-between items-center mb-6">
@@ -269,6 +245,7 @@
             </div>
 
         </main>
+    </div>
 
         <!-- Add Member Modal -->
         <div id="addMemberModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">

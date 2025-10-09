@@ -19,7 +19,7 @@ namespace Homework.Api
             builder.Services.AddControllers();
             // Đăng ký DbContext
             builder.Services.AddDbContext<HomeworkDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
             builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
             builder.Services.AddScoped<HomeworkService>();
             builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();

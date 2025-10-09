@@ -1,7 +1,8 @@
 ﻿@page
 @model Front_end.Pages.Class.TopicDetailModel
 @{
-    Layout = "~/Pages/Shared/_HomepageLayout.cshtml";
+    ViewData["Title"] = "Criticore - Topic Detail";
+    Layout = "~/Pages/Shared/_Sidebar.cshtml";
 }
 <!DOCTYPE html>
 <html lang="vi">
@@ -68,12 +69,12 @@
     <div id="answerBar"
          class="fixed left-1/2 bottom-6 transform -translate-x-1/2 bg-white border shadow-lg z-40 flex items-center px-3 py-2 gap-2 rounded-2xl transition-all duration-300 ease-in-out"
          style="width: 420px; max-width: 94vw;">
-        <textarea id="answerContent" placeholder="Nhập câu trả lời..." rows="1"
+        <textarea id="answerContent" placeholder="Type your response..." rows="1"
                   class="transition-all duration-300 ease-in-out w-full resize-none border rounded-xl px-4 py-3 bg-gray-50 focus:bg-white focus:outline-blue-400 text-base"
                   style="min-height:48px; max-height:80vh; overflow-y:auto;"></textarea>
         <button id="submitAnswer"
                 class="bg-blue-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-blue-700 transition">
-            Gửi
+            Submit
         </button>
     </div>
     <!-- Answer Modal -->
@@ -174,8 +175,18 @@
     <script>
         window.cls = @Json.Serialize(Model.CurrentClass);
         window.topic = @Json.Serialize(Model.CurrentTopic);
+           async function logout() {
+            // Gọi API logout để backend xoá cookie
+            await fetch('/api/logout', { method: 'POST' });
+
+            // Xoá localStorage
+            localStorage.removeItem('authToken');
+            // hoặc: localStorage.clear();
+
+            // Redirect về trang login/home
+            window.location.href = "https://localhost:7186";
+        }
     </script>
-    <script src="~/js/chat.js"></script> <!-- Thêm nếu cần cho chatbot -->
     <script src="~/js/TopicDetail.js"></script>
 </body>
 </html>

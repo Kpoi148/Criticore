@@ -34,7 +34,7 @@ namespace TopicDetail.Api
             builder.Services.AddAutoMapper(typeof(TopicDetailMapping).Assembly);
             // Đăng ký DbContext
             builder.Services.AddDbContext<TopicDetailDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
 
             // Đăng ký Repository và Service
             builder.Services.AddScoped<ITopicDetailRepository,TopicDetailRepository>();
