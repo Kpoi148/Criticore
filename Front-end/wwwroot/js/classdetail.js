@@ -3,19 +3,21 @@ let countdownTimers = [];
 window.cls = window.cls || {}; // Đảm bảo cls tồn tại
 window.students = window.studentsData || []; // Khởi tạo từ dữ liệu Razor
 window.reportData = window.reportData || []; // Khởi tạo reportData nếu cần
-
 // Thống nhất tên: Sử dụng cls.members thay vì trộn lẫn cls.memberList và cls.Members
 if (window.cls.Members) {
-    window.cls.members = window.cls.Members; // Chuyển từ Members sang members nếu tồn tại
+    // Thống nhất property names sang lowercase (camelCase) để tránh lỗi undefined
+    window.cls.members = window.cls.Members.map(m => ({
+        userId: m.UserId,
+        fullName: m.FullName,
+        roleInClass: m.RoleInClass // Thêm nếu cần, lowercase
+    }));
 } else {
     window.cls.members = [];
 }
-
 // Định nghĩa goToTopic sớm
 window.goToTopic = function (classId, topicId) {
     window.location.href = `TopicDetail?class_id=${classId}&topic_id=${topicId}`;
 };
-
 // Định nghĩa deleteTopic sớm
 window.deleteTopic = async function (idx) {
     if (!await Swal.fire({
@@ -44,21 +46,18 @@ window.deleteTopic = async function (idx) {
         Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không thể xóa topic. Vui lòng thử lại.' });
     }
 };
-
 // Định nghĩa removeMemberById sớm
 window.removeMemberById = function (id) {
     if (!confirm("Are you sure you want to remove this member from the class?")) return;
     cls.members = cls.members.filter(member => member.userId !== id);
     renderMemberList();
 };
-
 // Định nghĩa deleteGroup sớm
 window.deleteGroup = function (index) {
     if (!confirm("Are you sure you want to delete this group?")) return;
     cls.groups.splice(index, 1);
     renderGroups();
 };
-
 // Các hàm khác
 function initTopicEndTime() {
     const topicEndInput = document.getElementById("topicEndTime");
@@ -71,7 +70,6 @@ function initTopicEndTime() {
         console.warn("⚠️ Không tìm thấy #topicEndTime trong DOM (có thể form chưa render).");
     }
 }
-
 async function loadTopics() {
     try {
         const response = await fetch(`https://localhost:7193/api/Topics/byclass/${cls.ClassId}`);
@@ -86,7 +84,8 @@ async function loadTopics() {
                         title: t.title,
                         description: t.description,
                         end_time: t.endTime,
-                        created_by: t.createdBy,
+                        created_by: t.createdBy, // Giữ ID nếu cần cho logic khác
+                        created_by_name: t.createdByName || 'Unknown', // Thêm tên người tạo từ DTO
                         created_at: t.createdAt,
                         answers: answers // Đã có rating và userId trong answers
                     };
@@ -95,7 +94,7 @@ async function loadTopics() {
                     return { ...t, answers: [] };
                 }
             }));
-            renderTopics();
+            renderTopics(); // Giả định renderTopics() sẽ sử dụng created_by_name để hiển thị tên
             // Thêm: Tính rating sau khi load đầy đủ
             await calculateMemberRatings();
             // Optional: Re-render ranking nếu modal mở
@@ -107,7 +106,6 @@ async function loadTopics() {
         console.error('Lỗi load topics:', error);
     }
 }
-
 function renderTopics() {
     // Xóa hết timer cũ trước khi render lại
     countdownTimers.forEach((id) => clearTimeout(id));
@@ -122,7 +120,7 @@ function renderTopics() {
                 <div class="p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition duration-200 bg-white relative" onclick="goToTopic('${cls.ClassId}','${t.topic_id}')">
                     ${window.isTeacher ? `<button class="topic-delete-btn text-red-500 hover:text-red-700 font-bold text-lg" title="Delete topic" onclick="event.stopPropagation(); deleteTopic(${idx}); return false;">×</button>` : ''}
                     <div class="text-gray-900 font-semibold text-base">${t.title}</div>
-                    <div class="text-gray-500 text-sm">by ${t.created_by}</div>
+                    <div class="text-gray-500 text-sm">by ${t.created_by_name || 'Unknown'}</div>
                     <div class="text-gray-500 text-sm">
                         <b>End time:</b> <span id="topic-end-${idx}">${t.end_time ? new Date(t.end_time).toLocaleString() : "Not set"}</span>
                         <span class="ml-2 text-red-600" id="countdown-${idx}"></span>
@@ -140,7 +138,6 @@ function renderTopics() {
         }
     });
 }
-
 function updateMemberSection() {
     const memberCountEl = document.getElementById("memberCount");
     const studentCountEl = document.getElementById("studentCount");
@@ -155,34 +152,32 @@ function updateMemberSection() {
     if (memberCountEl) memberCountEl.textContent = totalMembers;
     if (studentCountEl) studentCountEl.textContent = studentCount;
 }
-
 function renderMemberList() {
     const container = document.getElementById("memberListContainer");
     if (!container) return; // Tránh lỗi nếu chưa tồn tại
     container.innerHTML = "";
     if (!cls.members) cls.members = []; // Fallback nếu undefined
     cls.members.forEach((member, index) => {
-        const isTeacher = member.RoleInClass === "Teacher"; // Dùng RoleInClass từ Members
+        const isTeacher = member.roleInClass === "Teacher"; // Dùng roleInClass lowercase
         const div = document.createElement("div");
         div.className = "p-4 bg-blue-50 rounded-lg flex items-center justify-between";
         div.innerHTML = `
             <div>
                 <div class="flex items-center space-x-2">
                     <span class="bg-gray-200 text-xs w-7 h-7 flex items-center justify-center rounded-full">
-                        ${member.FullName.split(" ").map(w => w[0]).join("").toUpperCase()}
+                        ${member.fullName.split(" ").map(w => w[0]).join("").toUpperCase()}
                     </span>
-                    <span class="font-medium">${member.FullName}</span>
+                    <span class="font-medium">${member.fullName}</span>
                     <span class="text-gray-500 text-sm">${isTeacher ? "Teacher" : "Student"}</span>
                 </div>
                 <div class="text-gray-500 text-sm">${isTeacher ? "Instructor" : ""}</div>
             </div>
-            ${!isTeacher && window.isTeacher ? `<button class="text-red-600 text-sm hover:underline" onclick="removeMemberById('${member.UserId}')">❌ Remove</button>` : ""}
+            ${!isTeacher && window.isTeacher ? `<button class="text-red-600 text-sm hover:underline" onclick="removeMemberById('${member.userId}')">❌ Remove</button>` : ""}
         `;
         container.appendChild(div);
     });
     updateMemberSection(); // cập nhật số lượng hiển thị
 }
-
 function toggleAddTopicForm() {
     const form = document.getElementById("addTopicForm");
     if (!form) return;
@@ -191,7 +186,6 @@ function toggleAddTopicForm() {
         initTopicEndTime(); // 👉 Set min khi form hiển thị
     }
 }
-
 function renderGroups() {
     if (!cls.groups) cls.groups = [];
     const groupList = document.getElementById("groupList");
@@ -244,7 +238,6 @@ function renderGroups() {
         groupList.appendChild(groupDiv);
     });
 }
-
 function startCountdown(endTimeStr, countdownElemId, createdAtStr, idx) {
     const endTime = Date.parse(endTimeStr);
     let startTime;
@@ -277,7 +270,6 @@ function startCountdown(endTimeStr, countdownElemId, createdAtStr, idx) {
     }
     updateCountdown();
 }
-
 function renderRankModal(page = 1) {
     const container = document.getElementById("rankModalContent");
     if (!container) return;
@@ -356,7 +348,6 @@ function renderRankModal(page = 1) {
                 <div class="text-xs text-gray-400 text-right mt-2">* Top 1, 2, 3 are highlighted</div>
             `;
 }
-
 function renderReportModal() {
     const container = document.getElementById("reportModalContent");
     if (!container) return;
@@ -440,7 +431,6 @@ function renderReportModal() {
             `;
     container.innerHTML = tableHTML;
 }
-
 async function calculateMemberRatings() {
     if (!cls.members || cls.members.length === 0 || !cls.topics) return;
     // Reset rating cũ
@@ -475,7 +465,6 @@ async function calculateMemberRatings() {
     // Optional: Sort members theo rating descending để dễ dùng ở ranking
     cls.members.sort((a, b) => (b.rating || 0) - (a.rating || 0));
 }
-
 // DOMContentLoaded: Chỉ gọi init ở đây để đảm bảo DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     window.students = window.studentsData;
@@ -497,7 +486,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (toggleAddTopic) {
         toggleAddTopic.addEventListener("click", toggleAddTopicForm);
     }
-
     // Add Member Modal logic
     const addMemberModal = document.getElementById("addMemberModal");
     const availableStudentsList = document.getElementById("availableStudentsList");
@@ -539,13 +527,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 Swal.fire({ icon: 'warning', title: 'Cảnh báo', text: 'Chưa chọn học viên nào.' });
                 return;
             }
-            const toAdd = students.filter(s => selectedIds.includes(s.userId)).map(s => ({ userId: s.userId, fullName: s.fullName }));
+            const toAdd = students.filter(s => selectedIds.includes(s.userId)).map(s => ({ userId: s.userId, fullName: s.fullName, roleInClass: s.RoleInClass || 'Student' }));
             cls.members.push(...toAdd);
             renderMemberList();
             if (addMemberModal) addMemberModal.classList.add("hidden");
         });
     }
-
     // Tab switching
     const discussionsTab = document.getElementById("discussionsTab");
     if (discussionsTab) {
@@ -622,7 +609,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Đặt mặc định là Discussions sau khi gán xong sự kiện
     if (discussionsTab) discussionsTab.click();
-
     // Thêm chủ đề mới - Gọi API (chỉ cho phép nếu là teacher)
     const addTopicBtn = document.getElementById("addTopicBtn");
     if (addTopicBtn) {
@@ -680,7 +666,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     }
-
     // ==== GROUP MANAGEMENT ====
     const createGroupBtn = document.getElementById("createGroupBtn");
     if (createGroupBtn) {
@@ -690,7 +675,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderGroups();
         });
     }
-
     // ======= RANKING FEATURE =======
     const rankButton = document.getElementById("rankButton");
     if (rankButton) {
@@ -705,7 +689,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById("rankModal").classList.add("hidden");
         });
     }
-
     // ==== REPORT FEATURE ====
     const reportButton = document.getElementById("reportButton");
     if (reportButton) {
