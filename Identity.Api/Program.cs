@@ -1,4 +1,5 @@
-﻿using Identity.Application.Profiles;
+﻿using Identity.Api.Hubs;
+using Identity.Application.Profiles;
 using Identity.Application.Services;
 using Identity.Domain.Repositories;
 using Identity.Infrastructure.Models;
@@ -24,10 +25,11 @@ namespace Identity.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddSignalR();
 
             // Đăng ký DbContext
             builder.Services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
 
             // Đăng ký Repository và Service
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -116,6 +118,7 @@ namespace Identity.Api
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.MapHub<UserHub>("/userHub");
             app.MapControllers();
             app.Run();
         }

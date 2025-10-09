@@ -13,6 +13,7 @@
     <title>@ViewData["Title"]</title>
     <link rel="icon" type="image/png" href="~/images/Logo-Criticore.png" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
 </head>
 <body class="bg-white text-gray-800">
     <div class="flex min-h-screen">
@@ -257,3 +258,6 @@
     </script>
 </body>
 </html>
+@section Scripts {
+    <script src="~/js/userHub.js"></script>
+}

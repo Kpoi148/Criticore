@@ -1,4 +1,5 @@
 ﻿using Front_end.Models;
+using Front_end.Services;
 using Front_end.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,6 +14,7 @@ namespace Front_end.Pages.Class
         private readonly IMaterialService _materialService;
         private readonly ISubmissionService _submissionService;
         private readonly IUsersService _usersService;
+        private readonly ICopyleaksService _copyleaksService;
 
         public HomeworkListModel(
           IHomeworkService homeworkService,
@@ -20,7 +22,8 @@ namespace Front_end.Pages.Class
           IClassesService classesService,
           IMaterialService materialService,
           ISubmissionService submissionService,
-          IUsersService usersService  // thêm service
+          IUsersService usersService,
+          ICopyleaksService copyleaksService
         )
         {
             _homeworkService = homeworkService;
@@ -29,6 +32,7 @@ namespace Front_end.Pages.Class
             _materialService = materialService;
             _submissionService = submissionService;
             _usersService = usersService;
+            _copyleaksService = copyleaksService;
         }
 
         public ClassDto CurrentClass { get; set; } = new();
@@ -168,6 +172,17 @@ namespace Front_end.Pages.Class
                 {
                     var submissionFileService = HttpContext.RequestServices.GetRequiredService<ISubmissionFileService>();
                     fileUrl = await submissionFileService.UploadAsync(file);
+                    // Gửi file lên Copyleaks để scan
+                    try
+                    {
+                        var scanId = await _copyleaksService.SubmitFileForScanAsync(file);
+                        Console.WriteLine($"📄 File đã được gửi scan Copyleaks. ScanId: {scanId}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"❌ Lỗi khi gửi scan Copyleaks: {ex.Message}");
+                        // Nếu muốn, có thể thêm TempData["Error"] hoặc log
+                    }
                 }
 
                 var userId = int.Parse(CurrentUserId!);

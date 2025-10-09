@@ -1,51 +1,92 @@
 ﻿@page "{id:int}"
 @model Front_end.Pages.AdminClasses.EditModel
 @{
-    ViewData["Title"] = "Chỉnh sửa lớp";
+    ViewData["Title"] = "Criticore - Edit Class";
+    Layout = "~/Pages/Shared/_HomepageLayout.cshtml";
 }
 
-<<h2>Sửa lớp học</h2>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+            @* {{-- Header --}} *@
+            <h1 class="mb-4 display-5 fw-bold text-primary text-center">
+                <i class="bi bi-pencil-square me-2"></i>Edit Class
+            </h1>
+            <p class="text-center text-muted mb-5">
+                Update the details for the class ID: <span class="fw-bold text-dark">@Model.ClassInput.ClassId</span>
+            </p>
 
-<form method="post">
-    <input type="hidden" asp-for="ClassInput.ClassId" />
-    <div class="form-group">
-        <label asp-for="ClassInput.ClassName"></label>
-        <input asp-for="ClassInput.ClassName" class="form-control" />
-        <span asp-validation-for="ClassInput.ClassName" class="text-danger"></span>
+            @* {{-- Edit Form Card --}} *@
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body p-4 p-md-5">
+
+                    <form method="post">
+                        <input type="hidden" asp-for="ClassInput.ClassId" />
+
+                        @* {{-- Class Name and Subject Code in one row --}} *@
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="ClassInput.ClassName" class="form-label fw-semibold">Class Name</label>
+                                <input asp-for="ClassInput.ClassName" class="form-control form-control-lg" placeholder="e.g., Kỹ thuật lập trình" />
+                                <span asp-validation-for="ClassInput.ClassName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ClassInput.SubjectCode" class="form-label fw-semibold">Subject Code</label>
+                                <input asp-for="ClassInput.SubjectCode" class="form-control form-control-lg" placeholder="e.g., IT001" />
+                            </div>
+                        </div>
+
+                        @* {{-- Semester and Status in one row --}} *@
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="ClassInput.Semester" class="form-label fw-semibold">Semester</label>
+                                <input asp-for="ClassInput.Semester" class="form-control form-control-lg" placeholder="e.g., 2024-2025/1" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ClassInput.Status" class="form-label fw-semibold">Status</label>
+                                <select asp-for="ClassInput.Status" class="form-select form-select-lg">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        @* {{-- Teacher Selection (Dropdown) --}} *@
+                        <div class="mb-4">
+                            <label for="teacherId" class="form-label fw-semibold">Responsible Teacher</label>
+                            <select name="teacherId"
+                                    asp-items="Model.TeacherOptions"
+                                    class="form-select form-select-lg">
+                                <option value="">-- Select Teacher --</option>
+                            </select>
+                        </div>
+
+                        @* {{-- Description (Textarea) --}} *@
+                        <div class="mb-4">
+                            <label asp-for="ClassInput.Description" class="form-label fw-semibold">Description</label>
+                            <textarea asp-for="ClassInput.Description" class="form-control" rows="4" placeholder="Briefly describe the class content or schedule..."></textarea>
+                        </div>
+
+                        @* {{-- Action Buttons --}} *@
+                        <div class="d-flex justify-content-between pt-3">
+                            <a asp-page="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-arrow-left me-2"></i>Back to List
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                                <i class="bi bi-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @* {{-- End Edit Form Card --}} *@
+
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label asp-for="ClassInput.SubjectCode"></label>
-        <input asp-for="ClassInput.SubjectCode" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ClassInput.Semester"></label>
-        <input asp-for="ClassInput.Semester" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label for="teacherId">Giáo viên phụ trách</label>
-        <select name="teacherId"
-                asp-items="Model.TeacherOptions"
-                class="form-control">
-            <option value="">-- Chọn giáo viên --</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ClassInput.Description"></label>
-        <textarea asp-for="ClassInput.Description" class="form-control"></textarea>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ClassInput.Status"></label>
-        <select asp-for="ClassInput.Status" class="form-control">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-success">Lưu thay đổi</button>
-    <a asp-page="Index" class="btn btn-secondary">Quay lại</a>
-</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

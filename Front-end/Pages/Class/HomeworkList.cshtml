@@ -222,6 +222,7 @@
             <form method="post" asp-page-handler="Create" enctype="multipart/form-data">
                 <input type="hidden" name="TopicID" value="@Model.CurrentTopic.TopicId" />
                 <input type="hidden" name="ClassID" value="@Model.CurrentClass.ClassId" />
+
                 <label class="block text-sm font-medium">Title</label>
                 <input name="Title" type="text" class="w-full border rounded-lg px-3 py-2 mb-3"
                        placeholder="Homework title" required />

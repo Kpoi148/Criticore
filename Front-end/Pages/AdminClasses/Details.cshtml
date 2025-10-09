@@ -1,83 +1,136 @@
 ﻿@page "{id:int}"
 @model Front_end.Pages.AdminClasses.DetailsModel
 @{
-    ViewData["Title"] = "Chi tiết lớp";
+    ViewData["Title"] = "Criticore - Class Details";
+    Layout = "~/Pages/Shared/_HomepageLayout.cshtml";
 }
 
-<h2>Chi tiết lớp</h2>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
 
-@if (Model.ClassDetail == null)
-{
-    <p>Không tìm thấy lớp.</p>
-}
-else
-{
-    <dl class="row">
-        <dt class="col-sm-3">Mã lớp:</dt>
-        <dd class="col-sm-9">@Model.ClassDetail.ClassId</dd>
+            @* Header Section *@
+            <h1 class="mb-4 display-5 fw-bold text-primary">
+                <i class="bi bi-card-list me-2"></i>Class Details
+            </h1>
 
-        <dt class="col-sm-3">Tên lớp:</dt>
-        <dd class="col-sm-9">@Model.ClassDetail.ClassName</dd>
-
-        <dt class="col-sm-3">Mã môn học:</dt>
-        <dd class="col-sm-9">@Model.ClassDetail.SubjectCode</dd>
-
-        <dt class="col-sm-3">Học kỳ:</dt>
-        <dd class="col-sm-9">@Model.ClassDetail.Semester</dd>
-
-        <dt class="col-sm-3">Mô tả:</dt>
-        <dd class="col-sm-9">@Model.ClassDetail.Description</dd>
-
-        <dt class="col-sm-3">Trạng thái:</dt>
-        <dd class="col-sm-9">@Model.ClassDetail.Status</dd>
-
-        <dt class="col-sm-3">Mã tham gia:</dt>
-        <dd class="col-sm-9">
-            @if (!string.IsNullOrEmpty(Model.ClassDetail.JoinCode))
+            @if (Model.ClassDetail == null)
             {
-                <span class="badge bg-primary">@Model.ClassDetail.JoinCode</span>
+                <div class="alert alert-warning text-center" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Class not found.
+                </div>
             }
             else
             {
-                <span class="text-muted">Chưa có</span>
-            }
-        </dd>
+                @* Class Overview Card *@
+                <div class="card shadow-lg mb-5 border-0 rounded-3">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h4 class="mb-0 fw-semibold">Class Information</h4>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-4 fw-semibold text-dark">Class ID:</dt>
+                            <dd class="col-sm-8 text-muted">@Model.ClassDetail.ClassId</dd>
 
-        <dt class="col-sm-3">Người tạo:</dt>
-        <dd class="col-sm-9">@Model.ClassDetail.CreatedBy</dd>
-    </dl>
+                            <dt class="col-sm-4 fw-semibold text-dark">Class Name:</dt>
+                            <dd class="col-sm-8 text-muted">@Model.ClassDetail.ClassName</dd>
 
-    <h4>Danh sách thành viên</h4>
-    @if (Model.ClassDetail.Members != null && Model.ClassDetail.Members.Any())
-    {
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Họ tên</th>
-                    <th>Email</th>
-                    <th>Vai trò</th>
-                    <th>Ngày tham gia</th>
-                    <th>Nhóm</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var m in Model.ClassDetail.Members)
+                            <dt class="col-sm-4 fw-semibold text-dark">Subject Code:</dt>
+                            <dd class="col-sm-8 text-muted">@Model.ClassDetail.SubjectCode</dd>
+
+                            <dt class="col-sm-4 fw-semibold text-dark">Semester:</dt>
+                            <dd class="col-sm-8 text-muted">@Model.ClassDetail.Semester</dd>
+
+                            <dt class="col-sm-4 fw-semibold text-dark">Creator:</dt>
+                            <dd class="col-sm-8 text-muted">@Model.ClassDetail.CreatedBy</dd>
+
+                            <dt class="col-sm-4 fw-semibold text-dark">Status:</dt>
+                            <dd class="col-sm-8">
+                                @if (Model.ClassDetail.Status == "Active")
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Inactive</span>
+                                }
+                            </dd>
+
+                            <dt class="col-sm-4 fw-semibold text-dark">Join Code:</dt>
+                            <dd class="col-sm-8">
+                                @if (!string.IsNullOrEmpty(Model.ClassDetail.JoinCode))
+                                {
+                                    <span class="badge bg-info text-dark fs-6 fw-bold">@Model.ClassDetail.JoinCode</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted fst-italic">None</span>
+                                }
+                            </dd>
+
+                            @* Description Section *@
+                            <dt class="col-sm-12 fw-semibold text-dark mt-3">Description:</dt>
+                            <dd class="col-sm-12 text-muted">
+                                @(string.IsNullOrEmpty(Model.ClassDetail.Description) ? "No description provided." : Model.ClassDetail.Description)
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                @* End Class Overview Card *@
+
+                <h3 class="mb-3 mt-5 fw-bold text-dark">
+                    <i class="bi bi-people-fill me-2"></i>Member List
+                </h3>
+
+                @* Member List Table *@
+                @if (Model.ClassDetail.Members != null && Model.ClassDetail.Members.Any())
                 {
-                    <tr>
-                        <td>@m.FullName</td>
-                        <td>@m.Email</td>
-                        <td>@m.RoleInClass</td>
-                        <td>@(m.JoinedAt?.ToString("dd/MM/yyyy") ?? "-")</td>
-                        <td>@(m.GroupId?.ToString() ?? "-")</td>
-                    </tr>
+                    <div class="table-responsive shadow rounded-3 overflow-hidden">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-secondary text-white">
+                                <tr>
+                                    <th scope="col" class="py-3">Full Name</th>
+                                    <th scope="col" class="py-3">Email</th>
+                                    <th scope="col" class="py-3">Role</th>
+                                    <th scope="col" class="py-3">Joined Date</th>
+                                    <th scope="col" class="py-3">Group</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var m in Model.ClassDetail.Members)
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@m.FullName</td>
+                                        <td>@m.Email</td>
+                                        <td>@m.RoleInClass</td>
+                                        <td>@(m.JoinedAt?.ToString("MMM dd, yyyy") ?? "-")</td>
+                                        <td class="fw-bold text-success">@(m.GroupId?.ToString() ?? "-")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p><em>Chưa có thành viên nào trong lớp này.</em></p>
-    }
-}
+                else
+                {
+                    <div class="alert alert-info text-center" role="alert">
+                        <em><i class="bi bi-info-circle me-2"></i>There are no members in this class yet.</em>
+                    </div>
+                }
+                @* End Member List Table *@
+            }
 
-<a asp-page="Index" class="btn btn-secondary">Quay lại</a>
+            @* Action Buttons *@
+            <div class="mt-5 d-flex justify-content-start">
+                <a asp-page="Edit" asp-route-id="@Model.ClassDetail.ClassId" class="btn btn-warning btn-lg me-3 shadow-sm">
+                    <i class="bi bi-pencil me-2"></i>Edit Class
+                </a>
+                <a asp-page="Index" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-arrow-left me-2"></i>Back to List
+                </a>
+            </div>
+            @* End Action Buttons *@
+
+        </div>
+    </div>
+</div>

@@ -38,6 +38,7 @@ namespace Front_end
             builder.Services.AddHttpClient<IHomeworkService, HomeworkService>();
             builder.Services.AddHttpClient<ISubmissionFileService, SubmissionFileService>();
             builder.Services.AddHttpClient<ISubmissionService, SubmissionService>();
+            builder.Services.AddHttpClient<ICopyleaksService, CopyleaksService>();
 
             // Config JWT
             var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? "your-super-secret-key-that-is-at-least-32-chars-long-abc123");
