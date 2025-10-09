@@ -18,6 +18,7 @@ namespace Front_end.Pages.Class
         }
 
         public List<ClassSummaryDto> Classes { get; set; } = new();
+        public Dictionary<int, int> TopicCounts { get; set; } = new();
         public List<User> Students { get; set; } = new();
         public string? CurrentUserId { get; set; }
         [BindProperty]
@@ -36,6 +37,13 @@ namespace Front_end.Pages.Class
             // Gọi service để lấy danh sách lớp theo userId
             int userId = int.Parse(CurrentUserId);
             Classes = await _service.GetClassesByUserAsync(userId);
+            // Lấy số lượng topic trong mỗi lớp học
+            foreach (var cls in Classes)
+            {
+                var count = await _service.GetTopicCountByClassAsync(cls.ClassId);
+                Console.WriteLine($"Class {cls.ClassId} - {cls.ClassName} has {count} topics");
+                TopicCounts[cls.ClassId] = count;
+            }
 
             return Page();
         }
