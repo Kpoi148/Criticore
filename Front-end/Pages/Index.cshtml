@@ -9,18 +9,17 @@
     <!-- Navbar -->
     <header class="flex justify-between items-center px-8 py-3 bg-white shadow-sm">
         <div class="flex items-center gap-3 text-2xl font-bold">
-            <img src="@Url.Content("~/images/Logo1-Criticore.png")" alt="" class="h-10">
+            <img src="@Url.Content("~/images/CriticoreLogoText.png")" alt="" class="h-10">
         </div>
 
         <nav class="hidden md:flex gap-10 text-base font-semibold">
-            <a asp-controller="Classroom" asp-action="Index" class="hover:text-blue-600">Classrooms</a>
-            <a asp-controller="Topic" asp-action="Index" class="hover:text-blue-600">Topics</a>
-            <a asp-controller="Leaderboard" asp-action="Index" class="hover:text-blue-600">Leaderboard</a>
-            <a asp-controller="Resource" asp-action="Index" class="hover:text-blue-600">Resources</a>
+            <a asp-page="/class/classlist" class="hover:text-blue-600">Classrooms</a>
+            <a asp-controller="Topic" asp-action="Index" class="hover:text-blue-600">Feature 1</a>@* Topics *@
+            <a asp-controller="Leaderboard" asp-action="Index" class="hover:text-blue-600">Feature 2</a>@*Leaderboard*@
+            <a asp-controller="Resource" asp-action="Index" class="hover:text-blue-600">Feature 3</a>@*Resources*@
             @* <a asp-controller="Account" asp-action="Login" class="hover:text-blue-600">Sign In</a> *@
             <a asp-page="/SignIn" class="hover:text-blue-600">Sign In</a>
         </nav>
-
         @* <a asp-controller="Account" asp-action="Register" *@
         @*    class="bg-blue-600 text-white px-5 py-3 rounded-md text-base font-semibold hover:bg-blue-700"> *@
         @*     Get Started *@
@@ -53,9 +52,11 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4">
-                <button class="bg-blue-600 text-white px-6 py-3 rounded-md text-sm font-semibold hover:bg-blue-700">
+                <button class="bg-blue-600 text-white px-6 py-3 rounded-md text-sm font-semibold hover:bg-blue-700"
+                        onclick="window.location.href='/class/classlist'">
                     Join a Class →
                 </button>
+
                 <button class="flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-md text-sm font-semibold hover:bg-gray-100">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M6 4l10 6-10 6V4z" />
@@ -137,7 +138,7 @@
     <section class="px-10 py-16 bg-gray">
         <!-- Centered Heading -->
         <div class="text-center max-w-3xl mx-auto mb-12">
-            <h2 class="text-3xl font-bold mb-4">Why Choose EduLearn?</h2>
+            <h2 class="text-3xl font-bold mb-4">Why Choose Criticore?</h2>
             <p class="text-gray-600 text-lg">
                 We provide the best learning experience with cutting-edge technology and expert instructors.
             </p>
@@ -197,10 +198,8 @@
 
             <!-- Right Image -->
             <div class="mt-12 md:mt-0 md:ml-10">
-                <div class="w-full md:w-[480px] h-[270px] bg-gray-200 rounded-xl flex items-center justify-center">
-                    <div class="text-gray-400 text-sm text-center">
-                        📷 Image/Video Placeholder
-                    </div>
+                <div class="w-full md:w-[480px] h-[270px] bg-gray-200 rounded-xl flex items-center justify-center overflow-hidden">
+                    <img src="~/images/whychoosecriticore.png" class="object-cover w-full h-full" alt="Students engaged in critical discussion using Criticore" />
                 </div>
             </div>
         </div>
@@ -214,14 +213,14 @@
         <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-gray-600">
             Get notified when your teacher posts new discussion topics or feedback sessions. Stay active and engaged!
         </p>
-        <form class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto">
-            <input type="email" placeholder="Enter your email"
-                   class="w-full sm:w-auto flex-1 px-4 py-3 rounded-md text-gray-800 border border-gray-300 focus:outline-none" />
-            <button type="submit"
-                    class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-md hover:bg-blue-700 transition">
-                Subscribe
-            </button>
-        </form>
+        @* <form class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto"> *@
+        @*     <input type="email" placeholder="Enter your email" *@
+        @*            class="w-full sm:w-auto flex-1 px-4 py-3 rounded-md text-gray-800 border border-gray-300 focus:outline-none" /> *@
+        @*     <button type="submit" *@
+        @*             class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-md hover:bg-blue-700 transition"> *@
+        @*         Subscribe *@
+        @*     </button> *@
+        @* </form> *@
         <p class="text-sm text-gray-500 mt-4">
             Get weekly updates on discussions, top votes, and critical thinking tips.
         </p>

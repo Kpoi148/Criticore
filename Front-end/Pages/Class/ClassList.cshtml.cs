@@ -7,7 +7,7 @@ using Front_end.Models;
 
 namespace Front_end.Pages.Class
 {
-    [Authorize]  // Thêm: Tự redirect nếu không auth
+    //[Authorize]  // Thêm: Tự redirect nếu không auth
     public class ClassListModel : PageModel
     {
         private readonly IClassesService _service;
