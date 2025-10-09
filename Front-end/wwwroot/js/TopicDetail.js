@@ -38,9 +38,9 @@ function renderTopicInfo() {
         <h1 class="text-3xl font-bold mt-2 mb-2">${topic.title}</h1>
         <div class="flex items-center gap-2 text-sm text-gray-600">
             <span class="bg-gray-200 px-2 py-0.5 rounded-full text-xs font-semibold">${topic.role || "Teacher"}</span>
-            <span>${topic.created_by}</span>
+            <span>${topic.createdByName}</span>
             <span>&bull;</span>
-            <span>${topic.created_at ? new Date(topic.created_at).toLocaleString() : ""}</span>
+            <span>${topic.createdAt ? new Date(topic.createdAt).toLocaleString() : ""}</span>
         </div>
     `;
     document.getElementById("promptBlock").innerHTML = `
@@ -107,7 +107,7 @@ function renderAnswers(answers) {
         <div class="mt-3 text-sm text-gray-500">
           <div id="likeCount">
             ${starsHtml}
-            <span class="text-gray-500 ml-2">(${a.voteCount || 0} đánh giá, trung bình ${rating.toFixed(1)})</span>
+            <span class="text-gray-500 ml-2">(${a.voteCount || 0} ratings, average ${rating.toFixed(1)})</span>
             <span id="ratingLabel${index}" class="text-gray-500 ml-2 hidden"></span>
           </div>
         </div>
@@ -435,15 +435,15 @@ document.getElementById(
 )}&topic_id=${encodeURIComponent(topicId)}`;
 document.getElementById("thisHomeworkLink").href =
     `/Class/HomeworkList?class_id=${encodeURIComponent(classId)}&topic_id=${encodeURIComponent(topicId)}`;
-document.getElementById("infoStudents").innerText = (
-    cls.memberList || []
-).length;
-document.getElementById("infoAssignments").innerText = (
-    topic.homeworks || []
-).length;
-document.getElementById("infoDiscussions").innerText = (
-    cls.topics || []
-).length;
+//document.getElementById("infoStudents").innerText = (
+//    cls.memberList || []
+//).length;
+//document.getElementById("infoAssignments").innerText = (
+//    topic.homeworks || []
+//).length;
+//document.getElementById("infoDiscussions").innerText = (
+//    cls.topics || []
+//).length;
 document.getElementById("submitAnswer").addEventListener("click", sendAnswer);
 // Thêm script SignalR nếu chưa có (trong HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>)
 // Kết nối SignalR
@@ -539,7 +539,7 @@ function updateAnswerStars(index) {
     }).join("");
     likeCount.innerHTML = `
         ${starsHtml}
-        <span class="text-gray-500 ml-2">(${voteCount} đánh giá, trung bình ${rating.toFixed(1)})</span>
+        <span class="text-gray-500 ml-2">(${voteCount} ratings, average  ${rating.toFixed(1)})</span>
         <span id="ratingLabel${index}" class="text-gray-500 ml-2 hidden"></span>
     `;
     attachStarHoverHandlersToAll(); // Re-attach hover nếu cần

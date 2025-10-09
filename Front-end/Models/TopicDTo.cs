@@ -17,6 +17,7 @@ namespace Front_end.Models
         public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public string? CreatedByName { get; set; }
     }
 
     public class CreateTopicDto

@@ -9,12 +9,12 @@ namespace Front_end.Pages.Class
     {
         private readonly IClassesService _classesService;
         private readonly ITopicService _topicService;
-
-        public TopicDetailModel(IClassesService classesService, ITopicService topicService,
-            IHomeworkService homeworkService)
+        private readonly IUsersService _usersService;
+        public TopicDetailModel(IClassesService classesService, ITopicService topicService, IUsersService usersService)
         {
             _classesService = classesService;
             _topicService = topicService;
+            _usersService = usersService;
         }
 
         public ClassDto CurrentClass { get; set; }
@@ -41,7 +41,13 @@ namespace Front_end.Pages.Class
             {
                 return NotFound("Không t?m th?y ch? ð?");
             }
-
+            // 🔥 Lấy thông tin người tạo
+            var creator = await _usersService.GetByIdAsync(CurrentTopic.CreatedBy);
+            if (creator != null)
+            {
+                // Thêm thuộc tính mới để hiển thị
+                CurrentTopic.CreatedByName = creator.FullName ?? creator.Email;
+            }
             // Ki?m tra topic thu?c class (n?u c?n)
             if (CurrentTopic.ClassId != CurrentClass.ClassId)
             {

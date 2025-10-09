@@ -1,4 +1,5 @@
-﻿using Front_end.Models;
+﻿using System.Data;
+using Front_end.Models;
 using Front_end.Services;
 using Front_end.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,8 @@ namespace Front_end.Pages.Class
         public TopicDto CurrentTopic { get; set; } = new();
         public List<HomeworkDto> Homeworks { get; set; } = new();
         public string? CurrentUserId { get; set; }
+        public string? CurrentUserRole { get; set; }
+
         // dictionary tạm chứa materials theo homeworkId
         public Dictionary<int, List<MaterialDto>> HomeworkFiles { get; set; } = new();
         public Dictionary<int, List<SubmissionReadDto>> HomeworkSubmissions { get; set; } = new();
@@ -47,18 +50,20 @@ namespace Front_end.Pages.Class
         public async Task<IActionResult> OnGetAsync(string class_id, string topic_id)
         {
             if (string.IsNullOrEmpty(class_id) || string.IsNullOrEmpty(topic_id))
-                return BadRequest("Thiếu class_id hoặc topic_id");
+                return BadRequest("Missing class_id or topic_id");
 
             int classId = int.Parse(class_id);
             int topicId = int.Parse(topic_id);
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            CurrentUserRole = role;
 
             CurrentClass = await _classesService.GetByIdAsync(classId);
             if (CurrentClass == null)
-                return NotFound("Không tìm thấy lớp học");
+                return NotFound("Class not found");
 
             CurrentTopic = await _topicService.GetByIdAsync(topicId);
             if (CurrentTopic == null)
-                return NotFound("Không tìm thấy chủ đề");
+                return NotFound("Topic not found");
 
             Homeworks = await _homeworkService.GetByTopicAsync(topicId);
             // tải materials và submission cho từng homework
@@ -101,8 +106,9 @@ namespace Front_end.Pages.Class
         {
             // Lấy userId từ claims
             CurrentUserId = User.FindFirst("UserId")?.Value;
-            Console.WriteLine($"UserId từ claims: {CurrentUserId}");
-
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            //Console.WriteLine($"👤 UserId từ claims: {CurrentUserId}");
+            //Console.WriteLine($"🎓 Role từ claims: {role}");
             if (string.IsNullOrEmpty(CurrentUserId))
             {
                 return RedirectToPage("/Signin");
@@ -111,30 +117,29 @@ namespace Front_end.Pages.Class
             var classId = Request.Form["ClassID"];
             var topicId = dto.TopicID;
 
-            if (string.IsNullOrEmpty(classId))
+            // Hàm helper để redirect kèm lỗi
+            IActionResult RedirectWithError(string message)
             {
-                TempData["Error"] = "Thiếu thông tin lớp học.";
-                return RedirectToPage();
-            }
-
-            // Kiểm tra dữ liệu hợp lệ
-            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(dto.Title))
-            {
-                TempData["Error"] = "Vui lòng nhập đầy đủ thông tin bài tập.";
-                return RedirectToPage(new
-                {
-                    class_id = Request.Query["class_id"],
-                    topic_id = Request.Query["topic_id"]
-                });
-            }
-
-            // Gọi service tạo bài tập
-            var created = await _homeworkService.CreateAsync(dto);
-            if (created == null)
-            {
-                TempData["Error"] = "Tạo bài tập thất bại.";
+                TempData["Error"] = message;
                 return RedirectToPage(new { class_id = classId, topic_id = topicId });
             }
+
+            // Kiểm tra dữ liệu
+            if (string.IsNullOrEmpty(classId))
+                return RedirectWithError("Missing class information.");
+
+            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(dto.Title))
+                return RedirectWithError("Please fill in all required homework details.");
+
+            // Chỉ cho phép Teacher
+            if (!string.Equals(role, "Teacher", StringComparison.OrdinalIgnoreCase))
+                return RedirectWithError("You don't have permission to create homework. Only teachers can do this.");
+
+            // Tạo bài tập
+            var created = await _homeworkService.CreateAsync(dto);
+            if (created == null)
+                return RedirectWithError("Failed to create homework.");
+
             // Upload file nếu có
             var file = Request.Form.Files.FirstOrDefault();
             if (file != null && file.Length > 0)
@@ -145,7 +150,7 @@ namespace Front_end.Pages.Class
                 await materialService.UploadAsync(file, int.Parse(classId), uploadedBy, created.HomeworkID);
             }
             // Thành công
-            TempData["Success"] = "Tạo bài tập thành công!";
+            TempData["Success"] = "Homework created successfully!";
             return RedirectToPage(new { class_id = classId, topic_id = topicId });
         }
         public async Task<IActionResult> OnPostSubmitAsync(int homeworkId)
@@ -158,10 +163,10 @@ namespace Front_end.Pages.Class
             var topicId = Request.Query["topic_id"];
             if (string.IsNullOrEmpty(classId))
             {
-                TempData["Error"] = "Thiếu thông tin lớp học.";
+                TempData["Error"] = "Missing class information.";
                 return RedirectToPage();
             }
-
+        
             try
             {
                 var content = Request.Form["Content"];
@@ -176,11 +181,11 @@ namespace Front_end.Pages.Class
                     try
                     {
                         var scanId = await _copyleaksService.SubmitFileForScanAsync(file);
-                        Console.WriteLine($"📄 File đã được gửi scan Copyleaks. ScanId: {scanId}");
+                        Console.WriteLine($"File đã được gửi scan Copyleaks. ScanId: {scanId}");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"❌ Lỗi khi gửi scan Copyleaks: {ex.Message}");
+                        Console.WriteLine($"Lỗi khi gửi scan Copyleaks: {ex.Message}");
                         // Nếu muốn, có thể thêm TempData["Error"] hoặc log
                     }
                 }
@@ -202,11 +207,11 @@ namespace Front_end.Pages.Class
                     var updated = await _submissionService.UpdateAsync(updateDto, existingSubmission.SubmissionId);
                     if (updated == null)
                     {
-                        TempData["Error"] = "Cập nhật bài nộp thất bại.";
+                        TempData["Error"] = "Failed to update submission.";
                         return RedirectToPage(new { class_id = classId, topic_id = topicId });
                     }
 
-                    TempData["Success"] = "Cập nhật bài nộp thành công!";
+                    TempData["Success"] = "Submission updated successfully!";
                 }
                 else
                 {
@@ -223,17 +228,17 @@ namespace Front_end.Pages.Class
                     var created = await _submissionService.CreateAsync(dto);
                     if (created == null)
                     {
-                        TempData["Error"] = "Nộp bài thất bại.";
+                        TempData["Error"] = "Failed to submit assignment.";
                         return RedirectToPage(new { class_id = classId, topic_id = topicId });
                     }
 
-                    TempData["Success"] = "Nộp bài thành công!";
+                    TempData["Success"] = "Assignment submitted successfully!";
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Lỗi khi nộp bài: {ex.Message}");
-                TempData["Error"] = "Nộp bài thất bại!";
+                Console.WriteLine($"Lỗi khi nộp bài: {ex.Message}");
+                TempData["Error"] = "Failed to submit assignment.";
             }
 
             return RedirectToPage(new { class_id = classId, topic_id = topicId });

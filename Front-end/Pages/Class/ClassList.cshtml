@@ -2,7 +2,7 @@
 @model Front_end.Pages.Class.ClassListModel
 @{
     ViewData["Title"] = "Criticore - Join a Class";
-    Layout = "~/Pages/Shared/_HomepageLayout.cshtml";
+    Layout = "~/Pages/Shared/_Sidebar.cshtml";
 }
 
 <!DOCTYPE html>
@@ -17,32 +17,6 @@
 </head>
 <body class="bg-white text-gray-800">
     <div class="flex min-h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-white border-r hidden md:flex flex-col items-center py-6">
-            <div class="mb-8">
-                <img src="~/images/CriticoreLogoText.png" alt="Criticore Logo" class="h-12 mx-auto">
-            </div>
-            <nav class="flex flex-col w-full space-y-1 text-sm px-4">
-                <!-- Các link nav giữ nguyên từ code gốc -->
-                <a href="/Class/Classlist" class="flex items-center gap-3 px-3 py-2 bg-gray-100 text-gray-900 rounded font-medium">
-                    <!-- Icon sách -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 6H6a2 2 0 00-2 2v10a2 2 0 002 2h6m6-14h-6a2 2 0 00-2 2v10a2 2 0 002 2h6a2 2 0 002-2V8a2 2 0 00-2-2z" />
-                    </svg>
-                    Classrooms
-                </a>
-
-                <!-- Các features khác... -->
-                <a href="javascript:void(0)" class="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded" onclick="logout()">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
-                    </svg>
-                    Sign out
-                </a>
-            </nav>
-        </aside>
-
         <!-- Main content -->
         <main class="flex-1 p-6">
             <div class="max-w-7xl mx-auto">
@@ -248,7 +222,7 @@
             document.getElementById("joinClassModal").classList.add("hidden");
             document.getElementById("joinClassModal").classList.remove("flex");
         }
-                         async function logout() {
+        async function logout() {
             // Gọi API logout để backend xoá cookie
             await fetch('/api/logout', { method: 'POST' });
 

@@ -1,7 +1,8 @@
 ﻿@page
 @model Front_end.Pages.Class.HomeworkListModel
 @{
-    Layout = null;
+    Layout = "~/Pages/Shared/_Sidebar.cshtml";
+    ViewData["Title"] = "Criticore - Homework List";
 }@if (TempData["Success"] != null)
 {
     <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">@TempData["Success"]</div>
@@ -11,174 +12,174 @@
     <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">@TempData["Error"]</div>
 }
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="utf-8" />
-    <title>Homework Assignments</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href="~/images/CriticoreLogoNonText.png" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-</head>
-<body class="bg-gray-50 text-gray-800">
-    <div class="max-w-7xl mx-auto px-6 py-8">
-        <div class="flex gap-6">
-            <!-- Main -->
-            <main class="flex-1">
-                <a asp-page="/Class/ClassDetail" asp-route-id="@Model.CurrentClass.ClassId"
-                   class="text-blue-600 text-sm">
-                    &larr; Back to Class
-                </a>
-                <h1 class="text-2xl font-bold mb-6">Homework Assignments</h1>
+<div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="flex gap-6">
+        <!-- Main -->
+        <main class="flex-1">
+            <a asp-page="/Class/ClassDetail" asp-route-id="@Model.CurrentClass.ClassId"
+            class="text-blue-600 text-sm">
+                &larr; Back to Class
+            </a>
+            <h1 class="text-2xl font-bold mb-6">Homework Assignments</h1>
 
-                <!-- Homework list -->
-                <div id="homeworkList" class="flex flex-col gap-6">
-                    @if (Model.Homeworks != null && Model.Homeworks.Any())
+            <!-- Homework list -->
+            <div id="homeworkList" class="flex flex-col gap-6">
+                @if (Model.Homeworks != null && Model.Homeworks.Any())
+                {
+                    foreach (var hw in Model.Homeworks)
                     {
-                        foreach (var hw in Model.Homeworks)
-                        {
-                            <div class="bg-white rounded-lg shadow-sm border p-6">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h2 class="text-xl font-semibold">@hw.Title</h2>
-                                        <p class="text-gray-600 mt-1">@hw.Description</p>
-                                        <p class="text-sm text-gray-500 mt-2">
-                                            Due: @(hw.DueDate?.ToString("g") ?? "No due date")
-                                        </p>
-                                    </div>
-                                    @* hiển thị file đính kèm của bài tập *@
-                                    @if (Model.HomeworkFiles.ContainsKey(hw.HomeworkID) && Model.HomeworkFiles[hw.HomeworkID].Any())
-                                    {
-                                        <ul class="mt-3 list-disc list-inside text-sm text-blue-600">
-                                            @foreach (var file in Model.HomeworkFiles[hw.HomeworkID])
-                                            {
-                                                var sizeKB = file.FileSize / 1024.0;
-                                                var sizeText = sizeKB >= 1024
-                                                ? $"{sizeKB / 1024:F2} MB"
-                                                : $"{sizeKB:F1} KB";
-
-                                                <li class="flex items-center gap-2">
-                                                    <a href="@file.FileUrl" target="_blank" class="hover:underline flex items-center gap-1">
-                                                        📂 <span>@file.FileName</span>
-                                                    </a>
-                                                    <span class="text-gray-500 text-xs">(@sizeText)</span>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-
-
-                                    @* <div class="text-sm bg-gray-100 px-3 py-1 rounded-full"> *@
-                                    @*     @((hw.Submissions?.Count ?? 0)) submitted *@
-                                    @* </div> *@
+                        <div class="bg-white rounded-lg shadow-sm border p-6">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-xl font-semibold">@hw.Title</h2>
+                                    <p class="text-gray-600 mt-1">@hw.Description</p>
+                                    <p class="text-sm text-gray-500 mt-2">
+                                        Due: @(hw.DueDate?.ToString("g") ?? "No due date")
+                                    </p>
                                 </div>
+                                @* hiển thị file đính kèm của bài tập *@
+                                @if (Model.HomeworkFiles.ContainsKey(hw.HomeworkID) && Model.HomeworkFiles[hw.HomeworkID].Any())
+                                {
+                                    <ul class="mt-3 list-disc list-inside text-sm text-blue-600">
+                                        @foreach (var file in Model.HomeworkFiles[hw.HomeworkID])
+                                        {
+                                            var sizeKB = file.FileSize / 1024.0;
+                                            var sizeText = sizeKB >= 1024
+                                            ? $"{sizeKB / 1024:F2} MB"
+                                            : $"{sizeKB:F1} KB";
 
-                                @* Nộp bài *@
-                                <div class="mt-4 border-t pt-3">
-                                    <h3 class="text-sm font-medium text-gray-700 mb-2">Submit Your Work</h3>
+                                            <li class="flex items-center gap-2">
+                                                <a href="@file.FileUrl" target="_blank" class="hover:underline flex items-center gap-1">
+                                                    📂 <span>@file.FileName</span>
+                                                </a>
+                                                <span class="text-gray-500 text-xs">(@sizeText)</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
 
-                                    <form method="post" enctype="multipart/form-data"
-                                          asp-page-handler="Submit"
-                                          asp-route-homeworkId="@hw.HomeworkID"
-                                          asp-route-class_id="@Model.CurrentClass.ClassId"
-                                          asp-route-topic_id="@Model.CurrentTopic.TopicId">
-                                        <input type="hidden" name="HomeworkID" value="@hw.HomeworkID" />
-                                        <input type="hidden" name="ClassID" value="@Model.CurrentClass.ClassId" />
-                                        <input type="hidden" name="TopicID" value="@Model.CurrentTopic.TopicId" />
-                                        @* <input type="hidden" name="ClassID" value="@Request.Query["class_id"]" /> *@
-                                        @* <input type="hidden" name="TopicID" value="@Request.Query["topic_id"]" /> *@
 
-                                        @* <label class="block text-sm font-medium">Content</label> *@
-                                        <textarea name="Content" rows="3" class="w-full border rounded-lg px-3 py-2 mb-3"
-                                                  placeholder="Write your answer or notes..."></textarea>
+                                @* <div class="text-sm bg-gray-100 px-3 py-1 rounded-full"> *@
+                                @*     @((hw.Submissions?.Count ?? 0)) submitted *@
+                                @* </div> *@
+                            </div>
 
-                                        <div class="flex items-center gap-3 mb-3">
-                                            <label class="block text-sm font-medium text-gray-700 whitespace-nowrap">Attachment:</label>
-                                            <input type="file" name="Attachment"
-                                                   class="flex-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50
+                            @* Nộp bài *@
+                            <div class="mt-4 border-t pt-3">
+                                <h3 class="text-sm font-medium text-gray-700 mb-2">Submit Your Work</h3>
+                                @if (Model.CurrentUserRole != "Teacher")
+                                {
+                                <form method="post" enctype="multipart/form-data"
+                                asp-page-handler="Submit"
+                                asp-route-homeworkId="@hw.HomeworkID"
+                                asp-route-class_id="@Model.CurrentClass.ClassId"
+                                asp-route-topic_id="@Model.CurrentTopic.TopicId">
+                                    <input type="hidden" name="HomeworkID" value="@hw.HomeworkID" />
+                                    <input type="hidden" name="ClassID" value="@Model.CurrentClass.ClassId" />
+                                    <input type="hidden" name="TopicID" value="@Model.CurrentTopic.TopicId" />
+                                    @* <input type="hidden" name="ClassID" value="@Request.Query["class_id"]" /> *@
+                                    @* <input type="hidden" name="TopicID" value="@Request.Query["topic_id"]" /> *@
+
+                                    @* <label class="block text-sm font-medium">Content</label> *@
+                                    <textarea name="Content" rows="3" class="w-full border rounded-lg px-3 py-2 mb-3"
+                                    placeholder="Write your answer or notes..."></textarea>
+
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <label class="block text-sm font-medium text-gray-700 whitespace-nowrap">Attachment:</label>
+                                        <input type="file" name="Attachment"
+                                        class="flex-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                   file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
                   file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 transition" />
 
-                                            <button type="submit"
-                                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap">
-                                                Submit
-                                            </button>
-                                        </div>
-                                    </form>
+                                        <button type="submit"
+                                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </form>
+                                }
+                                else
+                                {
+                                    <p class="text-sm text-gray-500 italic">Teachers cannot submit homework.</p>
+                                }
+                                <hr class="my-4" />
+                                @* Hiển thị các câu trả lời của học sinh *@
+                                <h3 class="text-sm font-medium text-gray-700 mb-2">Submissions</h3>
 
-                                    <hr class="my-4" />
-                                     @* Hiển thị các câu trả lời của học sinh *@
-                                    <h3 class="text-sm font-medium text-gray-700 mb-2">Submissions</h3>
-
-                                    @if (Model.HomeworkSubmissions.ContainsKey(hw.HomeworkID) && Model.HomeworkSubmissions[hw.HomeworkID].Any())
-                                    {
-                                        <ul class="space-y-2 text-sm">
-                                            @foreach (var sub in Model.HomeworkSubmissions[hw.HomeworkID])
-                                            {
-                                                <li class="bg-gray-50 border rounded-lg px-3 py-2 flex justify-between items-center">
-                                                    <div>
-                                                        <p class="font-bold">
-                                                            @(
+                                @if (Model.HomeworkSubmissions.ContainsKey(hw.HomeworkID) && Model.HomeworkSubmissions[hw.HomeworkID].Any())
+                                {
+                                    <ul class="space-y-2 text-sm">
+                                        @foreach (var sub in Model.HomeworkSubmissions[hw.HomeworkID])
+                                        {
+                                            <li class="bg-gray-50 border rounded-lg px-3 py-2 flex justify-between items-center">
+                                                <div>
+                                                    <p class="font-bold">
+                                                        @(
                                                                 Model.SubmissionUserNames.TryGetValue(sub.SubmissionId, out var name) ? name : $"User {sub.UserId}"
                                                                 )
-                                                        </p>
-                                                        @if (!string.IsNullOrEmpty(sub.Content))
-                                                        {
-                                                            <p class="text-gray-700 mt-1">@sub.Content</p>
-                                                        }
-                                                        @if (!string.IsNullOrEmpty(sub.AttachmentUrl))
-                                                        {
-                                                            <a href="@sub.AttachmentUrl" target="_blank"
-                                                               class="text-blue-600 hover:underline">📎 Attachment</a>
-                                                        }
-                                                    </div>
-                                                    <span class="text-xs text-gray-500">
-                                                        @(sub.SubmittedAt?.ToString("g") ?? "Not submitted")
-                                                    </span>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-                                    else
-                                    {
-                                        <p class="text-sm text-gray-500 italic">No submissions yet.</p>
-                                    }
-                                </div>
+                                                    </p>
+                                                    @if (!string.IsNullOrEmpty(sub.Content))
+                                                    {
+                                                        <p class="text-gray-700 mt-1">@sub.Content</p>
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(sub.AttachmentUrl))
+                                                    {
+                                                        <a href="#" class="text-blue-600 hover:underline flex items-center gap-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                                <path d="M21.44 11.05a6 6 0 00-8.49-8.49L4.22 11.3a4 4 0 105.66 5.66L17 9.83" />
+                                                            </svg>
+                                                            Attachment
+                                                        </a>
 
-
+                                                    }
+                                                </div>
+                                                <span class="text-xs text-gray-500">
+                                                    @(sub.SubmittedAt?.ToString("g") ?? "Not submitted")
+                                                </span>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p class="text-sm text-gray-500 italic">No submissions yet.</p>
+                                }
                             </div>
-                        }
-                    }
-                    else
-                    {
-                        <div class="bg-white rounded-lg p-6 shadow-sm border text-gray-500">
-                            No homeworks available.
+
+
                         </div>
                     }
-                </div>
-            </main>
-
-            <!-- Sidebar -->
-            <aside class="w-72 flex-shrink-0">
-                <div class="bg-white rounded-lg p-4 shadow-sm border mb-4">
-                    <h2 class="font-semibold text-lg mb-3">Quick Actions</h2>
-                    <div class="flex flex-col gap-2">
-                        <a asp-page="/Class/TopicDetail"
-                           asp-route-class_id="@Model.CurrentClass.ClassId"
-                           asp-route-topic_id="@Model.CurrentTopic.TopicId"
-                           class="flex items-center gap-3 rounded-lg px-3 py-2 border hover:bg-gray-50 text-sm">
-                            <span>💬</span><span>Discussion</span>
-                        </a>
-                        <a href="#"
-                           class="flex items-center gap-3 rounded-lg px-3 py-2 bg-black text-white text-sm">
-                            <span>📚</span><span>Homework</span>
-                        </a>
+                }
+                else
+                {
+                    <div class="bg-white rounded-lg p-6 shadow-sm border text-gray-500">
+                        No homeworks available.
                     </div>
-                </div>
+                }
+            </div>
+        </main>
 
+        <!-- Sidebar -->
+        <aside class="w-72 flex-shrink-0">
+            <div class="bg-white rounded-lg p-4 shadow-sm border mb-4">
+                <h2 class="font-semibold text-lg mb-3">Quick Actions</h2>
+                <div class="flex flex-col gap-2">
+                    <a asp-page="/Class/TopicDetail"
+                    asp-route-class_id="@Model.CurrentClass.ClassId"
+                    asp-route-topic_id="@Model.CurrentTopic.TopicId"
+                    class="flex items-center gap-3 rounded-lg px-3 py-2 border hover:bg-gray-50 text-sm">
+                        <span>💬</span><span>Discussion</span>
+                    </a>
+                    <a href="#"
+                    class="flex items-center gap-3 rounded-lg px-3 py-2 bg-black text-white text-sm">
+                        <span>📚</span><span>Homework</span>
+                    </a>
+                </div>
+            </div>
+            @if (Model.CurrentUserRole == "Teacher")
+            {
                 <div class="mb-4">
                     <a href="#"
                        id="openCreateHomework"
@@ -186,6 +187,8 @@
                         <span>➕</span><span>Create Homework</span>
                     </a>
                 </div>
+            }
+           
 
                 @* <div class="bg-white rounded-lg p-4 shadow-sm border"> *@
                 @*     <h2 class="font-semibold text-lg mb-3">Class Information</h2> *@
@@ -210,8 +213,9 @@
 
     <!-- Modal Create Homework -->
     <div id="createHomeworkModal"
-         class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
+     class="hidden fixed inset-0 flex items-center justify-center z-50"
+     style="background-color: rgba(0,0,0,0.4);">
+    <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
             <button type="button" id="closeCreateHomework"
                     class="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-2xl">
                 &times;
@@ -252,7 +256,16 @@
         window.CurrentClass = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentClass));
         window.CurrentTopic = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentTopic));
         window.Homeworks = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Homeworks));
+       async function logout() {
+        // Gọi API logout để backend xoá cookie
+        await fetch('/api/logout', { method: 'POST' });
+
+        // Xoá localStorage
+        localStorage.removeItem('authToken');
+        // hoặc: localStorage.clear();
+
+        // Redirect về trang login/home
+        window.location.href = "https://localhost:7186";
+    }
     </script>
     <script src="~/js/homework-list.js"></script>
-</body>
-</html>
