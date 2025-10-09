@@ -66,5 +66,19 @@ namespace Front_end.Services
             if (!res.IsSuccessStatusCode) return null;
             return await res.Content.ReadFromJsonAsync<ClassDto>();
         }
+        // Đếm số lượng topic của class
+        public async Task<int> GetTopicCountByClassAsync(int classId)
+        {
+            try
+            {
+                var topics = await _http.GetFromJsonAsync<List<TopicDto>>($"api/Topics/byclass/{classId}");
+                return topics?.Count ?? 0;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
     }
 }

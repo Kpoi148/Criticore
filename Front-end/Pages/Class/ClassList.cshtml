@@ -154,6 +154,7 @@
         let classes = @Html.Raw(Json.Serialize(Model.Classes)); // Chuyển data sang JS
         let currentStatus = "All";
         let currentSemester = "All";
+            window.topicCounts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TopicCounts));
 
         function renderClasses() {
             const container = document.getElementById("classList");
@@ -196,7 +197,7 @@
                         ${cls.semester}</li>
                 </ul>
                 <div class="mt-4 flex justify-between items-center">
-                    <span class="text-xs text-black-500">${cls.slots} slots available</span>
+                     <span class="text-xs text-black-500">${window.topicCounts[cls.classId] ?? 0} topics available</span>
                     <button onclick="goToClass('${cls.classId}')" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition">Join Class</button>
                 </div>
             </div>
