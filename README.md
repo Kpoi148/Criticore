@@ -43,7 +43,7 @@ Dự án được triển khai theo mô hình Microservices, bao gồm:
   - `Shared/`
     - `# Các thành phần chung được chia sẻ (SharedKernel, EventBus, Common)`
 
-- **WebApps:**
+- **WebApps: Razor page**
   - `Front-end/`
     - `# Giao diện người dùng, tích hợp với API Gateway`
     - `wwwroot/`
