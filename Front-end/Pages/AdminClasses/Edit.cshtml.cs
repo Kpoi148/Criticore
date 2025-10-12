@@ -21,6 +21,12 @@ namespace Front_end.Pages.AdminClasses
         public List<SelectListItem> TeacherOptions { get; set; } = new();
         public async Task<IActionResult> OnGetAsync(int id)
         {
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (!string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return RedirectToPage("/Index"); // Không phải admin => quay về trang chủ
+            }
+
             var cls = await _classService.GetByIdAsync(id);
             if (cls == null) return NotFound();
             ClassInput = cls;

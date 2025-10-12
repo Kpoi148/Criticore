@@ -26,7 +26,7 @@ namespace TopicDetail.Api
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend",
-                    policy => policy.WithOrigins("https://localhost:7186")
+                    policy => policy.WithOrigins("https://criticore.edu.vn:8386")
                                     .AllowAnyMethod()
                                     .AllowAnyHeader()
                                     .AllowCredentials());
@@ -34,7 +34,7 @@ namespace TopicDetail.Api
             builder.Services.AddAutoMapper(typeof(TopicDetailMapping).Assembly);
             // Đăng ký DbContext
             builder.Services.AddDbContext<TopicDetailDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("VPSConnection")));
 
             // Đăng ký Repository và Service
             builder.Services.AddScoped<ITopicDetailRepository,TopicDetailRepository>();

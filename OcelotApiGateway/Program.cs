@@ -28,7 +28,7 @@ namespace OcelotApiGateway
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             // app.UseAuthorization();  // Comment nếu không cần auth, để tránh chặn request
 
             app.MapControllers();

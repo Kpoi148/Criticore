@@ -1,4 +1,4 @@
-using Front_end.Models;
+﻿using Front_end.Models;
 using Front_end.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,9 +12,17 @@ namespace Front_end.Pages.AdminClasses
 
         public List<ClassDto> Classes { get; set; } = new();
 
-        public async Task OnGetAsync()
+        // Kiểm tra role khi load trang
+        public async Task<IActionResult> OnGetAsync()
         {
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (!string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return RedirectToPage("/Index"); // Không phải admin => quay về trang chủ
+            }
+
             Classes = await _service.GetAllAsync();
+            return Page();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)

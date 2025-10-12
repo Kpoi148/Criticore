@@ -54,7 +54,7 @@ renderTopicInfo();
 // Fetch và render answers từ API
 async function fetchAndRenderAnswers() {
     try {
-        const response = await fetch(`https://localhost:7134/api/TopicDetail/topics/${topicId}/answers`);
+        const response = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/topics/${topicId}/answers`);
         if (!response.ok) throw new Error('Lỗi fetch answers');
         const answers = await response.json();
         topic.answers = answers; // Lưu tạm vào topic để dễ xử lý
@@ -147,7 +147,7 @@ async function rateAnswer(rating, index = null) {
         amount: rating
     };
     try {
-        const response = await fetch(`https://localhost:7134/api/TopicDetail/votes`, {
+        const response = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/votes`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -163,7 +163,7 @@ async function rateAnswer(rating, index = null) {
         if (index === currentAnswerIndex) renderStars(rating); // Update modal
         // Optional fallback nếu SignalR delay > 2s: Re-fetch single answer
         setTimeout(async () => {
-            const resp = await fetch(`https://localhost:7134/api/TopicDetail/answers/${answer.answerId}`);
+            const resp = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/answers/${answer.answerId}`);
             const updatedAnswer = await resp.json();
             topic.answers[index].rating = updatedAnswer.rating;
             topic.answers[index].voteCount = updatedAnswer.voteCount;
@@ -367,7 +367,7 @@ async function sendAnswer() {
         // picture: userPicture,
     };
     try {
-        const response = await fetch("https://localhost:7134/api/TopicDetail/answers", {
+        const response = await fetch("https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/answers", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -448,7 +448,7 @@ document.getElementById("submitAnswer").addEventListener("click", sendAnswer);
 // Thêm script SignalR nếu chưa có (trong HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>)
 // Kết nối SignalR
 const connection = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost:7134/topicHub") // URL API của TopicDetail (thay bằng production URL)
+    .withUrl("https://topicdetail.criticore.edu.vn:8009/topicHub") // URL API của TopicDetail (thay bằng production URL)
     .withAutomaticReconnect() // Tự reconnect
     .build();
 connection.start()
@@ -553,7 +553,7 @@ async function callAiAPI(userInput, useRAG = false) {
     const classes = JSON.parse(localStorage.getItem('classes') || '[]');
     let currentClassId = localStorage.getItem('currentClassId') || (classes[0]?.class_id || null);
     try {
-        const response = await fetch('https://localhost:7209/api/ai/ask', {
+        const response = await fetch('https://chatbot.criticore.edu.vn:8006/api/ai/ask', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userInput, history, useRAG })

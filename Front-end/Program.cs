@@ -21,19 +21,19 @@ namespace Front_end
             builder.Services.AddHttpClient<ITopicDetailService, TopicDetailService>();
             builder.Services.AddHttpClient("GatewayClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7215");
+                client.BaseAddress = new Uri("https://ocelot.criticore.edu.vn:8002/");
             });
             builder.Services.AddHttpClient<IClassesService, ClassesService>(client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7193/");
+                client.BaseAddress = new Uri("https://class.criticore.edu.vn:8005/");
             });
             builder.Services.AddHttpClient<IMaterialService, MaterialService>(client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7179/");
+                client.BaseAddress = new Uri("https://material.criticore.edu.vn:8008/");
             });
             builder.Services.AddHttpClient<IUsersService, UsersService>(client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7281/");
+                client.BaseAddress = new Uri("https://identity.criticore.edu.vn:8004/");
             });
             builder.Services.AddHttpClient<IHomeworkService, HomeworkService>();
             builder.Services.AddHttpClient<ISubmissionFileService, SubmissionFileService>();

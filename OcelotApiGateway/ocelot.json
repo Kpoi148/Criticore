@@ -1,13 +1,25 @@
 {
   //Mẫu api routing
   "Routes": [
+    //{
+    //  "DownstreamPathTemplate": "/api/{everything}",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 5001
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/identity/{everything}",
+    //  "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    //},
     {
       "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "identity.criticore.edu.vn",
+          "Port": 8001
         }
       ],
       "UpstreamPathTemplate": "/identity/{everything}",
@@ -25,19 +37,31 @@
       "UpstreamPathTemplate": "/payment/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
+    //{
+    //  "DownstreamPathTemplate": "/{everything}",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7281
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/auth/{everything}",
+    //  "UpstreamHttpMethod": [ "GET", "POST" ]
+    //},
+    // Thêm route cho Classes API
     {
-      "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/auth/{everything}",
+      "DownstreamScheme": "http", // Thay https thành http vì Identity dùng cổng 8001 (HTTP)
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7281
+          "Host": "identity.criticore.edu.vn",
+          "Port": 8001
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST" ]
     },
-    // Thêm route cho Classes API
     {
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "https",

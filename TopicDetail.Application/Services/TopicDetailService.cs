@@ -47,10 +47,33 @@ namespace TopicDetail.Application.Services
         public async Task<AnswerDto> CreateAnswerAsync(CreateAnswerDto dto)
         {
             var answer = _mapper.Map<Answer>(dto);
-            answer.CreatedAt = DateTime.UtcNow;
+
+            // 1. Xác định múi giờ Việt Nam
+            TimeZoneInfo vnTimeZone;
+            try
+            {
+                // "Asia/Ho_Chi_Minh" cho Linux/macOS, "SE Asia Standard Time" cho Windows
+                vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById(
+                    System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows)
+                        ? "SE Asia Standard Time"
+                        : "Asia/Ho_Chi_Minh"
+                );
+            }
+            catch (TimeZoneNotFoundException)
+            {
+                // Fallback: Sử dụng cách thủ công nếu không tìm thấy ID hệ thống
+                vnTimeZone = TimeZoneInfo.CreateCustomTimeZone("GMT+07", TimeSpan.FromHours(7), "GMT+07", "GMT+07");
+            }
+
+            // 2. Chuyển đổi DateTime.UtcNow sang Giờ Việt Nam
+            DateTime vietNamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vnTimeZone);
+
+            // Gán giờ Việt Nam
+            answer.CreatedAt = vietNamTime;
+
             var created = await _repository.CreateAnswerAsync(answer);
 
-            // Fix: Lấy full entity với populate (CreatedBy, Rating, etc.)
+            // ... (Phần còn lại của logic)
             var fullAnswer = await GetAnswerByIdAsync(created.AnswerId);
             if (fullAnswer == null)
             {
@@ -63,13 +86,38 @@ namespace TopicDetail.Application.Services
         public async Task UpdateAnswerAsync(int id, UpdateAnswerDto dto)
         {
             var answer = await _repository.GetAnswerByIdAsync(id);
+
             if (answer != null)
             {
                 _mapper.Map(dto, answer);
-                answer.UpdatedAt = DateTime.UtcNow;
+
+                // 1. Xác định múi giờ Việt Nam (GMT+7)
+                TimeZoneInfo vnTimeZone;
+                try
+                {
+                    // Sử dụng ID chính xác cho hệ thống (Windows/Linux)
+                    vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById(
+                        System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows)
+                            ? "SE Asia Standard Time"
+                            : "Asia/Ho_Chi_Minh"
+                    );
+                }
+                catch (TimeZoneNotFoundException)
+                {
+                    // Fallback: Nếu không tìm thấy, tạo thủ công GMT+7
+                    vnTimeZone = TimeZoneInfo.CreateCustomTimeZone("GMT+07", TimeSpan.FromHours(7), "GMT+07", "GMT+07");
+                }
+
+                // 2. Chuyển đổi DateTime.UtcNow sang Giờ Việt Nam
+                DateTime vietNamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vnTimeZone);
+
+                // 3. Gán Giờ Việt Nam cho UpdatedAt
+                answer.UpdatedAt = vietNamTime;
+
                 await _repository.UpdateAnswerAsync(answer);
             }
         }
+
 
         public async Task DeleteAnswerAsync(int id)
         {

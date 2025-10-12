@@ -36,6 +36,16 @@ D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\obj\Debug\net8.0\refint\OcelotApiG
 D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\obj\Debug\net8.0\OcelotApiGateway.pdb
 D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\obj\Debug\net8.0\OcelotApiGateway.genruntimeconfig.cache
 D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\obj\Debug\net8.0\ref\OcelotApiGateway.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\FluentValidation.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\IPAddressRange.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.MiddlewareAnalysis.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DiagnosticAdapter.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Ocelot.dll
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\appsettings.Development.json
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\appsettings.json
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\ocelot.json
@@ -45,7 +55,17 @@ E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\OcelotApiGateway.deps.json
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\OcelotApiGateway.runtimeconfig.json
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\OcelotApiGateway.dll
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\OcelotApiGateway.pdb
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\FluentValidation.dll
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\IPAddressRange.dll
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.MiddlewareAnalysis.dll
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DiagnosticAdapter.dll
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.OpenApi.dll
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.dll
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Ocelot.dll
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -73,23 +93,3 @@ E:\C#\Criticore\OcelotApiGateway\obj\Debug\net8.0\refint\OcelotApiGateway.dll
 E:\C#\Criticore\OcelotApiGateway\obj\Debug\net8.0\OcelotApiGateway.pdb
 E:\C#\Criticore\OcelotApiGateway\obj\Debug\net8.0\OcelotApiGateway.genruntimeconfig.cache
 E:\C#\Criticore\OcelotApiGateway\obj\Debug\net8.0\ref\OcelotApiGateway.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\FluentValidation.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\IPAddressRange.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.MiddlewareAnalysis.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DiagnosticAdapter.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
-E:\C#\Criticore\OcelotApiGateway\bin\Debug\net8.0\Ocelot.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\FluentValidation.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\IPAddressRange.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.MiddlewareAnalysis.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Microsoft.Extensions.DiagnosticAdapter.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
-D:\HOC\Ki 8\EXE201\Criticore\OcelotApiGateway\bin\Debug\net8.0\Ocelot.dll

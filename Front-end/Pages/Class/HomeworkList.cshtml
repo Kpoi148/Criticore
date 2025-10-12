@@ -65,44 +65,39 @@
                             </div>
 
                             @* Nộp bài *@
-                            <div class="mt-4 border-t pt-3">
-                                <h3 class="text-sm font-medium text-gray-700 mb-2">Submit Your Work</h3>
-                                @if (Model.CurrentUserRole != "Teacher")
-                                {
-                                <form method="post" enctype="multipart/form-data"
-                                asp-page-handler="Submit"
-                                asp-route-homeworkId="@hw.HomeworkID"
-                                asp-route-class_id="@Model.CurrentClass.ClassId"
-                                asp-route-topic_id="@Model.CurrentTopic.TopicId">
-                                    <input type="hidden" name="HomeworkID" value="@hw.HomeworkID" />
-                                    <input type="hidden" name="ClassID" value="@Model.CurrentClass.ClassId" />
-                                    <input type="hidden" name="TopicID" value="@Model.CurrentTopic.TopicId" />
-                                    @* <input type="hidden" name="ClassID" value="@Request.Query["class_id"]" /> *@
-                                    @* <input type="hidden" name="TopicID" value="@Request.Query["topic_id"]" /> *@
 
-                                    @* <label class="block text-sm font-medium">Content</label> *@
-                                    <textarea name="Content" rows="3" class="w-full border rounded-lg px-3 py-2 mb-3"
-                                    placeholder="Write your answer or notes..."></textarea>
+                            @if (Model.CurrentUserRole != "Teacher")
+                            {
+                                <div class="mt-4 border-t pt-3">
+                                    <h3 class="text-sm font-medium text-gray-700 mb-2">Submit Your Work</h3>
+                                    <form method="post" enctype="multipart/form-data"
+                                                   asp-page-handler="Submit"
+                                                   asp-route-homeworkId="@hw.HomeworkID"
+                                                   asp-route-class_id="@Model.CurrentClass.ClassId"
+                                                   asp-route-topic_id="@Model.CurrentTopic.TopicId">
+                                        <input type="hidden" name="HomeworkID" value="@hw.HomeworkID" />
+                                        <input type="hidden" name="ClassID" value="@Model.CurrentClass.ClassId" />
+                                        <input type="hidden" name="TopicID" value="@Model.CurrentTopic.TopicId" />
 
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <label class="block text-sm font-medium text-gray-700 whitespace-nowrap">Attachment:</label>
-                                        <input type="file" name="Attachment"
-                                        class="flex-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                  file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
-                  file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 transition" />
+                                        <textarea name="Content" rows="3" class="w-full border rounded-lg px-3 py-2 mb-3"
+                                                 placeholder="Write your answer or notes..."></textarea>
 
-                                        <button type="submit"
-                                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap">
-                                            Submit
-                                        </button>
-                                    </div>
-                                </form>
-                                }
-                                else
-                                {
-                                    <p class="text-sm text-gray-500 italic">Teachers cannot submit homework.</p>
-                                }
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <label class="block text-sm font-medium text-gray-700 whitespace-nowrap">Attachment:</label>
+                                            <input type="file" name="Attachment"
+                                                                class="flex-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50
+                                                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                                    file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
+                                                                    file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 transition" />
+
+                                            <button type="submit"
+                                                                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            }
                                 <hr class="my-4" />
                                 @* Hiển thị các câu trả lời của học sinh *@
                                 <h3 class="text-sm font-medium text-gray-700 mb-2">Submissions</h3>
@@ -147,9 +142,6 @@
                                     <p class="text-sm text-gray-500 italic">No submissions yet.</p>
                                 }
                             </div>
-
-
-                        </div>
                     }
                 }
                 else
@@ -265,7 +257,7 @@
         // hoặc: localStorage.clear();
 
         // Redirect về trang login/home
-        window.location.href = "https://localhost:7186";
+        window.location.href = "https://criticore.edu.vn:8386";
     }
     </script>
     <script src="~/js/homework-list.js"></script>

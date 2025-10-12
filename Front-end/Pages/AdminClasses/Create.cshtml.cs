@@ -22,8 +22,14 @@ namespace Front_end.Pages.AdminClasses
         // Danh sách giáo viên để render ra dropdown
         public List<SelectListItem> Teachers { get; set; } = new();
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (!string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return RedirectToPage("/Index"); // Không phải admin => quay về trang chủ
+
+            }
             // gọi API lấy teachers
             var teachers = await _userService.GetTeachersAsync();
             Teachers = teachers.Select(t => new SelectListItem
@@ -31,6 +37,8 @@ namespace Front_end.Pages.AdminClasses
                 Value = t.UserId.ToString(),
                 Text = t.FullName
             }).ToList();
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()

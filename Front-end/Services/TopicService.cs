@@ -10,7 +10,7 @@ namespace Front_end.Services
         public TopicService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7193/"); // Thay bằng base URL API, ví dụ: https://localhost:port/
+            _httpClient.BaseAddress = new Uri("https://class.criticore.edu.vn:8005/"); // Thay bằng base URL API, ví dụ: https://localhost:port/
         }
 
         public async Task<List<TopicDto>> GetAllByClassAsync(int classId)

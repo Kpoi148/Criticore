@@ -1,4 +1,4 @@
-using Front_end.DTOs;
+﻿using Front_end.DTOs;
 using Front_end.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,9 +15,18 @@ namespace Front_end.Pages.AdminUsers
             _usersService = usersService;
         }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+
+            if (!string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                // Không phải admin => redirect về trang chủ
+                return RedirectToPage("/Index");
+            }
+
             Users = await _usersService.GetAllAsync();
+            return Page();
         }
 
         public async Task OnPostBanAsync(int id)

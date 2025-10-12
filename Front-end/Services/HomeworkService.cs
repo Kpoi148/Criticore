@@ -11,7 +11,7 @@ namespace Front_end.Services
         public HomeworkService(HttpClient http)
         {
             _http = http;
-            _http.BaseAddress = new Uri("https://localhost:7154/"); // base URL của Homework API
+            _http.BaseAddress = new Uri("https://homework.criticore.edu.vn:8007/"); // base URL của Homework API
         }
 
         // Lấy danh sách homework theo TopicId (khớp với backend route)

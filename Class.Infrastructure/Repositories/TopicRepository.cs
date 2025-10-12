@@ -32,8 +32,8 @@ public class TopicRepository : ITopicRepository
 
     public async Task AddAsync(Topic topic)
     {
-        topic.CreatedAt = DateTime.UtcNow;
-        topic.UpdatedAt = DateTime.UtcNow; // Thêm UpdatedAt để nhất quán
+        var now = DateTime.UtcNow.AddHours(7); // Giờ Việt Nam (UTC+7)
+        topic.CreatedAt = now;
         _context.Topics.Add(topic);
         await _context.SaveChangesAsync();
     }

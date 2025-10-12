@@ -135,13 +135,13 @@
                     <h3 class="text-lg font-semibold">
                         Class Members (<span id="memberCount">0</span>)
                     </h3>
-                    @if (Model.IsTeacher)
+                    @* @if (Model.IsTeacher)
                     {
                         <button id="addMemberBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-sm flex items-center space-x-1" title="Add member">
                             <span class="text-white text-lg">＋</span>
                             <span>Add Member</span>
                         </button>
-                    }
+                    } *@
 
                 </div>
                 <p class="text-gray-500 text-sm mb-4">Students and instructors in this class</p>
@@ -173,12 +173,12 @@
                     <h3 class="text-lg font-semibold">
                         Group Management (<span id="groupCount">0</span>)
                     </h3>
-                    @if (Model.IsTeacher)
+                    @* @if (Model.IsTeacher)
                     {
                         <button id="createGroupBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-sm">
                             + Create Group
                         </button>
-                    }
+                    } *@
 
                 </div>
                 <div id="groupList" class="space-y-4">
@@ -268,6 +268,7 @@
         window.reportData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ReportData));
         window.topicsData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Topics));
         window.isTeacher = @Model.IsTeacher.ToString().ToLower(); // ✅ Truyền xuống FE
+        window.currentUserId = '@Model.CurrentUserId';
 
                  async function logout() {
                 // Gọi API logout để backend xoá cookie
@@ -278,7 +279,7 @@
                 // hoặc: localStorage.clear();
 
                 // Redirect về trang login/home
-                window.location.href = "https://localhost:7186";
+                window.location.href = "https://criticore.edu.vn:8386";
             }
     </script>
     <script src="~/js/classdetail.js"></script>
