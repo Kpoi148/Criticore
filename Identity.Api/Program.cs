@@ -36,7 +36,7 @@ namespace Identity.Api
 
             // Đăng ký DbContext
             builder.Services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("VPSConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Đăng ký Repository và Service
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -107,8 +107,10 @@ namespace Identity.Api
 
                         // Nếu là Admin thì redirect sang admin page, còn không thì về ClassList
                         var redirectUri = user.Role == "Admin"
-                            ? $"https://criticore.edu.vn:8386/adminclasses/index?token={jwtToken}"
-                            : $"https://criticore.edu.vn:8386/Class/ClassList?token={jwtToken}";
+                            ? $"https://localhost:7186/adminclasses/index?token={jwtToken}"
+                            : $"https://localhost:7186/Class/ClassList?token={jwtToken}";
+                        //? $"https://criticore.edu.vn:8386/adminclasses/index?token={jwtToken}"
+                        //    : $"https://criticore.edu.vn:8386/Class/ClassList?token={jwtToken}";
 
                         context.Response.Redirect(redirectUri);
                         context.HandleResponse(); // Dừng xử lý cookie
@@ -128,9 +130,10 @@ namespace Identity.Api
 
             });
 
-            builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(@"C:\keys"))
-    .ProtectKeysWithDpapi(protectToLocalMachine: true);  // Thêm protectToLocalMachine
+
+    //        builder.Services.AddDataProtection()
+    //.PersistKeysToFileSystem(new DirectoryInfo(@"C:\keys"))
+    //.ProtectKeysWithDpapi(protectToLocalMachine: true);  // Thêm protectToLocalMachine
 
             var app = builder.Build();
             // Configure the HTTP request pipeline.

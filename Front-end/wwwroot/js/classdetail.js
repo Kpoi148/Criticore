@@ -30,7 +30,9 @@ window.deleteTopic = async function (idx) {
     }).then((result) => result.isConfirmed)) return;
     const topicId = cls.topics[idx].topic_id; // Lấy ID topic
     try {
-        const response = await fetch(`https://class.criticore.edu.vn:8005/api/Topics/${topicId}`, {
+        const response = await fetch(`https://localhost:7193/api/Topics/${topicId}`
+        //const response = await fetch(`https://class.criticore.edu.vn:8005/api/Topics/${topicId}`
+            , {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -72,12 +74,14 @@ function initTopicEndTime() {
 }
 async function loadTopics() {
     try {
-        const response = await fetch(`https://class.criticore.edu.vn:8005/api/Topics/byclass/${cls.ClassId}`);
+        const response = await fetch(`https://localhost:7193/api/Topics/byclass/${cls.ClassId}`);
+        //const response = await fetch(`https://class.criticore.edu.vn:8005/api/Topics/byclass/${cls.ClassId}`);
         if (response.ok) {
             let topics = await response.json();
             cls.topics = await Promise.all(topics.map(async (t) => {
                 try {
-                    const ansResponse = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/topics/${t.topicId}/answers`);
+                    const ansResponse = await fetch(`https://localhost:7134/api/TopicDetail/topics/${t.topicId}/answers`);
+                    //const ansResponse = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/topics/${t.topicId}/answers`);
                     const answers = ansResponse.ok ? await ansResponse.json() : [];
                     return {
                         topic_id: t.topicId ? t.topicId.toString() : '',
@@ -638,7 +642,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const endTimeISO = endTimeDate.toISOString();
             try {
-                const response = await fetch('https://class.criticore.edu.vn:8005/api/Topics', {
+                const response = await fetch('https://localhost:7193/api/Topics'
+                //const response = await fetch('https://class.criticore.edu.vn:8005/api/Topics'
+                    , {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

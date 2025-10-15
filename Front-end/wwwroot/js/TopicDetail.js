@@ -5,6 +5,14 @@ const classId = params.get("class_id");
 const topicId = params.get("topic_id");
 let currentAnswerIndex = null;
 let lastAIReply = ""; // Lưu phản hồi AI cuối cùng để kiểm tra tương đồng
+// Gần đầu file, sau Notyf
+// Line ~9: Init chỉ nếu class tồn tại
+let pdfService;
+if (typeof PDFSummarizerClient !== 'undefined') {
+    pdfService = new PDFSummarizerClient('http://localhost:8000');  // URL backend Python
+} else {
+    console.error('PDFSummarizerClient not loaded! Check script include.');
+}
 const notyf = new Notyf({
     duration: 4000, // Thời gian hiển thị (ms)
     ripple: true, // Effect ripple hiện đại
@@ -54,7 +62,8 @@ renderTopicInfo();
 // Fetch và render answers từ API
 async function fetchAndRenderAnswers() {
     try {
-        const response = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/topics/${topicId}/answers`);
+        const response = await fetch(`https://localhost:7134/api/TopicDetail/topics/${topicId}/answers`);
+        //const response = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/topics/${topicId}/answers`);
         if (!response.ok) throw new Error('Lỗi fetch answers');
         const answers = await response.json();
         topic.answers = answers; // Lưu tạm vào topic để dễ xử lý
@@ -147,7 +156,9 @@ async function rateAnswer(rating, index = null) {
         amount: rating
     };
     try {
-        const response = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/votes`, {
+        const response = await fetch(`https://localhost:7134/api/TopicDetail/votes`
+        //const response = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/votes`
+            , {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -163,7 +174,8 @@ async function rateAnswer(rating, index = null) {
         if (index === currentAnswerIndex) renderStars(rating); // Update modal
         // Optional fallback nếu SignalR delay > 2s: Re-fetch single answer
         setTimeout(async () => {
-            const resp = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/answers/${answer.answerId}`);
+            const resp = await fetch(`https://localhost:7134/api/TopicDetail/answers/${answer.answerId}`);
+            //const resp = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/answers/${answer.answerId}`);
             const updatedAnswer = await resp.json();
             topic.answers[index].rating = updatedAnswer.rating;
             topic.answers[index].voteCount = updatedAnswer.voteCount;
@@ -367,7 +379,9 @@ async function sendAnswer() {
         // picture: userPicture,
     };
     try {
-        const response = await fetch("https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/answers", {
+        const response = await fetch("https://localhost:7134/api/TopicDetail/answers"
+        //const response = await fetch("https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/answers"
+            , {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -409,25 +423,6 @@ textarea.addEventListener("blur", () => {
         answerBar.classList.remove("fullscreen-answer");
     }, 200);
 });
-//// Hàm showToast để hiển thị thông báo
-//function showToast(message, time = 3500, type = "warning") {
-// const toast = document.getElementById("toast");
-// toast.innerText = message;
-// // Thay đổi màu sắc của toast tùy theo loại (warning, success, error)
-// if (type === "success") {
-// toast.style.backgroundColor = "#10b981"; // Màu xanh cho thành công
-// } else if (type === "error") {
-// toast.style.backgroundColor = "#ef4444"; // Màu đỏ cho lỗi
-// } else {
-// toast.style.backgroundColor = "#f59e0b"; // Màu vàng cho cảnh báo
-// }
-// toast.classList.remove("hidden");
-// toast.classList.add("opacity-100");
-// setTimeout(() => {
-// toast.classList.add("hidden");
-// toast.classList.remove("opacity-100");
-// }, time);
-//}
 document.getElementById(
     "discussionLink"
 ).href = `topic-detail.html?class_id=${encodeURIComponent(
@@ -435,20 +430,12 @@ document.getElementById(
 )}&topic_id=${encodeURIComponent(topicId)}`;
 document.getElementById("thisHomeworkLink").href =
     `/Class/HomeworkList?class_id=${encodeURIComponent(classId)}&topic_id=${encodeURIComponent(topicId)}`;
-//document.getElementById("infoStudents").innerText = (
-//    cls.memberList || []
-//).length;
-//document.getElementById("infoAssignments").innerText = (
-//    topic.homeworks || []
-//).length;
-//document.getElementById("infoDiscussions").innerText = (
-//    cls.topics || []
-//).length;
 document.getElementById("submitAnswer").addEventListener("click", sendAnswer);
 // Thêm script SignalR nếu chưa có (trong HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>)
 // Kết nối SignalR
 const connection = new signalR.HubConnectionBuilder()
-    .withUrl("https://topicdetail.criticore.edu.vn:8009/topicHub") // URL API của TopicDetail (thay bằng production URL)
+    .withUrl("https://localhost:7134/topicHub") // URL API của TopicDetail (thay bằng production URL)
+    //.withUrl("https://topicdetail.criticore.edu.vn:8009/topicHub") // URL API của TopicDetail (thay bằng production URL)
     .withAutomaticReconnect() // Tự reconnect
     .build();
 connection.start()
@@ -546,21 +533,26 @@ function updateAnswerStars(index) {
 }
 // ================= Tính năng chat với AI ================
 async function callAiAPI(userInput, useRAG = false) {
-    const history = JSON.parse(localStorage.getItem('conversationHistory') || '[]');
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const senderId = user.sub || null;
-    const senderName = user.name || "Unknown";
-    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
-    let currentClassId = localStorage.getItem('currentClassId') || (classes[0]?.class_id || null);
+    let history = JSON.parse(localStorage.getItem('conversationHistory') || '[]');
+    // Thêm system prompt nếu chưa có (để enforce ở frontend)
+    const systemPrompt = {
+        role: "system",
+        content: "You are an AI assistant who guides users to learn through the Socratic method. Always respond with open-ended questions that encourage users to think critically, explore, and go deeper into the topic; never provide direct answers. Respond concisely, use Markdown for formatting: ## for subheadings, - for bullet points, 1. for numbered lists, **bold** for keywords. Divide content into short paragraphs (3-5 sentences per paragraph), add tables if needed for comparison. Avoid long-winded text."
+    };
+    // Kiểm tra và thêm nếu thiếu
+    if (!history.some(msg => msg.role === 'system')) {
+        history.unshift(systemPrompt);  // Thêm ở đầu history
+    }
     try {
-        const response = await fetch('https://chatbot.criticore.edu.vn:8006/api/ai/ask', {
+        console.log('History sent to API:', history);  // Debug để kiểm tra
+        const response = await fetch('https://localhost:7209/api/ai/ask', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userInput, history, useRAG })
         });
         if (!response.ok) {
-            const errorText = await response.text(); // Lấy text để debug
-            throw new Error(`Lỗi HTTP! Status: ${response.status}, Message: ${errorText || 'Không có chi tiết'}`);
+            const errorText = await response.text();
+            throw new Error(`HTTP Error! Status: ${response.status}, Message: ${errorText || 'No details'}`);
         }
         const data = await response.json();
         history.push({ role: "user", content: userInput });
@@ -568,56 +560,107 @@ async function callAiAPI(userInput, useRAG = false) {
         localStorage.setItem('conversationHistory', JSON.stringify(history));
         return data.reply;
     } catch (error) {
-        console.error('Chi tiết lỗi AI API:', error); // Log chi tiết hơn
-        return `Lỗi gọi AI: ${error.message}`; // Trả về thông báo cụ thể cho user
+        console.error('AI API Error:', error);
+        return `Error calling AI: ${error.message}`;
     }
 }
+// Cập nhật sendMessage để append bubble user và AI
 async function sendMessage() {
     const input = document.getElementById("userInput");
     const messages = document.getElementById("messages");
+    const fileInput = document.getElementById("pdfInput");
     const textInput = input.value.trim();
-    if (!textInput) return;
+    const pdfFile = fileInput?.files[0];
+
+    if (!textInput && !pdfFile) return;
+
     let loadingId = `loading-${Date.now()}`;
-    // Show user message
-    messages.innerHTML += `
-      <div class="mb-1 flex justify-end">
-        <div class="bg-blue-500 text-white px-4 py-2 rounded-lg max-w-xs break-words">
-          ${escapeHtml(textInput)}
-        </div>
-      </div>`;
-    messages.innerHTML += `<div id="${loadingId}" class="mb-2"><span class="bg-gray-700 rounded-lg px-3 py-2 inline-block text-gray-300">AI đang xử lý...</span></div>`;
+
+    // Show user message bubble (right-aligned)
+    if (textInput) {
+        messages.innerHTML += `
+        <div class="flex justify-end mb-4">
+            <div class="bg-blue-100 px-4 py-2 rounded-lg shadow-sm max-w-[80%] text-sm text-gray-800">
+                ${escapeHtml(textInput)}
+            </div>
+        </div>`;
+    }
+
+    // Handle PDF upload
+    if (pdfFile) {
+        messages.innerHTML += `
+        <div class="flex justify-end mb-4">
+            <div class="bg-blue-100 px-4 py-2 rounded-lg shadow-sm max-w-[80%] text-sm text-gray-800">
+                📄 Uploaded: ${escapeHtml(pdfFile.name)}
+            </div>
+        </div>`;
+    }
+
+    messages.innerHTML += `<div id="${loadingId}" class="flex items-start mb-4"><div class="bg-gray-200 px-4 py-2 rounded-lg text-sm">AI đang xử lý...</div></div>`;
     messages.scrollTop = messages.scrollHeight;
+
     try {
-        // Gọi API AI (có thể thêm logic cho PDF nếu cần, nhưng tạm thời chỉ text)
-        const aiReply = await callAiAPI(textInput, false); // useRAG = false cho chat cơ bản
-        // Remove loading indicator and display response
+        let aiReply;
+        let useRAG = !!pdfFile;
+
+        if (pdfFile) {
+            // Upload và query PDF (giữ nguyên logic cũ)
+            const uploadResult = await pdfService.uploadPDF(pdfFile);
+            if (!uploadResult.message.includes("successfully")) {
+                throw new Error(`Upload failed: ${uploadResult.message}`);
+            }
+            const queryPrompt = textInput || `Tóm tắt những điểm chính trong file PDF "${pdfFile.name}"`;
+            const queryResult = await pdfService.queryDocuments(queryPrompt, googleUser.sub, 8);
+            aiReply = queryResult.response;
+        } else {
+            aiReply = await callAiAPI(textInput, false);
+        }
+
+        // Remove loading và display AI bubble
         document.getElementById(loadingId).remove();
         lastAIReply = aiReply;
         messages.innerHTML += `
-      <div class="mb-2 text-left">
-        <span class="bg-gray-800 rounded-lg px-3 py-2 inline-block text-white break-words max-w-[80%] whitespace-pre-line">
-          ${marked.parse(aiReply)}
-        </span>
-      </div>`;
+        <div class="flex items-start mb-4">
+            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                <img src="~/images/bot-assistant.gif" alt="AI" class="w-6 h-6 rounded-full">
+            </div>
+            <div class="bg-white px-4 py-2 rounded-lg shadow-sm max-w-[80%] relative text-sm text-gray-800 whitespace-pre-line">
+                ${marked.parse(aiReply)}
+                <div class="absolute top-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent transform -translate-y-1/2"></div>
+            </div>
+        </div>`;
     } catch (error) {
-        // Better error handling
         document.getElementById(loadingId).remove();
         messages.innerHTML += `
-      <div class="mb-2 text-left">
-        <span class="bg-red-800 rounded-lg px-3 py-2 inline-block text-white break-words max-w-[80%]">
-          Error: ${escapeHtml(error.message || 'Không thể kết nối đến AI')}
-        </span>
-      </div>`;
-        console.error("AI Chat Error:", error);
+        <div class="flex items-start mb-4">
+            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                <img src="~/images/bot-assistant.gif" alt="AI" class="w-6 h-6 rounded-full">
+            </div>
+            <div class="bg-white px-4 py-2 rounded-lg shadow-sm max-w-[80%] relative text-sm text-red-600">
+                Lỗi: ${escapeHtml(error.message || 'Không thể xử lý yêu cầu')}
+                <div class="absolute top-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent transform -translate-y-1/2"></div>
+            </div>
+        </div>`;
+        console.error("Chat Error:", error);
     }
+
     // Clear inputs
     input.value = "";
+    if (fileInput) fileInput.value = "";
     input.style.height = "auto";
     messages.scrollTop = messages.scrollHeight;
 }
+// Toggle chat với animation (đã có class chat-popup)
 function toggleChat(show) {
-    document.getElementById("chatPopup").classList.toggle("hidden", !show);
-    if (show) setTimeout(() => document.getElementById("userInput").focus(), 100);
+    const popup = document.getElementById("chatPopup");
+    if (show) {
+        popup.classList.remove("hidden");
+        popup.classList.add("chat-popup"); // Trigger animation
+        setTimeout(() => document.getElementById("userInput").focus(), 100);
+    } else {
+        popup.classList.add("hidden");
+        popup.classList.remove("chat-popup");
+    }
 }
 function escapeHtml(str) {
     return str.replace(/[&<>"']/g, function (m) {
@@ -629,37 +672,6 @@ function escapeHtml(str) {
             "'": "&#39;",
         }[m];
     });
-}
-function normalizeText(str) {
-    if (!str) return "";
-    return str
-        .toLowerCase()
-        .replace(/[\.\,\!\?\:\;\-\_\"\"\"\'\(\)\[\]\{\}]/g, "")
-        .replace(/\s+/g, " ")
-        .trim();
-}
-function diceCoefficient(a, b) {
-    // Tách thành các bigrams (cặp ký tự liên tiếp)
-    function bigrams(str) {
-        let s = " " + str + " ";
-        let arr = [];
-        for (let i = 0; i < s.length - 1; i++) {
-            arr.push(s.slice(i, i + 2));
-        }
-        return arr;
-    }
-    let bgA = bigrams(a),
-        bgB = bigrams(b);
-    let matches = 0;
-    let bgs = bgB.slice();
-    for (let i = 0; i < bgA.length; i++) {
-        let idx = bgs.indexOf(bgA[i]);
-        if (idx !== -1) {
-            matches++;
-            bgs.splice(idx, 1);
-        }
-    }
-    return (2 * matches) / (bgA.length + bgB.length);
 }
 // Event listeners cho chat AI
 document.getElementById("openChat").addEventListener("click", () => toggleChat(true));
@@ -676,3 +688,30 @@ userInput.addEventListener("keydown", function (e) {
         e.preventDefault();
     }
 });
+
+// Function cho clear history
+document.getElementById("clearChatHistory").addEventListener("click", function () {
+    if (confirm("Bạn có chắc muốn xóa lịch sử chat?")) {
+        localStorage.removeItem('conversationHistory');
+        document.getElementById("messages").innerHTML = `
+            <div class="text-center text-xs text-gray-500 mb-2">Hôm nay, ${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</div>
+            <div class="flex items-start mb-4">
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                    <img src="~/images/bot-assistant.gif" alt="AI" class="w-6 h-6 rounded-full">
+                </div>
+                <div class="bg-white px-4 py-2 rounded-lg shadow-sm max-w-[80%] relative">
+                    <p class="text-sm text-gray-800">Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p>
+                    <div class="absolute top-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent transform -translate-y-1/2"></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm hover:bg-purple-200 transition">Tóm tắt PDF</button>
+                <button class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm hover:bg-purple-200 transition">Hỏi về chủ đề</button>
+                <button class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm hover:bg-purple-200 transition">Gợi ý bài tập</button>
+                <button class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm hover:bg-purple-200 transition">Tìm tài liệu</button>
+            </div>
+        `; // Reset UI với initial message
+        notyf.success("Lịch sử chat đã được xóa!");
+    }
+});
+

@@ -142,30 +142,73 @@
     </button>
     <!-- Chatbot Popup -->
     <div id="chatPopup"
-         class="hidden fixed bottom-24 right-6 w-[480px] h-[600px] bg-gray-900 text-white rounded-3xl shadow-2xl z-50 flex flex-col">
-        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-700">
-            <div class="text-xl font-bold text-blue-400">AI Chatbot</div>
-            <button id="closeChat" class="text-gray-400 hover:text-red-400">
+         class="hidden fixed bottom-24 right-6 w-[360px] h-[600px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden">
+        <!-- Header with Gradient -->
+        <div class="chat-header px-6 py-8 text-center bg-gradient-to-b from-purple-600 to-blue-600 text-white relative">
+            <button id="closeChat" class="absolute top-4 right-4 text-white hover:text-gray-200 transition z-10">
+                <!-- Added z-10 for clickability -->
                 <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
+            <div class="flex justify-center mb-2">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                    <img src="~/images/bot-assistant.gif" alt="AI Avatar" class="w-12 h-12 rounded-full object-cover">
+                </div>
+            </div>
+            <h2 class="text-xl font-bold">Criticore Chatbot</h2>
+            <p class="text-sm opacity-80">Bạn có thể hỏi tôi bất cứ điều gì!</p>
+            @* <button class="mt-4 bg-white/20 text-white px-6 py-2 rounded-full text-sm hover:bg-white/30 transition">
+                Tìm hiểu thêm
+            </button> *@
         </div>
-        <div id="messages" class="flex-1 px-6 py-5 overflow-y-auto" style="max-height: calc(100% - 160px);">
-            <!-- Tin nhắn sẽ append vào đây -->
+        <!-- Messages Area -->
+        <div id="messages" class="flex-1 px-4 py-4 overflow-y-auto bg-gray-50">
+            <!-- Initial Message Example -->
+            <div class="text-center text-xs text-gray-500 mb-2">Hôm nay, 10:30</div>
+            <div class="flex items-start mb-4">
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                    <img src="~/images/bot-assistant.gif" alt="AI" class="w-6 h-6 rounded-full">
+                </div>
+                <div class="bg-white px-4 py-2 rounded-lg shadow-sm max-w-[80%] relative">
+                    <p class="text-sm text-gray-800">Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p>
+                    <div class="absolute top-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent transform -translate-y-1/2"></div>
+                </div>
+            </div>
+            <!-- Quick Replies -->
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm hover:bg-purple-200 transition">Tóm tắt PDF</button>
+                <button class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm hover:bg-purple-200 transition">Hỏi về chủ đề</button>
+                <button class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm hover:bg-purple-200 transition">Gợi ý bài tập</button>
+                <button class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm hover:bg-purple-200 transition">Tìm tài liệu</button>
+            </div>
+            <!-- Messages will append here -->
         </div>
-        <div class="px-6 py-5 border-t border-gray-700 flex gap-3 items-end">
+        <!-- Input Bar -->
+        <div class="px-4 py-3 border-t border-gray-200 flex items-center gap-2 bg-white">
             <textarea id="userInput" rows="1"
-                      class="flex-1 resize-none rounded-2xl bg-gray-800 text-white px-5 py-4 outline-none border-2 border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-400 text-base shadow-sm transition"
-                      placeholder="Viết điều gì đó..."></textarea>
-            <button id="sendBtn"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-2xl text-base shadow-sm transition">
-                Gửi
+                      class="flex-1 resize-none bg-gray-100 text-gray-800 px-4 py-2 rounded-full outline-none text-sm focus:ring-2 focus:ring-blue-400 transition"
+                      placeholder="Nhập và nhấn [enter]"></textarea>
+            <button class="text-gray-500 hover:text-gray-700">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </button>
+            <label for="pdfInput" class="text-gray-500 hover:text-gray-700 cursor-pointer">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 22" />
+                </svg>
+            </label>
+            <input type="file" id="pdfInput" accept=".pdf" class="hidden" />
+            <button id="sendBtn" class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 19l9-7-9-7v14z" />
+                </svg>
             </button>
         </div>
-        <button id="clearChatHistory"
-                class="bg-red-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-red-700 transition">
-            Xóa lịch sử chat
+        <!-- Clear History Button (Optional, hidden or small) -->
+        <button id="clearChatHistory" class="text-xs text-red-500 underline mx-auto mb-2 hover:text-red-700" title="Xóa lịch sử chat">
+            Xóa lịch sử
         </button>
     </div>
     <!-- Toast -->
@@ -188,5 +231,6 @@
         }
     </script>
     <script src="~/js/TopicDetail.js"></script>
+    <script src="~/js/pdf-api-integration.js"></script>
 </body>
 </html>

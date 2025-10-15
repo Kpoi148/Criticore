@@ -25,7 +25,8 @@ namespace ChatBot.Api
             {
                 options.AddPolicy("AllowFrontend", policy =>
                     policy
-                        .WithOrigins("https://criticore.edu.vn:8386") // Origin chính xác
+                        .WithOrigins("https://localhost:7186") // Origin chính xác
+                        //.WithOrigins("https://criticore.edu.vn:8386")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials()

@@ -31,9 +31,9 @@
                     </button>
                 </div>
 
-                <p class="text-gray-600 mb-6">
+                @* <p class="text-gray-600 mb-6">
                     Browse available classes and join discussions that interest you. Build your critical thinking skills through structured dialogue.
-                </p>
+                </p> *@
 
                 <!-- Search and Filters -->
                 <div class="flex flex-wrap gap-4 mb-6">
@@ -59,33 +59,6 @@
         </main>
     </div>
 
-    <!-- Create Class Modal (chỉ hiển thị, không submit thực tế) -->
-    @* <div id="createClassModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"> *@
-    @*     <div class="bg-white rounded-lg p-6 w-full max-w-md"> *@
-    @*         <h2 class="text-lg font-semibold mb-4">Create a New Class</h2> *@
-    @*         <input id="newClassId" type="text" placeholder="Class ID (e.g. SE1801)" class="w-full border px-3 py-2 mb-3 rounded-md" /> *@
-    @*         <input id="newSubjectCode" type="text" placeholder="Subject Code (e.g. PRN212)" class="w-full border px-3 py-2 mb-3 rounded-md" /> *@
-    @*         <input id="newSemester" type="text" placeholder="Semester (e.g. Semester 1 - 2025)" class="w-full border px-3 py-2 mb-3 rounded-md" /> *@
-    @*         <input id="newClassName" type="text" placeholder="Class Name" class="w-full border px-3 py-2 mb-3 rounded-md" /> *@
-    @*         <input id="newTeacherName" type="text" placeholder="Teacher" class="w-full border px-3 py-2 mb-3 rounded-md" /> *@
-    @*         <div class="mb-3"> *@
-    @*             <p class="font-medium mb-1">Select Members:</p> *@
-    @*             <div id="memberCheckboxes" class="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto border p-2 rounded"> *@
-    @*                 @foreach (var student in Model.Students) *@
-    @*                 { *@
-    @*                     <label class="flex items-center gap-2"> *@
-    @*                         <input type="checkbox" value="@student.UserId" class="member-checkbox" /> *@
-    @*                         <span>@student.FullName</span> *@
-    @*                     </label> *@
-    @*                 } *@
-    @*             </div> *@
-    @*         </div> *@
-    @*         <div class="flex justify-end gap-2"> *@
-    @*             <button onclick="closeCreateClassModal()" class="px-4 py-2 bg-gray-300 rounded-md">Cancel</button> *@
-    @*             <button onclick="alert('Create simulated!'); closeCreateClassModal();" class="px-4 py-2 bg-blue-600 text-white rounded-md">Create</button> *@
-    @*         </div> *@
-    @*     </div> *@
-    @* </div> *@
     <!-- Modal nhập mã vào lớp học -->
     <div id="joinClassModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 w-full max-w-md">

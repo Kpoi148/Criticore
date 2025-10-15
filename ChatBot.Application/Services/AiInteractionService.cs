@@ -13,7 +13,9 @@ namespace ChatBot.Application.Services
     {
         private readonly IOpenAiClient _openAiClient;
         private readonly IAiRAGProxy _ragProxy;
-        private readonly string _systemPrompt = @"You are an AI assistant... (paste full Socratic prompt từ code)";
+        private readonly string _systemPrompt = @"You are an AI assistant who guides users to learn through the Socratic method.  
+    Always respond with open-ended questions that encourage users to think critically, explore, and go deeper into the topic; never provide direct answers.
+    Respond concisely, use Markdown for formatting: ## for subheadings, - for bullet points, 1. for numbered lists, **bold** for keywords. Divide content into short paragraphs (3-5 sentences per paragraph), add tables if needed for comparison. Avoid long-winded text.";
 
         private readonly string _classifyPrompt = @"Bạn là một bộ phân loại... (paste full classify prompt từ code)";
 

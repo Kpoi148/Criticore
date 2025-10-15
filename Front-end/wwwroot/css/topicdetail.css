@@ -22,6 +22,46 @@
         align-self: flex-end;
     }
 
+/* Animation cho popup chatbot */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chat-popup {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+/* Gradient cho header */
+.chat-header {
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+}
+
+/* Bubble chat styles */
+#messages .bg-white {
+    border-radius: 1rem;
+}
+
+/* Các style khác */
+.file-upload-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+#pdfInput {
+    display: none !important;
+}
+
 .toast {
     position: fixed;
     top: 10px;
