@@ -13,6 +13,12 @@ if (typeof PDFSummarizerClient !== 'undefined') {
 } else {
     console.error('PDFSummarizerClient not loaded! Check script include.');
 }
+
+marked.setOptions({
+    breaks: true, // xuống dòng đúng
+    gfm: true,    // hỗ trợ emoji, checklist, bảng, code block
+});
+
 const notyf = new Notyf({
     duration: 4000, // Thời gian hiển thị (ms)
     ripple: true, // Effect ripple hiện đại
@@ -537,7 +543,7 @@ async function callAiAPI(userInput, useRAG = false) {
     // Thêm system prompt nếu chưa có (để enforce ở frontend)
     const systemPrompt = {
         role: "system",
-        content: "You are an AI assistant who guides users to learn through the Socratic method. Always respond with open-ended questions that encourage users to think critically, explore, and go deeper into the topic; never provide direct answers. Respond concisely, use Markdown for formatting: ## for subheadings, - for bullet points, 1. for numbered lists, **bold** for keywords. Divide content into short paragraphs (3-5 sentences per paragraph), add tables if needed for comparison. Avoid long-winded text."
+        content: "You are an AI assistant who uses the Socratic method. Reply briefly (1–2 sentences) first, then ask one thoughtful question. Use rich Markdown (emoji, lists, **bold**, titles, +, and bullet points)."
     };
     // Kiểm tra và thêm nếu thiếu
     if (!history.some(msg => msg.role === 'system')) {
@@ -572,6 +578,9 @@ async function sendMessage() {
     const textInput = input.value.trim();
     const pdfFile = fileInput?.files[0];
 
+    // Clear text ngay khi gửi
+    input.value = "";
+    input.style.height = "auto";
     if (!textInput && !pdfFile) return;
 
     let loadingId = `loading-${Date.now()}`;
@@ -621,14 +630,16 @@ async function sendMessage() {
         lastAIReply = aiReply;
         messages.innerHTML += `
         <div class="flex items-start mb-4">
-            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
-                <img src="~/images/bot-assistant.gif" alt="AI" class="w-6 h-6 rounded-full">
-            </div>
-            <div class="bg-white px-4 py-2 rounded-lg shadow-sm max-w-[80%] relative text-sm text-gray-800 whitespace-pre-line">
-                ${marked.parse(aiReply)}
-                <div class="absolute top-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent transform -translate-y-1/2"></div>
-            </div>
+           <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2 overflow-hidden">
+          <img src="/images/bot-assistant.gif" alt="AI" class="w-6 h-6 rounded-full">
+        </div>
+
+          <div class="prose prose-slate max-w-none bg-white px-4 py-3 rounded-2xl shadow-sm text-gray-800 whitespace-pre-line markdown-content">
+            ${marked.parse(aiReply)}
+            <div class="absolute top-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent transform -translate-y-1/2"></div>
+          </div>
         </div>`;
+
     } catch (error) {
         document.getElementById(loadingId).remove();
         messages.innerHTML += `
