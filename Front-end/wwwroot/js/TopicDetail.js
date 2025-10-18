@@ -7,11 +7,12 @@ let currentAnswerIndex = null;
 let lastAIReply = ""; // Lưu phản hồi AI cuối cùng để kiểm tra tương đồng
 // Gần đầu file, sau Notyf
 // Line ~9: Init chỉ nếu class tồn tại
-let pdfService;
-if (typeof PDFSummarizerClient !== 'undefined') {
-    pdfService = new PDFSummarizerClient('http://localhost:8000');  // URL backend Python
-} else {
-    console.error('PDFSummarizerClient not loaded! Check script include.');
+function initPdfService() {
+    if (typeof PDFService !== 'undefined') {  // Sửa tên class thành PDFService
+        pdfService = new PDFService();
+    } else {
+        console.error('PDFService not loaded! Check script include.');
+    }
 }
 
 marked.setOptions({
@@ -613,14 +614,29 @@ async function sendMessage() {
         let useRAG = !!pdfFile;
 
         if (pdfFile) {
-            // Upload và query PDF (giữ nguyên logic cũ)
+            // Upload PDF
             const uploadResult = await pdfService.uploadPDF(pdfFile);
-            if (!uploadResult.message.includes("successfully")) {
+            console.log('Upload response:', uploadResult); // Debug
+
+            // Check linh hoạt
+            const lowerMessage = (uploadResult.message || '').toLowerCase();
+            if (!lowerMessage.includes('success') && !lowerMessage.includes('loaded')) {
                 throw new Error(`Upload failed: ${uploadResult.message}`);
             }
+
+            // Khai báo userId trước
+            const userId = (googleUser && googleUser.sub) ? googleUser.sub : null;
+
+            // Khai báo queryPrompt và queryResult trước khi sử dụng
             const queryPrompt = textInput || `Tóm tắt những điểm chính trong file PDF "${pdfFile.name}"`;
-            const queryResult = await pdfService.queryDocuments(queryPrompt, googleUser.sub, 8);
-            aiReply = queryResult.response;
+            const queryResult = await pdfService.queryDocuments(queryPrompt, userId, 8);
+            console.log('Query result:', queryResult); // Debug sau khi khai báo
+
+            // Sửa check và fallback aiReply (sử dụng sau khai báo)
+            aiReply = queryResult.response || queryResult.answer || 'Không có phản hồi từ AI. Vui lòng thử lại.';
+            if (!aiReply) {
+                throw new Error('AI response rỗng hoặc undefined.');
+            }
         } else {
             aiReply = await callAiAPI(textInput, false);
         }
@@ -641,7 +657,11 @@ async function sendMessage() {
         </div>`;
 
     } catch (error) {
-        document.getElementById(loadingId).remove();
+        console.error("Chat Error:", error);  // Log chi tiết error (ví dụ từ query)
+        const loadingElement = document.getElementById(loadingId);
+        if (loadingElement) {  // Check nếu tồn tại mới remove
+            loadingElement.remove();
+        }
         messages.innerHTML += `
         <div class="flex items-start mb-4">
             <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
