@@ -123,13 +123,13 @@ function renderTopics() {
     topicsList.innerHTML = cls.topics.map((t, idx) => `
                 <div class="p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition duration-200 bg-white relative" onclick="goToTopic('${cls.ClassId}','${t.topic_id}')">
                     ${window.isTeacher ? `<button class="topic-delete-btn text-red-500 hover:text-red-700 font-bold text-lg" title="Delete topic" onclick="event.stopPropagation(); deleteTopic(${idx}); return false;">×</button>` : ''}
-                    <div class="text-gray-900 font-semibold text-base">${t.title}</div>
-                    <div class="text-gray-500 text-sm">by ${t.created_by_name || 'Unknown'}</div>
-                    <div class="text-gray-500 text-sm">
+                    <div class="text-gray-900 font-semibold text-lg">${t.title}</div>
+                    <div class="text-gray-500 text-base">by ${t.created_by_name || 'Unknown'}</div>
+                    <div class="text-gray-500 text-base">
                         <b>End time:</b> <span id="topic-end-${idx}">${t.end_time ? new Date(t.end_time).toLocaleString() : "Not set"}</span>
                         <span class="ml-2 text-red-600" id="countdown-${idx}"></span>
                     </div>
-                    <div class="text-gray-500 text-sm flex justify-end space-x-4">
+                    <div class="text-gray-500 text-base flex justify-end space-x-4">
                         <span>${t.answers ? t.answers.length : 0} replies</span>
                         <span>${t.created_at ? new Date(t.created_at).toLocaleString() : ""}</span>
                     </div>
@@ -172,11 +172,11 @@ function renderMemberList() {
                         ${member.fullName.split(" ").map(w => w[0]).join("").toUpperCase()}
                     </span>
                     <span class="font-medium">${member.fullName}</span>
-                    <span class="text-gray-500 text-sm">${isTeacher ? "Teacher" : "Student"}</span>
+                    <span class="text-gray-500 text-base">${isTeacher ? "Teacher" : "Student"}</span>
                 </div>
-                <div class="text-gray-500 text-sm">${isTeacher ? "Instructor" : ""}</div>
+                <div class="text-gray-500 text-base">${isTeacher ? "Instructor" : ""}</div>
             </div>
-            ${!isTeacher && window.isTeacher ? `<button class="text-red-600 text-sm hover:underline" onclick="removeMemberById('${member.userId}')">❌ Remove</button>` : ""}
+            ${!isTeacher && window.isTeacher ? `<button class="text-red-600 text-base hover:underline" onclick="removeMemberById('${member.userId}')">❌ Remove</button>` : ""}
         `;
         container.appendChild(div);
     });
@@ -211,12 +211,12 @@ function renderGroups() {
                         <!-- CHẶN NỔI BỌT Ở NÚT XÓA -->
                         ${window.isTeacher ? `<button onclick="event.stopPropagation(); deleteGroup(${index})" class="text-red-500 hover:text-red-700 font-bold text-lg" title="Xóa nhóm">×</button>` : ''}
                     </div>
-                    <ul class="ml-4 text-sm text-gray-700">
+                    <ul class="ml-4 text-base text-gray-700">
                         ${membersHtml || "<li><em>No members</em></li>"}
                     </ul>
                     ${availableToAdd.length > 0 && window.isTeacher ? `
                         <!-- CHẶN NỔI BỌT Ở SELECT -->
-                        <select id="addMemberSelect_${index}" class="mt-2 border p-1 rounded text-sm" onclick="event.stopPropagation()" onmousedown="event.stopPropagation()" onchange="event.stopPropagation()">
+                        <select id="addMemberSelect_${index}" class="mt-2 border p-1 rounded text-base" onclick="event.stopPropagation()" onmousedown="event.stopPropagation()" onchange="event.stopPropagation()">
                             <option value="">+ Add Member</option>
                             ${availableToAdd.map(m => `<option value="${m.userId}">${m.fullName}</option>`).join("")}
                         </select>
@@ -327,20 +327,20 @@ function renderRankModal(page = 1) {
     // Create HTML for pagination
     const paginationHTML = `
                 <div class="flex justify-between items-center mt-4">
-                    <div class="text-sm text-gray-500">
+                    <div class="text-base text-gray-500">
                         Showing ${startIndex + 1}-${Math.min(endIndex, rankedMembers.length)} of ${rankedMembers.length} members
                     </div>
                     <div class="flex gap-2">
-                        <button class="pagination-btn px-3 py-1.5 rounded-md text-sm ${page === 1 ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}"
+                        <button class="pagination-btn px-3 py-1.5 rounded-md text-base ${page === 1 ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}"
                                 ${page === 1 ? "disabled" : ""}
                                 onclick="renderRankModal(${page - 1})">Previous</button>
                         <div class="flex gap-1">
                             ${Array.from({ length: totalPages }, (_, i) => `
-                                <button class="pagination-btn px-3 py-1.5 rounded-md text-sm ${page === i + 1 ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}"
+                                <button class="pagination-btn px-3 py-1.5 rounded-md text-base ${page === i + 1 ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}"
                                         onclick="renderRankModal(${i + 1})">${i + 1}</button>
                             `).join("")}
                         </div>
-                        <button class="pagination-btn px-3 py-1.5 rounded-md text-sm ${page === totalPages ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}"
+                        <button class="pagination-btn px-3 py-1.5 rounded-md text-base ${page === totalPages ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}"
                                 ${page === totalPages ? "disabled" : ""}
                                 onclick="renderRankModal(${page + 1})">Next</button>
                     </div>

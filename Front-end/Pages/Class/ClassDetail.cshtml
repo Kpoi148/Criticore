@@ -44,10 +44,10 @@
                 <div>
                     <a href="/class/ClassList" class="text-blue-500 hover:underline text-sm">← Back to class list</a>
                     <h1 class="text-3xl font-bold mb-2 text-blue-700" id="className">@Model.CurrentClass.ClassName</h1>
-                    <p class="text-gray-600 max-w-2xl">
+                    @* <p class="text-gray-600 max-w-2xl">
                         Develop critical thinking skills through structured dialogue and analysis. This course focuses on
                         building analytical reasoning and logical problem-solving abilities.
-                    </p>
+                    </p> *@
                 </div>
                 <div class="flex flex-col items-end space-y-2">
                     <button id="rankButton" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition whitespace-nowrap">
@@ -58,35 +58,35 @@
 
             <!-- Class Info -->
             <div id="classInfo" class="bg-white p-4 rounded shadow mb-6 text-sm">
-                <h2 class="text-xl font-semibold mb-4">Class Information</h2>
+                <h2 class="text-2xl font-semibold mb-4">Class Information</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6 text-gray-700 text-sm">
                     <div>
-                        <div class="text-xs">Class ID</div>
-                        <div class="text-base font-bold" id="classId">@Model.CurrentClass.ClassId</div>
+                        <div class="text-base">Class ID</div>
+                        <div class="text-xl font-bold" id="classId">@Model.CurrentClass.ClassId</div>
                     </div>
                     <div>
-                        <div class="text-xs">Teacher</div>
+                        <div class="text-base">Teacher</div>
                         <div class="flex items-center gap-2 text-base font-bold">
                             <div class="bg-gray-200 text-xs w-7 h-7 flex items-center justify-center rounded-full">NV</div>
                             <span id="teacher">@Model.TeacherName</span>
                         </div>
                     </div>
                     <div>
-                        <div class="text-xs">Members</div>
-                        <div class="text-base font-bold" id="members">@Model.MembersCount</div>
+                        <div class="text-base">Members</div>
+                        <div class="text-xl font-bold" id="members">@Model.MembersCount</div>
                     </div>
 
                     <div>
-                        <div class="text-xs">Subject Code</div>
-                        <div class="text-base font-bold" id="subjectCode">@Model.CurrentClass.SubjectCode</div>
+                        <div class="text-base">Subject Code</div>
+                        <div class="text-xl font-bold" id="subjectCode">@Model.CurrentClass.SubjectCode</div>
                     </div>
                     <div>
-                        <div class="text-xs">Semester</div>
-                        <div class="text-base font-bold" id="semester">@Model.CurrentClass.Semester</div>
+                        <div class="text-base">Semester</div>
+                        <div class="text-xl font-bold" id="semester">@Model.CurrentClass.Semester</div>
                     </div>
                     <div>
-                        <div class="text-xs">Status</div>
-                        <div class="text-base font-bold" id="status">@Model.CurrentClass.Status</div>
+                        <div class="text-base">Status</div>
+                        <div class="text-xl font-bold" id="status">@Model.CurrentClass.Status</div>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@
                 }
                 <div class="bg-white p-4 rounded shadow">
                     <h3 class="text-lg font-semibold mb-2">Recent Discussions</h3>
-                    <p class="text-gray-500 text-sm mb-4">Latest topics and discussions in this class</p>
+                    <p class="text-gray-500 text-base mb-4">Latest topics and discussions in this class</p>
                     <div id="topicsList" class="space-y-4"></div>
                 </div>
             </div>

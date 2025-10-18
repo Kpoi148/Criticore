@@ -4,7 +4,6 @@
     ViewData["Title"] = "Criticore - Join a Class";
     Layout = "~/Pages/Shared/_Sidebar.cshtml";
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,23 +21,15 @@
             <div class="max-w-7xl mx-auto">
                 <div class="flex justify-between items-center mb-4">
                     <h1 class="text-2xl font-semibold text-blue-700">Join a Class</h1>
-                    @* <button onclick="openCreateClassModal()" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition"> *@
-                    @*     + Create Class *@
-                    @* </button> *@
                     <button onclick="openJoinClassModal()"
-                            class="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700 transition">
+                            class="bg-green-600 text-white px-4 py-2 rounded-md text-lg hover:bg-green-700 transition">
                         + Join by Code
                     </button>
                 </div>
-
-                @* <p class="text-gray-600 mb-6">
-                    Browse available classes and join discussions that interest you. Build your critical thinking skills through structured dialogue.
-                </p> *@
-
                 <!-- Search and Filters -->
                 <div class="flex flex-wrap gap-4 mb-6">
-                    <input type="text" placeholder="Search classes, subjects, or teachers..." class="flex-1 min-w-[200px] border border-gray-300 rounded-md px-4 py-2 text-sm shadow-sm" />
-                    <select id="semesterFilter" class="border border-gray-300 rounded-md px-2 py-2 text-sm">
+                    <input id="searchInput" type="text" placeholder="Search classes, subjects, or teachers..." class="flex-1 min-w-[200px] border border-gray-300 rounded-2xl px-4 py-2 text-sm shadow-sm" />
+                    <select id="semesterFilter" class="border border-gray-300 rounded-md px-2 py-2 text-base">
                         <option value="All">All Semesters</option>
                         @foreach (var semester in Model.Classes.Select(c => c.Semester).Distinct())
                         {
@@ -46,28 +37,25 @@
                         }
                     </select>
                     <div class="flex gap-2">
-                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-sm" data-status="All">All</button>
-                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-sm" data-status="In Progress">In Progress</button>
-                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-sm" data-status="Not Started">Not Started</button>
-                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-sm" data-status="Completed">Completed</button>
+                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-base" data-status="All">All</button>
+                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-base" data-status="In Progress">In Progress</button>
+                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-base" data-status="Not Started">Not Started</button>
+                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-base" data-status="Completed">Completed</button>
                     </div>
                 </div>
-
                 <!-- Class Cards Container -->
                 <div id="classList" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"></div>
             </div>
         </main>
     </div>
-
     <!-- Modal nhập mã vào lớp học -->
     <div id="joinClassModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 class="text-lg font-semibold mb-4">Join a Class by Code</h2>
+            <h2 class="text-xl font-bold mb-4">Join a Class by Code</h2>
             <form method="post" asp-page-handler="Join">
                 <input asp-for="JoinCode" placeholder="Enter class code"
                        class="w-full border px-3 py-2 mb-3 rounded-md" />
                 <span asp-validation-for="JoinCode" class="text-red-500"></span>
-
                 <div class="flex justify-end gap-2">
                     <button type="button" onclick="closeJoinClassModal()" class="px-4 py-2 bg-gray-300 rounded-md">Cancel</button>
                     <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md">Join</button>
@@ -75,24 +63,19 @@
             </form>
         </div>
     </div>
-
-
     <script>
-                // Lưu token từ URL ngay khi load trang
-                window.addEventListener('load', () => {
+        // Lưu token từ URL ngay khi load trang
+        window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get('token');
             if (token) {
-                sessionStorage.setItem('authToken', token); // 🔥 đổi localStorage → sessionStorage
+                sessionStorage.setItem('authToken', token);
                 console.log('✅ Token lưu thành công:', token.substring(0, 20) + '...');
-                // Xóa query param khỏi URL để bảo mật
                 window.history.replaceState({}, '', window.location.pathname);
             } else {
                 console.log('❌ Không có token trong URL');
             }
-
-            // Kiểm tra session đã lưu
-            const storedToken = sessionStorage.getItem('authToken'); // 🔥 sessionStorage
+            const storedToken = sessionStorage.getItem('authToken');
             if (storedToken) {
                 console.log('✅ Session OK');
             } else {
@@ -100,67 +83,77 @@
                 // window.location.href = '/auth/login';
             }
         });
-
         let classes = @Html.Raw(Json.Serialize(Model.Classes)); // Chuyển data sang JS
         let currentStatus = "All";
         let currentSemester = "All";
-            window.topicCounts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TopicCounts));
-
+        let currentSearch = ""; // Biến lưu giá trị tìm kiếm
+        window.topicCounts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TopicCounts));
         function renderClasses() {
             const container = document.getElementById("classList");
             container.innerHTML = "";
-
             let filtered = classes.filter((cls) => {
                 const matchStatus = currentStatus === "All" || cls.status === currentStatus;
                 const matchSemester = currentSemester === "All" || cls.semester === currentSemester;
-                return matchStatus && matchSemester;
+                const searchText = currentSearch.toLowerCase();
+                const matchSearch = !searchText ||
+                    (cls.className && cls.className.toLowerCase().includes(searchText)) ||
+                    (cls.subjectCode && cls.subjectCode.toLowerCase().includes(searchText)) ||
+                    (cls.teacher && cls.teacher.toLowerCase().includes(searchText));
+                return matchStatus && matchSemester && matchSearch;
             });
-
-            filtered.forEach((cls) => {
-                const card = document.createElement("div");
-                        card.innerHTML = `
-            <div class="relative bg-gradient-to-r from-white to-blue-100 border border-blue-200 rounded-lg shadow p-3 h-full flex flex-col justify-between transition hover:shadow-lg">
-                <div class="absolute top-3 right-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">${cls.status}</div>
-                
-                <!-- Tiêu đề và Class ID -->
-                <div class="mb-3">
-                    <h2 class="text-lg font-semibold text-gray-900">${cls.className}</h2>
-                    <p class="text-sm text-gray-500">Class ID: <span class="text-gray-800">${cls.classId} • ${cls.subjectCode}</span></p>
-                </div>
-
-                <!-- Thông tin chi tiết -->
-                <ul class="text-sm text-gray-700 space-y-1 mb-4">
-                    <li class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-                        </svg>
-                        Teacher: ${cls.teacher || 'Unknown'}</li>
-                    <li class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
-                        </svg>
-                        ${cls.memberCount}/70 members</li>
-                    <li class="flex items-center gap-2">
-                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
-                        </svg>
-                        ${cls.semester}</li>
-                </ul>
-                <div class="mt-4 flex justify-between items-center">
-                     <span class="text-xs text-black-500">${window.topicCounts[cls.classId] ?? 0} topics available</span>
-                    <button onclick="goToClass('${cls.classId}')" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition">Join Class</button>
-                </div>
-            </div>
-        `;
-                container.appendChild(card);
-            });
+            if (filtered.length === 0) {
+                // Đổi class container để căn giữa toàn bộ main khi không có kết quả
+                container.className = "flex justify-center items-center min-h-[calc(100vh-200px)] w-full";
+                container.innerHTML = `
+                    <div class="text-center text-gray-400 p-4">
+                        <p class="text-lg font-medium text-gray-500">Không tìm thấy lớp học nào phù hợp với tiêu chí tìm kiếm của bạn.</p>
+                    </div>
+                `;
+            } else {
+                // Đổi class về grid khi có kết quả
+                container.className = "grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+                filtered.forEach((cls) => {
+                    const card = document.createElement("div");
+                    card.innerHTML = `
+                        <div class="relative bg-gradient-to-r from-white to-blue-100 border border-blue-200 rounded-lg shadow p-3 h-full flex flex-col justify-between transition hover:shadow-lg">
+                            <div class="absolute top-3 right-3 bg-blue-600 text-white text-base px-2 py-1 rounded-full">${cls.status}</div>
+                            <!-- Tiêu đề và Class ID -->
+                            <div class="mb-3">
+                                <h2 class="text-lg font-semibold text-gray-900">${cls.className}</h2>
+                                <p class="text-sm text-gray-500">Class ID: <span class="text-gray-800">${cls.classId} • ${cls.subjectCode}</span></p>
+                            </div>
+                            <!-- Thông tin chi tiết -->
+                            <ul class="text-sm text-gray-700 space-y-1 mb-4">
+                                <li class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+                                    </svg>
+                                    Teacher: ${cls.teacher || 'Unknown'}</li>
+                                <li class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                                    </svg>
+                                    ${cls.memberCount}/70 members</li>
+                                <li class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
+                                    </svg>
+                                    ${cls.semester}</li>
+                            </ul>
+                            <div class="mt-4 flex justify-between items-center">
+                                <span class="text-base text-black-500">${window.topicCounts[cls.classId] ?? 0} topics available</span>
+                                <button onclick="goToClass('${cls.classId}')" class="bg-blue-600 text-white px-4 py-2 rounded-md text-base hover:bg-blue-700 transition">Join Class</button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
         }
-
-                function goToClass(classId) {
+        function goToClass(classId) {
             window.location.href = `/Class/ClassDetail?id=${classId}`;
         }
-
-
+        // Lắng nghe sự kiện lọc theo trạng thái
         document.querySelectorAll(".filter-btn").forEach((btn) => {
             btn.addEventListener("click", () => {
                 currentStatus = btn.getAttribute("data-status");
@@ -169,41 +162,29 @@
                 renderClasses();
             });
         });
-
+        // Lắng nghe sự kiện lọc theo học kỳ
         document.getElementById("semesterFilter").addEventListener("change", (e) => {
             currentSemester = e.target.value;
             renderClasses();
         });
-
+        // Lắng nghe sự kiện tìm kiếm (thời gian thực khi gõ)
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            currentSearch = e.target.value.trim().toLowerCase();
+            renderClasses();
+        });
         renderClasses();
-        // Đóng mở modal
-        // function openCreateClassModal() {
-        //     document.getElementById("createClassModal").classList.remove("hidden");
-        //     document.getElementById("createClassModal").classList.add("flex");
-        // }
-
-        // function closeCreateClassModal() {
-        //     document.getElementById("createClassModal").classList.add("hidden");
-        // }
         // Đóng mở modal
         function openJoinClassModal() {
             document.getElementById("joinClassModal").classList.remove("hidden");
             document.getElementById("joinClassModal").classList.add("flex");
         }
-
         function closeJoinClassModal() {
             document.getElementById("joinClassModal").classList.add("hidden");
             document.getElementById("joinClassModal").classList.remove("flex");
         }
         async function logout() {
-            // Gọi API logout để backend xoá cookie
             await fetch('/api/logout', { method: 'POST' });
-
-            // Xoá localStorage
-            localStorage.removeItem('authToken');
-            // hoặc: localStorage.clear();
-
-            // Redirect về trang login/home
+            sessionStorage.removeItem('authToken');
             window.location.href = "https://criticore.edu.vn:8386";
         }
     </script>
