@@ -153,6 +153,98 @@ namespace Front_end.Pages.Class
             TempData["Success"] = "Homework created successfully!";
             return RedirectToPage(new { class_id = classId, topic_id = topicId });
         }
+
+
+        //public async Task<IActionResult> OnPostSubmitAsync(int homeworkId)
+        //{
+        //    CurrentUserId = User.FindFirst("UserId")?.Value;
+        //    if (string.IsNullOrEmpty(CurrentUserId))
+        //        return RedirectToPage("/Signin");
+
+        //    var classId = Request.Form["ClassID"];
+        //    var topicId = Request.Query["topic_id"];
+        //    if (string.IsNullOrEmpty(classId))
+        //    {
+        //        TempData["Error"] = "Missing class information.";
+        //        return RedirectToPage();
+        //    }
+
+        //    try
+        //    {
+        //        var content = Request.Form["Content"];
+        //        var file = Request.Form.Files.FirstOrDefault();
+
+        //        string? fileUrl = null;
+        //        if (file != null && file.Length > 0)
+        //        {
+        //            var submissionFileService = HttpContext.RequestServices.GetRequiredService<ISubmissionFileService>();
+        //            fileUrl = await submissionFileService.UploadAsync(file);
+        //            // Gửi file lên Copyleaks để scan
+        //            try
+        //            {
+        //                var scanId = await _copyleaksService.SubmitFileForScanAsync(file);
+        //                Console.WriteLine($"File đã được gửi scan Copyleaks. ScanId: {scanId}");
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Console.WriteLine($"Lỗi khi gửi scan Copyleaks: {ex.Message}");
+        //                // Nếu muốn, có thể thêm TempData["Error"] hoặc log
+        //            }
+        //        }
+
+        //        var userId = int.Parse(CurrentUserId!);
+
+        //        // Kiểm tra xem học sinh đã nộp bài chưa
+        //        var existingSubmission = await _submissionService.GetByHomeworkAndUserAsync(homeworkId, userId);
+
+        //        if (existingSubmission != null)
+        //        {
+        //            // Cập nhật submission cũ
+        //            var updateDto = new SubmissionUpdateDto
+        //            {
+        //                Content = content,
+        //                AttachmentUrl = fileUrl
+        //            };
+
+        //            var updated = await _submissionService.UpdateAsync(updateDto, existingSubmission.SubmissionId);
+        //            if (updated == null)
+        //            {
+        //                TempData["Error"] = "Failed to update submission.";
+        //                return RedirectToPage(new { class_id = classId, topic_id = topicId });
+        //            }
+
+        //            TempData["Success"] = "Submission updated successfully!";
+        //        }
+        //        else
+        //        {
+        //            // Tạo mới submission
+        //            var dto = new SubmissionCreateDto
+        //            {
+        //                HomeworkId = homeworkId,
+        //                UserId = userId,
+        //                GroupId = null,
+        //                Content = content,
+        //                AttachmentUrl = fileUrl
+        //            };
+
+        //            var created = await _submissionService.CreateAsync(dto);
+        //            if (created == null)
+        //            {
+        //                TempData["Error"] = "Failed to submit assignment.";
+        //                return RedirectToPage(new { class_id = classId, topic_id = topicId });
+        //            }
+
+        //            TempData["Success"] = "Assignment submitted successfully!";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Lỗi khi nộp bài: {ex.Message}");
+        //        TempData["Error"] = "Failed to submit assignment.";
+        //    }
+
+        //    return RedirectToPage(new { class_id = classId, topic_id = topicId });
+        //}
         public async Task<IActionResult> OnPostSubmitAsync(int homeworkId)
         {
             CurrentUserId = User.FindFirst("UserId")?.Value;
@@ -166,7 +258,7 @@ namespace Front_end.Pages.Class
                 TempData["Error"] = "Missing class information.";
                 return RedirectToPage();
             }
-        
+
             try
             {
                 var content = Request.Form["Content"];
@@ -177,27 +269,13 @@ namespace Front_end.Pages.Class
                 {
                     var submissionFileService = HttpContext.RequestServices.GetRequiredService<ISubmissionFileService>();
                     fileUrl = await submissionFileService.UploadAsync(file);
-                    // Gửi file lên Copyleaks để scan
-                    try
-                    {
-                        var scanId = await _copyleaksService.SubmitFileForScanAsync(file);
-                        Console.WriteLine($"File đã được gửi scan Copyleaks. ScanId: {scanId}");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Lỗi khi gửi scan Copyleaks: {ex.Message}");
-                        // Nếu muốn, có thể thêm TempData["Error"] hoặc log
-                    }
                 }
 
                 var userId = int.Parse(CurrentUserId!);
-
-                // Kiểm tra xem học sinh đã nộp bài chưa
                 var existingSubmission = await _submissionService.GetByHomeworkAndUserAsync(homeworkId, userId);
 
                 if (existingSubmission != null)
                 {
-                    // Cập nhật submission cũ
                     var updateDto = new SubmissionUpdateDto
                     {
                         Content = content,
@@ -215,7 +293,6 @@ namespace Front_end.Pages.Class
                 }
                 else
                 {
-                    // Tạo mới submission
                     var dto = new SubmissionCreateDto
                     {
                         HomeworkId = homeworkId,
