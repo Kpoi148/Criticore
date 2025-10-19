@@ -16,16 +16,23 @@ namespace Homework.Api
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            // Trong Program.cs (hoặc Startup.cs)
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(); // Thêm dòng này vào
             // Đăng ký DbContext
             builder.Services.AddDbContext<HomeworkDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
             builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
             builder.Services.AddScoped<HomeworkService>();
             builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
+            builder.Services.AddScoped<ICopyleaksReportRepository, CopyleaksReportRepository>();
             builder.Services.AddScoped<SubmissionService>();
+
             builder.Services.AddHttpClient<CopyleaksService>();
             builder.Services.AddScoped<CopyleaksService>();
+
+            builder.Services.AddScoped<CopyleaksWebhookService>();
+            builder.Services.AddScoped<CopyleaksReportService>();
 
             builder.Services.AddAutoMapper(typeof(HomeworkProfile).Assembly);
 

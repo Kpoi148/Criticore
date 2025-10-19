@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\C#\\Criticore\\EventBus\\EventBus.csproj": {}
+    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\EventBus\\EventBus.csproj": {}
   },
   "projects": {
-    "E:\\C#\\Criticore\\EventBus\\EventBus.csproj": {
+    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\EventBus\\EventBus.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\C#\\Criticore\\EventBus\\EventBus.csproj",
+        "projectUniqueName": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\EventBus\\EventBus.csproj",
         "projectName": "EventBus",
-        "projectPath": "E:\\C#\\Criticore\\EventBus\\EventBus.csproj",
-        "packagesPath": "C:\\Users\\luuch\\.nuget\\packages\\",
-        "outputPath": "E:\\C#\\Criticore\\EventBus\\obj\\",
+        "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\EventBus\\EventBus.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\EventBus\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\luuch\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -66,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

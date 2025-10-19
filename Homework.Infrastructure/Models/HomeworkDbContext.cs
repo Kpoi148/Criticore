@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Homework.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Homework.Domain.Entities;
 
 namespace Homework.Infrastructure.Models;
 
@@ -28,6 +28,8 @@ public partial class HomeworkDbContext : DbContext
 
     public virtual DbSet<ClassMember> ClassMembers { get; set; }
 
+    public virtual DbSet<CopyleaksReport> CopyleaksReports { get; set; }
+
     public virtual DbSet<DocumentChunk> DocumentChunks { get; set; }
 
     public virtual DbSet<Group> Groups { get; set; }
@@ -48,9 +50,9 @@ public partial class HomeworkDbContext : DbContext
 
     public virtual DbSet<Vote> Votes { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=ADMIN-PC;Database=CriticoreDB;User ID=sa;Password=admin@123;Trust Server Certificate=True");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=ADMIN-PC;Database=CriticoreDB;User ID=sa;Password=admin@123;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -199,6 +201,22 @@ public partial class HomeworkDbContext : DbContext
                 .HasConstraintName("FK__ClassMemb__UserI__46E78A0C");
         });
 
+        modelBuilder.Entity<CopyleaksReport>(entity =>
+        {
+            entity.HasKey(e => e.ReportId).HasName("PK__Copyleak__D5BD48E599036866");
+
+            entity.Property(e => e.ReportId).HasColumnName("ReportID");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.ReportUrl)
+                .HasMaxLength(500)
+                .HasColumnName("ReportURL");
+            entity.Property(e => e.ScanId).HasMaxLength(100);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+        });
+
         modelBuilder.Entity<DocumentChunk>(entity =>
         {
             entity.HasKey(e => e.ChunkId).HasName("PK__Document__FBFF9D2059B2FA6D");
@@ -309,11 +327,16 @@ public partial class HomeworkDbContext : DbContext
             entity.Property(e => e.FileUrl)
                 .HasMaxLength(500)
                 .HasColumnName("FileURL");
+            //entity.Property(e => e.HomeworkId).HasColumnName("HomeworkID");
 
             entity.HasOne(d => d.Class).WithMany(p => p.Materials)
                 .HasForeignKey(d => d.ClassId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Materials__Class__693CA210");
+
+            //entity.HasOne(d => d.Homework).WithMany(p => p.Materials)
+            //    .HasForeignKey(d => d.HomeworkId)
+            //    .HasConstraintName("FK__Materials__Homew__3A4CA8FD");
 
             entity.HasOne(d => d.UploadedByNavigation).WithMany(p => p.Materials)
                 .HasForeignKey(d => d.UploadedBy)

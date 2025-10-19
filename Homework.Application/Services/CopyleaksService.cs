@@ -12,7 +12,7 @@ namespace Homework.Application.Services
     {
         private readonly string _email = "Haotaca181510@fpt.edu.vn";
         private readonly string _apiKey = "36a282c2-2666-49a7-b528-7898ac5743cd";
-        private readonly string _webhookUrl = "https://your-domain.com/api/copyleakswebhook/webhook/{STATUS}";
+        private readonly string _webhookUrl = "https://criticore.edu.vn:8386//api/copyleakswebhook/webhook/{STATUS}";
 
         public async Task<string> SubmitFileForScanAsync(IFormFile file)
         {

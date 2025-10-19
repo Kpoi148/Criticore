@@ -9,7 +9,8 @@ namespace Front_end.Services
         public SubmissionFileService(HttpClient http)
         {
             _http = http;
-            _http.BaseAddress = new Uri("https://material.criticore.edu.vn:8008/"); // base URL của Homework API
+            //_http.BaseAddress = new Uri("https://material.criticore.edu.vn:8008/"); // base URL của Homework API
+            _http.BaseAddress = new Uri("https://localhost:7179/"); // base URL của Homework API
         }
 
         public async Task<string?> UploadAsync(IFormFile file)

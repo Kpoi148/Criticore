@@ -1,9 +1,11 @@
-﻿using Homework.Domain.DTOs;
-using Homework.Infrastructure.Models;
+﻿using Homework.Application.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+
+// Đảm bảo Controller có thể truy cập DTO này,
+// Nếu nó nằm trong Service.cs, bạn cần di chuyển nó ra ngoài (hoặc đặt ở global namespace)
+// public class WebhookResponse { public bool Success { get; set; } public string Message { get; set; } }
 
 namespace Homework.Api.Controllers
 {
@@ -11,48 +13,65 @@ namespace Homework.Api.Controllers
     [ApiController]
     public class CopyleaksWebhookController : ControllerBase
     {
-        private readonly HomeworkDbContext _context;
-        public CopyleaksWebhookController(HomeworkDbContext context)
+        private readonly CopyleaksWebhookService _copyleaksWebhookService;
+
+        public CopyleaksWebhookController(CopyleaksWebhookService copyleaksWebhookService)
         {
-            _context = context;
+            _copyleaksWebhookService = copyleaksWebhookService;
         }
 
-        [HttpPost("webhook/completed")]
-        public async Task<IActionResult> OnScanCompleted([FromBody] dynamic data)
+        // --- Controller cho Webhook hoàn thành: /api/CopyleaksWebhook/completed ---
+        [HttpPost("completed")]
+        public async Task<IActionResult> Completed([FromBody] dynamic data)
         {
-            // Lấy scanId để tìm submission
-            string scanId = data.scanId;
+            try
+            {
+                // Lấy kết quả (kiểu WebhookResponse) từ Service
+                var result = await _copyleaksWebhookService.HandleCompletedWebhookAsync(data);
 
-            var submission = await _context.Submissions
-                .FirstOrDefaultAsync(s => s.SubmissionId.ToString() == scanId); // hoặc mapping scanId → SubmissionID
+                // Dùng thuộc tính .Success (Viết hoa)
+                if (!result.Success)
+                {
+                    // Lỗi xử lý trong business logic, trả về BadRequest hoặc 500
+                    // Tùy theo Copyleaks yêu cầu, thường nên trả về 2xx nếu bạn đã nhận webhook.
+                    // Ở đây, tôi giữ lại logic ban đầu là BadRequest, nhưng dùng .Success và .Message
+                    return BadRequest(new { success = result.Success, message = result.Message });
+                }
 
-            if (submission == null)
-                return NotFound($"Submission for scanId={scanId} not found");
-
-            // Lấy dữ liệu Copyleaks
-            double plagiarismScore = (double)(data.results?.internet?.score ?? 0)
-                                   + (double)(data.results?.database?.score ?? 0);
-            double aiContentScore = (double)(data.results?.ai?.score ?? 0);
-            string reportUrl = data.pdfReport ?? "";
-
-            //// Update vào submission
-            //submission.PlagiarismScore = plagiarismScore * 100;
-            //submission.AiContentScore = aiContentScore * 100;
-            //submission.ReportURL = reportUrl;
-            //submission.Status = "Completed";
-            submission.UpdatedAt = DateTime.Now;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "Submission updated"
-                //, submissionId = submission.SubmissionID 
-            });
+                // Thành công, trả về 200 OK với body JSON
+                return Ok(new { success = result.Success, message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                // Lỗi hệ thống không mong muốn
+                return StatusCode(500, new { success = false, message = ex.Message });
+            }
         }
 
-        [HttpPost("webhook/error")]
-        public IActionResult OnScanError([FromBody] dynamic error)
+        // --- Controller cho Webhook lỗi: /api/CopyleaksWebhook/error ---
+        [HttpPost("error")]
+        public async Task<IActionResult> Error([FromBody] dynamic error)
         {
-            return BadRequest(error);
+            try
+            {
+                // Lấy kết quả (kiểu WebhookResponse) từ Service
+                var result = await _copyleaksWebhookService.HandleErrorWebhookAsync(error);
+
+                // Dùng thuộc tính .Success (Viết hoa)
+                if (!result.Success)
+                {
+                    // Lỗi trong quá trình lưu trữ lỗi, vẫn nên thông báo lỗi
+                    return BadRequest(new { success = result.Success, message = result.Message });
+                }
+
+                // Lưu trữ lỗi thành công, trả về 200 OK (theo convention)
+                return Ok(new { success = result.Success, message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                // Lỗi hệ thống không mong muốn
+                return StatusCode(500, new { success = false, message = ex.Message });
+            }
         }
     }
 }
