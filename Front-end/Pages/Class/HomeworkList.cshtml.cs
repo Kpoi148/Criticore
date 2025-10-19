@@ -15,7 +15,6 @@ namespace Front_end.Pages.Class
         private readonly IMaterialService _materialService;
         private readonly ISubmissionService _submissionService;
         private readonly IUsersService _usersService;
-        private readonly ICopyleaksService _copyleaksService;
 
         public HomeworkListModel(
           IHomeworkService homeworkService,
@@ -23,8 +22,7 @@ namespace Front_end.Pages.Class
           IClassesService classesService,
           IMaterialService materialService,
           ISubmissionService submissionService,
-          IUsersService usersService,
-          ICopyleaksService copyleaksService
+          IUsersService usersService
         )
         {
             _homeworkService = homeworkService;
@@ -33,7 +31,6 @@ namespace Front_end.Pages.Class
             _materialService = materialService;
             _submissionService = submissionService;
             _usersService = usersService;
-            _copyleaksService = copyleaksService;
         }
 
         public ClassDto CurrentClass { get; set; } = new();

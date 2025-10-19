@@ -21,8 +21,8 @@ namespace Front_end
             builder.Services.AddHttpClient<ITopicDetailService, TopicDetailService>();
             builder.Services.AddHttpClient("GatewayClient", client =>
             {
-                client.BaseAddress = new Uri("https://ocelot.criticore.edu.vn:8002/");
                 //client.BaseAddress = new Uri("https://ocelot.criticore.edu.vn:8002/");
+                client.BaseAddress = new Uri("https://ocelot.criticore.edu.vn:8002/");
             });
             builder.Services.AddHttpClient<IClassesService, ClassesService>(client =>
             {

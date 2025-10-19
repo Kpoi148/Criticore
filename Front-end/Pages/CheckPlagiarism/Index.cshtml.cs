@@ -1,4 +1,4 @@
-using Front_end.Services.Interfaces;
+﻿using Front_end.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -18,10 +18,21 @@ namespace Front_end.Pages.CheckPlagiarism
 
         public string? ScanResultMessage { get; set; }
 
-        public void OnGet() { }
+        public IActionResult OnGet()
+        {
+            var userIdString = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out _))
+                return RedirectToPage("/Signin");
+
+            return Page();
+        }
 
         public async Task<IActionResult> OnPostCheckAsync()
         {
+            var userIdString = User.FindFirst("UserId")?.Value;
+            if (!int.TryParse(userIdString, out int userId))
+                return RedirectToPage("/Signin");
+            
             if (FileToCheck == null || FileToCheck.Length == 0)
             {
                 ScanResultMessage = "Please select a file to check.";
@@ -30,7 +41,7 @@ namespace Front_end.Pages.CheckPlagiarism
 
             try
             {
-                var scanId = await _copyleaksService.SubmitFileForScanAsync(FileToCheck);
+                var scanId = await _copyleaksService.SubmitFileForScanAsync(FileToCheck, userId);
                 ScanResultMessage = $"File sent to Copyleaks successfully! Scan ID: {scanId}";
             }
             catch (Exception ex)

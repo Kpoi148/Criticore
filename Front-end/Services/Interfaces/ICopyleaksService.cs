@@ -7,6 +7,6 @@
         /// </summary>
         /// <param name="file">File cần scan</param>
         /// <returns>ScanId hoặc null nếu thất bại</returns>
-        Task<string?> SubmitFileForScanAsync(IFormFile file);
+        Task<string?> SubmitFileForScanAsync(IFormFile file, int userId);
     }
 }

@@ -22,7 +22,7 @@ namespace Homework.Api.Controllers
             if (request.File == null || request.File.Length == 0)
                 return BadRequest("No file uploaded.");
 
-            var scanId = await _copyleaksService.SubmitFileForScanAsync(request.File);
+            var scanId = await _copyleaksService.SubmitFileForScanAsync(request.File, request.UserId);
             return Ok(new { message = "File submitted successfully.", scanId });
         }
     }
@@ -30,5 +30,6 @@ namespace Homework.Api.Controllers
     public class CheckFileRequest
     {
         public IFormFile File { get; set; } = default!;
+        public int UserId { get; set; }
     }
 }
