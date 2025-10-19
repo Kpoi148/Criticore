@@ -44,6 +44,19 @@
     <main class="flex-1">
         @RenderBody()
     </main>
+    <script>
+           async function logout() {
+            // Gọi API logout để backend xoá cookie
+            await fetch('/api/logout', { method: 'POST' });
+
+            // Xoá localStorage
+            localStorage.removeItem('authToken');
+            // hoặc: localStorage.clear();
+
+            // Redirect về trang login/home
+            window.location.href = "https://criticore.edu.vn:8386";
+        }
+    </script>
     <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
