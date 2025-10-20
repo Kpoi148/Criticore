@@ -12,9 +12,9 @@ namespace Homework.Application.Services
     {
         private readonly string _email = "Haotaca181510@fpt.edu.vn";
         private readonly string _apiKey = "36a282c2-2666-49a7-b528-7898ac5743cd";
-        private readonly string _webhookUrl = "https://criticore.edu.vn:8386//api/copyleakswebhook/webhook/{STATUS}";
+        private readonly string _webhookUrl = "https://homework.criticore.edu.vn:8007/api/copyleakswebhook/{STATUS}";
 
-        public async Task<string> SubmitFileForScanAsync(IFormFile file)
+        public async Task<string> SubmitFileForScanAsync(IFormFile file, int userId)
         {
             var identityClient = new CopyleaksIdentityApi();
             var loginResponse = await identityClient.LoginAsync(_email, _apiKey);
@@ -29,14 +29,15 @@ namespace Homework.Application.Services
                 Webhooks = new Webhooks
                 {
                     Status = new Uri(_webhookUrl)
-                }
+                },
+                DeveloperPayload = userId.ToString()
             };
 
             var fileDocument = new FileDocument
             {
                 Base64 = base64File,
                 Filename = file.FileName,
-                PropertiesSection = scanProperties
+                PropertiesSection = scanProperties,
             };
 
             var scanId = Guid.NewGuid().ToString();

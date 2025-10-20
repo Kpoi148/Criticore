@@ -34,9 +34,19 @@ namespace Homework.Application.Services
             {
                 // ✅ Lấy scanId từ scannedDocument
                 string scanId = data?.scannedDocument?.scanId;
+                string developerPayloadString = data.developerPayload;
                 if (string.IsNullOrEmpty(scanId))
                     return new WebhookResponse { Success = false, Message = "Missing scanId" };
 
+                int userId = 0;
+                // XHUYỂN ĐỔI USER ID
+                if (!int.TryParse(developerPayloadString, out userId))
+                {
+                    // Ghi log lỗi nếu không lấy được UserId, nhưng vẫn tiếp tục để tránh lỗi
+                    // Nếu bạn bắt buộc phải có UserId, hãy ném exception để được bắt ở Controller
+                    // Nhưng tốt nhất là xử lý ngoại lệ bên trong
+                    // Ghi log ở đây và dùng return Ok() ở Controller.
+                }
                 // ✅ Đọc kết quả internet/database nếu có
                 // Lưu ý: data?.pdfReport thường nằm ở cấp gốc, không phải trong 'scannedDocument'
                 // Tùy thuộc vào cấu hình webhook của bạn, nó có thể không có ở đây
@@ -62,7 +72,8 @@ namespace Homework.Application.Services
                     AiContentScore = aiContentScore,
                     ReportUrl = reportUrl,
                     RawResponse = JsonConvert.SerializeObject(data),
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.Now,
+                    UserId = userId
                 };
 
                 await _reportRepo.AddReportAsync(report);

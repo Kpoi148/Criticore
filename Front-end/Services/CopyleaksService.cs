@@ -14,7 +14,7 @@ namespace Front_end.Services
             //_http.BaseAddress = new Uri("https://homework.criticore.edu.vn:8007/"); // base URL của Homework API
             _http.BaseAddress = new Uri("https://localhost:7154/"); // base URL của Homework API
         }
-        public async Task<string?> SubmitFileForScanAsync(IFormFile file)
+        public async Task<string?> SubmitFileForScanAsync(IFormFile file, int userId)
         {
             if (file == null || file.Length == 0)
                 return null;
@@ -25,6 +25,7 @@ namespace Front_end.Services
             fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
 
             content.Add(fileContent, "File", file.FileName);
+            content.Add(new StringContent(userId.ToString()), "UserId");
 
             var response = await _http.PostAsync("api/copyleaks/check-file", content);
             if (!response.IsSuccessStatusCode) return null;
