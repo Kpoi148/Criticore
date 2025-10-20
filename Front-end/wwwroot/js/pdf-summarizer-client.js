@@ -4,7 +4,7 @@
  */
 
 class PDFSummarizerClient {
-    constructor(baseURL = 'http://localhost:8000') {
+    constructor(baseURL = 'http://14.225.208.251:8000') {
         this.baseURL = baseURL;
     }
 

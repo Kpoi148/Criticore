@@ -1,7 +1,7 @@
 // PDF Service for handling document uploads and queries
 
 const API_CONFIG = {
-    BASE_URL: 'http://localhost:8000',
+    BASE_URL: 'http://14.225.208.251:8000',
     endpoints: {
         UPLOAD: '/upload',
         QUERY: '/query',

@@ -18,7 +18,7 @@ async function callPDFSummarizerAPI(pdfFile) {
         formData.append('file', pdfFile);
 
         // Call your Python FastAPI endpoint
-        const res = await fetch('http://localhost:8000/summarize', {
+        const res = await fetch('http://14.225.208.251:8000/summarize', {
             method: 'POST',
             body: formData,
         });

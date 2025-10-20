@@ -11,8 +11,8 @@ namespace Front_end.Services
         public CopyleaksService(HttpClient http)
         {
             _http = http;
-            //_http.BaseAddress = new Uri("https://homework.criticore.edu.vn:8007/"); // base URL của Homework API
-            _http.BaseAddress = new Uri("https://localhost:7154/"); // base URL của Homework API
+            _http.BaseAddress = new Uri("https://homework.criticore.edu.vn:8007/"); // base URL của Homework API
+            //_http.BaseAddress = new Uri("https://localhost:7154/"); // base URL của Homework API
         }
         public async Task<string?> SubmitFileForScanAsync(IFormFile file, int userId)
         {

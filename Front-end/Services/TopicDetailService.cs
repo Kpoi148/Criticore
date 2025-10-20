@@ -8,8 +8,8 @@ public class TopicDetailService : ITopicDetailService
     public TopicDetailService(HttpClient httpClient)
     {
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri("https://localhost:7134/"); // Giữ nguyên base URL
-        //_httpClient.BaseAddress = new Uri("https://topicdetail.criticore.edu.vn:8009/");
+        //_httpClient.BaseAddress = new Uri("https://localhost:7134/"); // Giữ nguyên base URL
+        _httpClient.BaseAddress = new Uri("https://topicdetail.criticore.edu.vn:8009/");
     }
     public async Task<IEnumerable<AnswerDto>> GetAnswersByTopicIdAsync(int topicId)
     {
