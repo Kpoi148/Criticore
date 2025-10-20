@@ -8,11 +8,13 @@
     <!-- Navbar -->
     <header class="flex justify-between items-center px-8 py-3 bg-white shadow-sm">
         <div class="flex items-center gap-3 text-2xl font-bold">
-            <img src="@Url.Content("~/images/CriticoreLogoText.png")" alt="" class="h-10">
+            <a href="/">
+                <img src="@Url.Content("~/images/CriticoreLogoText.png")" alt="Criticore Logo" class="h-10">
+            </a>
         </div>
         <nav class="hidden md:flex gap-10 text-base font-semibold">
             <a asp-page="/class/classlist" class="hover:text-blue-600">Classrooms</a>
-            <a asp-page="/Payment" class="hover:text-blue-600">Payment</a>
+            <a asp-page="/Payment/create" class="hover:text-blue-600">Payment</a>
             <a asp-controller="Leaderboard" asp-action="Index" class="hover:text-blue-600">Feature 2</a>@*Leaderboard*@
             <a asp-controller="Resource" asp-action="Index" class="hover:text-blue-600">Feature 3</a>@*Resources*@
             @* <a asp-controller="Account" asp-action="Login" class="hover:text-blue-600">Sign In</a> *@

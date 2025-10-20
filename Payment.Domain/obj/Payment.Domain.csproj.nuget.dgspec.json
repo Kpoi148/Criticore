@@ -1,28 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {}
+    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {}
   },
   "projects": {
-    "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
+    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
+        "projectUniqueName": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
         "projectName": "Payment.Domain",
-        "projectPath": "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
-        "packagesPath": "C:\\Users\\luuch\\.nuget\\packages\\",
-        "outputPath": "E:\\C#\\Criticore\\Payment.Domain\\obj\\",
+        "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\luuch\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -30,8 +30,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -45,11 +45,33 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -66,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

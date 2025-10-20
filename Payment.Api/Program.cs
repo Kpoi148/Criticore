@@ -1,4 +1,10 @@
 
+using Microsoft.EntityFrameworkCore;
+using Payment.Application.Services;
+using Payment.Domain.Repositories;
+using Payment.Infrastructure.Models;
+using Payment.Infrastructure.Repositories;
+
 namespace Payment.Api
 {
     public class Program
@@ -8,8 +14,14 @@ namespace Payment.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+
+            builder.Services.AddDbContext<OrderDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
+
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<OrderService>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

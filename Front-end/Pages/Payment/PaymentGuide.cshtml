@@ -1,0 +1,114 @@
+﻿@page
+@model PaymentGuideModel
+@{
+    ViewData["Title"] = "Teacher Account Payment";
+    // Giữ nguyên Layout để sử dụng các thẻ HTML cơ bản (<html>, <head>) và CSS links
+    Layout = "~/Pages/Shared/_HomepageLayout.cshtml";
+}
+
+<body class="bg-[#f0f4ff] text-gray-800">
+    @* BẮT ĐẦU: THÊM NAVBAR ĐÃ GHI NHỚ *@
+    <header class="flex justify-between items-center px-8 py-3 bg-white shadow-sm">
+        <div class="flex items-center gap-3 text-2xl font-bold">
+            <a href="/">
+                <img src="@Url.Content("~/images/CriticoreLogoText.png")" alt="Criticore Logo" class="h-10">
+            </a>
+        </div>
+        <nav class="hidden md:flex gap-10 text-base font-semibold">
+            <a asp-page="/class/classlist" class="hover:text-blue-600">Classrooms</a>
+            <a asp-page="/Payment/create" class="hover:text-blue-600">Payment</a>
+            <a asp-controller="Leaderboard" asp-action="Index" class="hover:text-blue-600">Feature 2</a>
+            <a asp-controller="Resource" asp-action="Index" class="hover:text-blue-600">Feature 3</a>
+            <a asp-page="/SignIn" class="hover:text-blue-600">Sign In</a>
+        </nav>
+        <a asp-page="/SignIn"
+           class="bg-blue-600 text-white px-5 py-3 rounded-md text-base font-semibold hover:bg-blue-700">
+            Get Started
+        </a>
+    </header>
+    @* KẾT THÚC: THÊM NAVBAR ĐÃ GHI NHỚ *@
+
+    @* NỘI DUNG TRANG PAYMENT GUIDE CỦA BẠN *@
+    <section class="min-h-screen bg-[#f0f4ff] flex items-center justify-center py-16 px-4">
+        
+        <div class="max-w-xl w-full"> 
+            
+            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+            {
+                <div class="mb-6">
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg relative shadow-md" role="alert">
+                        <strong class="font-bold">Success!</strong>
+                        <span class="block sm:inline">@Model.SuccessMessage</span>
+                    </div>
+                </div>
+            }
+            
+            <div class="bg-white shadow-xl rounded-lg p-8 md:p-10 border border-blue-200">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-blue-700 mb-2">Teacher Account Registration</h1>
+                    <p class="text-lg text-gray-600">Complete the payment to unlock classroom management and evaluation features.</p>
+                </div>
+
+                <div class="border-b border-gray-200 pb-6 mb-6">
+                    <div class="flex justify-between items-center">
+                        <p class="text-xl font-semibold text-gray-800">Registration Fee (Lifetime Access)</p>
+                        <p class="text-3xl font-bold text-green-600">100,000 VNĐ</p>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">A one-time fee to upgrade your account to Teacher status.</p>
+                </div>
+
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Payment Method: QR Code Scan</h2>
+
+                <div class="flex flex-col items-center space-y-6">
+                    <div class="w-80 h-80 border-4 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="@Url.Content("~/images/LocQR2.jpg")"
+                             alt="Payment QR Code"
+                             class="w-full h-full object-cover p-2" />
+                    </div>
+
+                    <p class="text-center text-lg font-medium text-gray-700">
+                        Please **scan the QR code** above to pay the amount of <span class="font-bold text-green-600">100,000 VNĐ</span>.
+                    </p>
+
+                    <div class="p-4 bg-yellow-50 border border-yellow-300 rounded-md w-full">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-yellow-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Mandatory Confirmation Step</h3>
+                                <p class="text-gray-600 mt-1 text-base">
+                                    After payment, you **must** send a confirmation message via Zalo to the administrator:
+                                </p>
+                                <p class="mt-2 text-blue-600 font-bold text-xl">
+                                    Zalo:
+                                    <a href="https://zalo.me/84399076845" target="_blank" class="hover:underline">0399 076 845</a>
+                                </p>
+                                <p class="text-sm text-gray-500 mt-1">
+                                    Message content: **[Your Login Name] - Teacher Payment Confirmation**
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a asp-page="/Index" class="mt-6 w-full text-center bg-blue-600 text-white px-6 py-3 rounded-md text-base font-semibold hover:bg-blue-700 transition duration-150">
+                        Return to Homepage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* BẮT ĐẦU: THÊM FOOTER ĐÃ GHI NHỚ *@
+    <footer class="bg-gray-50 border-t py-6 text-base text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center">
+            <p class="mb-2 sm:mb-0">© 2025 Criticore. Empowering Critical Thinking Through Conversation.</p>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-gray-800">Terms</a>
+                <a href="#" class="hover:text-gray-800">Privacy</a>
+                <a href="mailto:criticore.helpdesk@gmail.com" class="hover:text-gray-800">Support</a>
+            </div>
+        </div>
+    </footer>
+    @* KẾT THÚC: THÊM FOOTER ĐÃ GHI NHỚ *@
+</body>
