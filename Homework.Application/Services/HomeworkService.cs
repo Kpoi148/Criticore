@@ -68,6 +68,14 @@ namespace Homework.Application.Services
             await _homeworkRepo.UpdateAsync(existingEntity);
         }
 
+        public async Task<List<DeadlineDto>> GetDeadlinesByUserAsync(int userId)
+        {
+            var deadlines = await _homeworkRepo.GetDeadlinesByUserAsync(userId);
+            // Nếu cần map thêm (ví dụ: từ entity sang DTO phức tạp), dùng _mapper.Map
+            // Nhưng ở đây repo đã return DTO trực tiếp, nên return thẳng
+            return deadlines;
+        }
+
         public Task DeleteAsync(int id) => _homeworkRepo.DeleteAsync(id);
     }
 }

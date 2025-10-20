@@ -1,0 +1,54 @@
+﻿#calendar {
+    max-width: 900px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fc-daygrid-day-number {
+    font-weight: bold;
+}
+
+.fc-event {
+    cursor: default; /* Đổi cursor để không giống link */
+    background-color: #b3d4fc !important; /* Giữ xanh nhạt */
+    border: none !important;
+    color: #000 !important;
+    font-size: 0.9em;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out; /* Hover effect 2025 style */
+}
+
+    .fc-event:hover {
+        background-color: #93c5fd !important; /* Xanh đậm hơn khi hover */
+        transform: scale(1.05);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+.fc .fc-daygrid-event {
+    margin: 2px;
+}
+
+/* Style cho buttons trong FullCalendar header */
+.fc-button {
+    background-color: #3b82f6 !important; /* Xanh chủ đạo */
+    border: none !important;
+    color: white !important;
+    border-radius: 6px !important; /* Rounded hơn cho 2025 */
+    padding: 8px 16px !important;
+    transition: all 0.2s ease-in-out !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    margin: 0 4px !important; /* Thêm khoảng cách giữa các nút */
+}
+
+    .fc-button:hover {
+        background-color: #2563eb !important; /* Xanh đậm hơn khi hover */
+        transform: scale(1.05) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .fc-button.fc-button-active {
+        background-color: #1d4ed8 !important; /* Xanh đậm cho active */
+    }

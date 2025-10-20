@@ -24,14 +24,15 @@ namespace Class.API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend",
-                    policy => policy.WithOrigins("https://localhost:7186")
-                                    //.WithOrigins("https://criticore.edu.vn:8386")
+                    policy => policy//.WithOrigins("https://localhost:7186")
+                                    .WithOrigins("https://criticore.edu.vn:8386")
                                     .AllowAnyMethod()
-                                    .AllowAnyHeader());
+                                    .AllowAnyHeader()
+                                    .AllowCredentials());
             });
             // Đăng ký DbContext
             builder.Services.AddDbContext<ClassDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             Console.WriteLine("👉 Connection string DefaultConnection: "
      + builder.Configuration.GetConnectionString("DefaultConnection"));
             Console.WriteLine("👉 Connection string LocConnection: "

@@ -35,6 +35,15 @@ namespace Homework.Api
             builder.Services.AddScoped<CopyleaksReportService>();
 
             builder.Services.AddAutoMapper(typeof(HomeworkProfile).Assembly);
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy => policy//.WithOrigins("https://localhost:7186")
+                                    .WithOrigins("https://criticore.edu.vn:8386")
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader()
+                                    .AllowCredentials());
+            });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -48,7 +57,7 @@ namespace Homework.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("AllowFrontend");
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

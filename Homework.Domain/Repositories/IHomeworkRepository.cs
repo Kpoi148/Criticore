@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Homework.Domain.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Homework.Domain.Repositories
         Task<IEnumerable<Homework.Domain.Entities.HomeWork>> GetByTopicAsync(int topicId); // Lấy theo Topic
         Task AddAsync(Homework.Domain.Entities.HomeWork homework);
         Task UpdateAsync(Homework.Domain.Entities.HomeWork homework);
+        Task<List<DeadlineDto>> GetDeadlinesByUserAsync(int userId);
         Task DeleteAsync(int id);
     }
 }

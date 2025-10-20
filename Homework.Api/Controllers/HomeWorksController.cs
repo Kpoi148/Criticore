@@ -30,6 +30,7 @@ namespace Homework.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.HomeworkID }, created);
         }
 
+
         // GET: api/homeworks/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -65,6 +66,14 @@ namespace Homework.Api.Controllers
         {
             await _service.DeleteAsync(id);
             return NoContent(); // 204 No Content
+        }
+
+        // GET: api/users/{userId}/deadlines
+        [HttpGet("/api/users/{userId}/deadlines")]
+        public async Task<IActionResult> GetDeadlinesByUser(int userId)
+        {
+            var deadlines = await _service.GetDeadlinesByUserAsync(userId);
+            return Ok(deadlines);
         }
     }
 }
