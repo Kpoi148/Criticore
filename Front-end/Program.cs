@@ -39,6 +39,7 @@ namespace Front_end
                 //client.BaseAddress = new Uri("https://localhost:7281/");
                 client.BaseAddress = new Uri("https://identity.criticore.edu.vn:8004/");
             });
+            builder.Services.AddHttpClient<IOrderService, OrderService>();
             builder.Services.AddHttpClient<IHomeworkService, HomeworkService>();
             builder.Services.AddHttpClient<ISubmissionFileService, SubmissionFileService>();
             builder.Services.AddHttpClient<ISubmissionService, SubmissionService>();
