@@ -16,13 +16,13 @@ namespace Payment.Api.Controllers
             _service = service;
         }
 
-        // Người dùng tạo order
-        [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
-        {
-            var order = await _service.CreateOrderAsync(request);
-            return Ok(new { message = "Order created successfully", order });
-        }
+        //// Người dùng tạo order
+        //[HttpPost]
+        //public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
+        //{
+        //    var order = await _service.CreateOrderAsync(request);
+        //    return Ok(new { message = "Order created successfully", order });
+        //}
 
         [HttpPost("create-or-update")]
         public async Task<IActionResult> CreateOrUpdate([FromBody] CreateOrderRequest request)

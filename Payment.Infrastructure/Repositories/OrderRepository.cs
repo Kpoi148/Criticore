@@ -36,22 +36,24 @@ namespace Payment.Infrastructure.Repositories
         {
             await _context.Orders.AddAsync(order);
         }
-
-        public async Task UpdateOrderAsync(Order order)
+        // Cập nhật nêu có đơn hàng chưa được xử li
+        public Task UpdateOrderAsync(Order order)
         {
             _context.Orders.Update(order);
+            return Task.CompletedTask;
         }
 
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
-        public async Task<Order> CreateOrderAsync(Order order)
-        {
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-            return order;
-        }
+
+        //public async Task<Order> CreateOrderAsync(Order order)
+        //{
+        //    _context.Orders.Add(order);
+        //    await _context.SaveChangesAsync();
+        //    return order;
+        //}
 
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
@@ -73,10 +75,10 @@ namespace Payment.Infrastructure.Repositories
             return await _context.Orders.FindAsync(id);
         }
 
-        public async Task UpdateAsync(Order order)
-        {
-            _context.Orders.Update(order);
-            await _context.SaveChangesAsync();
-        }
+        //public async Task UpdateAsync(Order order)
+        //{
+        //    _context.Orders.Update(order);
+        //    await _context.SaveChangesAsync();
+        //}
     }
 }

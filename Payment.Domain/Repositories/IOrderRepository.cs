@@ -15,11 +15,11 @@ namespace Payment.Domain.Repositories
         Task UpdateOrderAsync(Order order);
         Task SaveChangesAsync();
 
-        Task<Order> CreateOrderAsync(Order order);
+        //Task<Order> CreateOrderAsync(Order order);
         Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task<IEnumerable<Order>> GetOrdersByUserAsync(int userId);
         Task<Order?> GetByIdAsync(int id);
-        Task UpdateAsync(Order order);
+        //Task UpdateAsync(Order order);
     }
 
 }
