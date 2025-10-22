@@ -41,7 +41,7 @@
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">#</th>
-                                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Scan ID</th>
+                                    <th scope="col" class="px-6 py-3 whitespace-nowrap">File Name</th>
                                     <th scope="col" class="px-6 py-3">Status</th>
                                     <th scope="col" class="px-6 py-3 whitespace-nowrap">Similarity</th>
                                     <th scope="col" class="px-6 py-3 whitespace-nowrap">AI Content</th>
@@ -56,15 +56,13 @@
                                         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             @r.ReportId
                                         </td>
-                                        <td class="px-6 py-4">@r.ScanId</td>
+                                        <td class="px-6 py-4">@r.FileName</td> @* Đổi ScanId → FileName *@
                                         <td class="px-6 py-4">
                                             @{
                                                 string statusText = r.Status;
-                                                string statusColor = r.Status == "Completed" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800";
-
-                                                // Optional: Translate status for display if necessary
-                                                // if (r.Status == "Completed") statusText = "Completed";
-                                                // else if (r.Status == "Pending") statusText = "Pending";
+                                                string statusColor = r.Status == "Completed"
+                                                ? "bg-green-100 text-green-800"
+                                                : "bg-gray-100 text-gray-800";
                                             }
                                             <span class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium @statusColor">
                                                 @statusText
@@ -74,16 +72,17 @@
                                         <td class="px-6 py-4">@r.AiContentScore.ToString("0.0")%</td>
                                         <td class="px-6 py-4 whitespace-nowrap">@r.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
                                         <td class="px-6 py-4">
-                                            @if (!string.IsNullOrEmpty(r.ReportUrl))
+                                            @if (r.InternetSources.Any())
                                             {
-                                                <a href="@r.ReportUrl" target="_blank"
-                                                   class="text-blue-600 hover:text-blue-800 text-sm font-medium border border-blue-600 hover:bg-blue-50 px-3 py-1.5 rounded-lg transition duration-150 ease-in-out">
-                                                    View
-                                                </a>
+                                                <button type="button"
+                                                        class="text-white bg-blue-600 hover:bg-blue-700 text-sm font-medium px-3 py-1.5 rounded-lg transition"
+                                                        onclick="openSourcesModal(@r.ReportId)">
+                                                    View Sources
+                                                </button>
                                             }
                                             else
                                             {
-                                                <span class="text-gray-400 text-sm">N/A</span>
+                                                <span class="text-gray-400 text-sm">No sources</span>
                                             }
                                         </td>
                                     </tr>
@@ -93,7 +92,58 @@
                     </div>
                 }
             </div>
+            <!-- Modal hiển thị nguồn Internet -->
+            <div id="sourcesModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+                <div class="bg-white rounded-lg p-6 max-w-2xl w-full shadow-lg relative">
+                    <h2 class="text-xl font-bold mb-4 text-blue-700">Internet Sources</h2>
+                    <table class="min-w-full text-sm text-left border">
+                        <thead class="bg-gray-100 text-gray-700 uppercase">
+                            <tr>
+                                <th class="px-4 py-2">Title</th>
+                                <th class="px-4 py-2">Matched</th>
+                                <th class="px-4 py-2">Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sourcesTableBody"></tbody>
+                    </table>
+
+                    <button onclick="closeSourcesModal()" class="mt-4 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">
+                        Close
+                    </button>
+                </div>
+            </div>
         </main>
     </div>
 </body>
 </html>
+<script>
+    const sourcesData = @Html.Raw(Json.Serialize(Model.Reports
+        .ToDictionary(r => r.ReportId, r => r.InternetSources)));
+
+    function openSourcesModal(reportId) {
+        const body = document.getElementById("sourcesTableBody");
+        body.innerHTML = "";
+
+        const sources = sourcesData[reportId] || [];
+        if (sources.length === 0) {
+            body.innerHTML = "<tr><td colspan='3' class='text-center py-3 text-gray-500'>No sources found.</td></tr>";
+        } else {
+            sources.forEach(src => {
+                body.innerHTML += `
+                    <tr class="border-t">
+                        <td class="px-4 py-2 font-medium">${src.title || "Untitled"}</td>
+                        <td class="px-4 py-2">${src.matchedWords} words</td>
+                        <td class="px-4 py-2">
+                            <a href="${src.url}" target="_blank" class="text-blue-600 hover:underline">Open</a>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        document.getElementById("sourcesModal").classList.remove("hidden");
+    }
+
+    function closeSourcesModal() {
+        document.getElementById("sourcesModal").classList.add("hidden");
+    }
+</script>
