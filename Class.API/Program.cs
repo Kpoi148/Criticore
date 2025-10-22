@@ -32,7 +32,7 @@ namespace Class.API
             });
             // Đăng ký DbContext
             builder.Services.AddDbContext<ClassDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
             Console.WriteLine("👉 Connection string DefaultConnection: "
      + builder.Configuration.GetConnectionString("DefaultConnection"));
             Console.WriteLine("👉 Connection string LocConnection: "

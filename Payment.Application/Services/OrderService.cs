@@ -18,36 +18,36 @@ namespace Payment.Application.Services
             _repo = repo;
         }
 
-        public async Task<Order> CreateOrderAsync(CreateOrderRequest request)
-        {
-            decimal price = 100000;
-            int duration = 1;
+        //public async Task<Order> CreateOrderAsync(CreateOrderRequest request)
+        //{
+        //    decimal price = 100000;
+        //    int duration = 1;
 
-            switch (request.PackageName)
-            {
-                case "Gói 6 tháng":
-                    price = 500000;
-                    duration = 6;
-                    break;
-                case "Gói 12 tháng":
-                case "Gói 1 năm":
-                    price = 900000;
-                    duration = 12;
-                    break;
-            }
+        //    switch (request.PackageName)
+        //    {
+        //        case "Gói 6 tháng":
+        //            price = 500000;
+        //            duration = 6;
+        //            break;
+        //        case "Gói 12 tháng":
+        //        case "Gói 1 năm":
+        //            price = 900000;
+        //            duration = 12;
+        //            break;
+        //    }
 
-            var order = new Order
-            {
-                UserId = request.UserId,
-                PackageName = request.PackageName,
-                Price = price,
-                DurationInMonths = duration,
-                Status = "Pending",
-                CreatedAt = DateTime.Now
-            };
+        //    var order = new Order
+        //    {
+        //        UserId = request.UserId,
+        //        PackageName = request.PackageName,
+        //        Price = price,
+        //        DurationInMonths = duration,
+        //        Status = "Pending",
+        //        CreatedAt = DateTime.Now
+        //    };
 
-            return await _repo.CreateOrderAsync(order);
-        }
+        //    return await _repo.CreateOrderAsync(order);
+        //}
         public async Task<string> CreateOrUpdateOrderAsync(CreateOrderRequest request)
         {
             // Kiểm tra đơn Pending
@@ -120,7 +120,8 @@ namespace Payment.Application.Services
                 order.EndDate = order.StartDate.Value.AddMonths(order.DurationInMonths);
             }
 
-            await _repo.UpdateAsync(order);
+            await _repo.UpdateOrderAsync(order);
+            await _repo.SaveChangesAsync();
             return order;
         }
     }
