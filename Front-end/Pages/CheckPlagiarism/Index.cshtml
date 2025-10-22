@@ -1,53 +1,232 @@
 ﻿@page
 @model Front_end.Pages.CheckPlagiarism.IndexModel
 @{
-    // Giữ Layout chính của bạn, giả định _Sidebar.cshtml bao gồm Tailwind CSS
+    // Keep your main Layout, assuming _Sidebar.cshtml includes Tailwind CSS
     Layout = "~/Pages/Shared/_Sidebar.cshtml";
-    ViewData["Title"] = "Check Plagiarism";
+    ViewData["Title"] = "Plagiarism Detector";
 }
 
+<style>
+    /* Custom CSS for visual consistency */
+    .upload-box {
+        border: 2px dashed #cbd5e1; /* slate-300 */
+        background-color: #f8fafc; /* slate-50 */
+        transition: all 0.2s ease-in-out;
+    }
+
+        .upload-box:hover {
+            border-color: #93c5fd; /* blue-300 */
+            background-color: #eff6ff; /* blue-50 */
+        }
+
+    .file-item {
+        background-color: #f1f5f9; /* slate-100 */
+    }
+</style>
+
 <div class="flex min-h-screen">
-    <main class="flex-1 p-6">
+    <main class="flex-1 p-6 bg-gray-50">
+
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h1 class="text-3xl font-bold mb-2 text-blue-700">Plagiarism Detector</h1>
                 <p class="text-gray-600 text-base">Upload your file to perform a plagiarism check using Copyleaks.</p>
             </div>
             <a href="/CheckPlagiarism/CopyleaksReportList"
-               class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition whitespace-nowrap text-base font-medium flex items-center space-x-2">
+               class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition whitespace-nowrap text-base font-medium flex items-center space-x-2 shadow-md">
                 <span>View Reports List</span>
             </a>
         </div>
 
-        <div class="max-w-3xl p-6 bg-white rounded-lg shadow-md">
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Upload File</h2>
-            <form method="post" enctype="multipart/form-data" asp-page-handler="Check">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                <label class="block text-base font-medium text-gray-700 mb-2">
-                    Select a file to check (.pdf, .doc, .docx, .txt)
-                </label>
+            <div class="lg:col-span-2 space-y-6">
 
-                <input type="file" name="FileToCheck"
-                       accept=".txt, .doc, .docx, .pdf"
-                       class="block w-full text-base text-gray-500 file:mr-4 file:py-2 file:px-4
-              file:rounded-lg file:border-0 file:text-base file:font-semibold
-              file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 mb-4"
-                       required />
+                <div class="p-6 bg-white rounded-lg shadow-xl border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Upload File</h2>
+                    <form id="uploadForm" method="post" enctype="multipart/form-data" asp-page-handler="Check">
 
+                        <label for="fileInput"
+                               class="upload-box flex flex-col items-center justify-center p-12 mb-4 rounded-lg cursor-pointer text-gray-500 hover:text-blue-600 transition duration-150 ease-in-out">
+                            <svg class="w-12 h-12 mb-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                            </svg>
+                            <span class="text-base font-semibold">Browse or Drag & Drop file to upload</span>
+                            <p class="text-xs mt-1">Supported formats: **.pdf, .doc, .docx, .txt**</p>
+                            <input id="fileInput" type="file" name="FileToCheck" accept=".txt, .doc, .docx, .pdf" class="hidden" required />
+                        </label>
 
-                <button type="submit"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-base">
-                    Check Now
-                </button>
-            </form>
+                        <div id="fileList" class="mb-4 space-y-3">
+                            <div id="initialFilePlaceholder" class="file-item flex items-center justify-between p-3 rounded-lg shadow-sm text-gray-500 text-sm border border-gray-300">
+                                <p>Select a file to begin the plagiarism check.</p>
+                            </div>
+                        </div>
 
-            @if (Model.ScanResultMessage != null)
-            {
-                <div class="mt-6 p-4 rounded-lg font-medium text-base
-                            @(Model.ScanResultMessage.Contains("Error") ? "bg-red-100 text-red-700 border border-red-300" : "bg-green-100 text-green-700 border border-green-300")">
-                    @Model.ScanResultMessage
+                        <button type="submit"
+                                id="checkNowButton"
+                                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-base shadow-md"
+                                disabled>
+                            Check Now
+                        </button>
+                    </form>
+
+                    @if (Model.ScanResultMessage != null)
+                    {
+                        <div class="mt-6 p-4 rounded-lg font-medium text-base
+                                    @(Model.ScanResultMessage.Contains("Error") ? "bg-red-100 text-red-700 border border-red-300" : "bg-green-100 text-green-700 border border-green-300")">
+                            @Model.ScanResultMessage
+                        </div>
+                    }
                 </div>
-            }
+            </div>
+
+            <div class="lg:col-span-1 space-y-6">
+
+                <div class="p-6 bg-white rounded-lg shadow-xl border border-gray-200">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-700 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 10.586V6z" clip-rule="evenodd"></path></svg>
+                        Estimated Wait Time
+                    </h3>
+                    <p class="text-sm text-gray-600 space-y-2">
+                        Scan time depends on the document's length:
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>Short files (e.g., **120 words**): Approximately **30 seconds** or less.</li>
+                            <li>Medium files (e.g., **2000 words**): Approximately **2 - 3 minutes**.</li>
+                            <li>Please wait for the check to complete. The report will be saved automatically.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="p-6 bg-white rounded-lg shadow-xl border border-gray-200">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-700 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        How to Use
+                    </h3>
+                    <ul class="text-sm text-gray-600 space-y-2 list-inside list-disc">
+                        <li>Select or drag & drop a file into the upload area.</li>
+                        <li>Press **"Check Now"** to start the scan.</li>
+                        <li>Detailed results will be available in the **View Reports List**.</li>
+                    </ul>
+                </div>
+
+                <div class="p-6 bg-white rounded-lg shadow-xl border border-gray-200">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-700 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.691-.921 1.99 0l3.082 9.421a1 1 0 00.95 1.054l9.904.72a1 1 0 01.554 1.714l-7.46 7.283a1 1 0 00-.28.847l1.765 9.873a1 1 0 01-1.45 1.05l-8.882-4.664a1 1 0 00-.91 0l-8.882 4.664a1 1 0 01-1.45-1.05l1.765-9.873a1 1 0 00-.28-.847l-7.46-7.283a1 1 0 01.554-1.714l9.904-.72a1 1 0 00.95-1.054l3.082-9.421z"></path></svg>
+                        Powered by Copyleaks
+                    </h3>
+                    <p class="text-sm text-gray-600">
+                        The system uses **Copyleaks'** advanced plagiarism detection algorithms to ensure the most accurate and comprehensive results.
+                    </p>
+                </div>
+
+            </div>
+
         </div>
+
     </main>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('fileInput');
+            const fileList = document.getElementById('fileList');
+            const checkNowButton = document.getElementById('checkNowButton');
+            const initialPlaceholder = document.getElementById('initialFilePlaceholder');
+
+            function renderFiles(files) {
+                fileList.innerHTML = ''; // Clear existing list
+
+                if (files.length === 0) {
+                    checkNowButton.disabled = true;
+                    if(initialPlaceholder) fileList.appendChild(initialPlaceholder); // Show placeholder if no file
+                    return;
+                }
+
+                files.forEach((file, index) => {
+                    const fileSizeKB = (file.size / 1024).toFixed(2); // File size in KB
+                    const fileItem = document.createElement('div');
+                    // Style to match the reference image (light border, light gray background)
+                    fileItem.className = 'file-item flex items-center justify-between p-3 rounded-lg shadow-sm bg-gray-100 hover:bg-gray-200 transition duration-150 border border-gray-300';
+                    fileItem.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0012 2.414L14.586 5A2 2 0 0115 5.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0h6v3a1 1 0 001 1h3v7a1 1 0 001 1H6a1 1 0 00-1-1V5a1 1 0 011-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div>
+                                <p class="text-gray-800 font-medium text-sm">${file.name}</p>
+                                <p class="text-gray-500 text-xs">${fileSizeKB} KB</p>
+                            </div>
+                        </div>
+                        <button type="button" class="remove-file text-gray-400 hover:text-red-500 transition" data-index="${index}" title="Remove file">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    `;
+                    fileList.appendChild(fileItem);
+                });
+
+                document.querySelectorAll('.remove-file').forEach(button => {
+                    button.onclick = (e) => {
+                        const dataTransfer = new DataTransfer();
+                        const currentFiles = Array.from(fileInput.files);
+                        const indexToRemove = parseInt(e.currentTarget.dataset.index);
+
+                        currentFiles.splice(indexToRemove, 1);
+                        currentFiles.forEach(file => dataTransfer.items.add(file));
+                        fileInput.files = dataTransfer.files;
+
+                        renderFiles(currentFiles);
+                    };
+                });
+                checkNowButton.disabled = false;
+            }
+
+            // Handle file selection
+            fileInput.addEventListener('change', function () {
+                renderFiles(Array.from(this.files));
+            });
+
+            // Handle Drag and Drop
+            const uploadBox = document.querySelector('.upload-box');
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadBox.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadBox.addEventListener(eventName, () => uploadBox.classList.add('hover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadBox.addEventListener(eventName, () => uploadBox.classList.remove('hover'), false);
+            });
+
+            uploadBox.addEventListener('drop', (e) => {
+                const droppedFiles = Array.from(e.dataTransfer.files).filter(file => {
+                    const allowedExtensions = ['.txt', '.doc', '.docx', '.pdf'];
+                    const fileNameLower = file.name.toLowerCase();
+                    return allowedExtensions.some(ext => fileNameLower.endsWith(ext));
+                });
+
+                if (droppedFiles.length > 0) {
+                    const dataTransfer = new DataTransfer();
+                    droppedFiles.forEach(file => dataTransfer.items.add(file));
+                    fileInput.files = dataTransfer.files;
+                    renderFiles(droppedFiles);
+                }
+            }, false);
+
+            // Initial state check
+            if (fileInput.files.length === 0) {
+                 checkNowButton.disabled = true;
+            } else {
+                 renderFiles(Array.from(fileInput.files));
+            }
+        });
+    </script>
+}
