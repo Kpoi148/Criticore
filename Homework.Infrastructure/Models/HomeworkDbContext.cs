@@ -215,6 +215,9 @@ public partial class HomeworkDbContext : DbContext
             entity.Property(e => e.ScanId).HasMaxLength(100);
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.FileName)
+            .HasMaxLength(255)
+            .HasColumnName("FileName");
         });
 
         modelBuilder.Entity<DocumentChunk>(entity =>

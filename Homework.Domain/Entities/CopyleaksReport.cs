@@ -22,5 +22,6 @@ public partial class CopyleaksReport
     public string? RawResponse { get; set; }
 
     public DateTime? CreatedAt { get; set; }
+    public string? FileName { get; set; }
 
 }

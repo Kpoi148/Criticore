@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Homework.Domain.Entities;
 using Homework.Domain.Repositories;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 // ************************************************
 // THÊM: Class DTO để khắc phục lỗi serialization 500
@@ -32,7 +33,7 @@ namespace Homework.Application.Services
         {
             try
             {
-                // ✅ Lấy scanId từ scannedDocument
+                // Lấy scanId từ scannedDocument
                 string scanId = data?.scannedDocument?.scanId;
                 string developerPayloadString = data.developerPayload;
                 if (string.IsNullOrEmpty(scanId))
@@ -47,6 +48,7 @@ namespace Homework.Application.Services
                     // Nhưng tốt nhất là xử lý ngoại lệ bên trong
                     // Ghi log ở đây và dùng return Ok() ở Controller.
                 }
+                string fileName = data?.scannedDocument?.metadata?.filename;
                 // ✅ Đọc kết quả internet/database nếu có
                 // Lưu ý: data?.pdfReport thường nằm ở cấp gốc, không phải trong 'scannedDocument'
                 // Tùy thuộc vào cấu hình webhook của bạn, nó có thể không có ở đây
@@ -55,8 +57,31 @@ namespace Homework.Application.Services
                 // Lấy AggregatedScore trực tiếp từ response (vì nó có sẵn trong JSON bạn cung cấp)
                 double plagiarismScore = data?.results?.score?.aggregatedScore ?? 0.0;
 
-                // Mặc định AI content score là 0 nếu không có (vì bạn đã tắt AI Detection)
+                // ************************************************************
+                // SỬA ĐỔI ĐỂ LẤY ĐIỂM AI (AI Content Score)
+                // ************************************************************
                 double aiContentScore = 0;
+
+                // 1. Tìm Alert có mã 'suspected-ai-text'
+                // Dùng JsonConvert.SerializeObject(data.notifications.alerts) nếu data là dynamic
+                // Hoặc cố gắng ép kiểu nếu data?.notifications?.alerts có thể truy cập được
+                dynamic aiAlert = ((IEnumerable<dynamic>)data?.notifications?.alerts ?? Enumerable.Empty<dynamic>())
+                                    .FirstOrDefault(a => a.code == "suspected-ai-text");
+                if (aiAlert != null)
+                {
+                    // 2. Trường 'additionalData' là một chuỗi JSON, cần Deserialize lại
+                    string additionalDataJson = aiAlert.additionalData;
+
+                    // Sử dụng JObject/dynamic để phân tích chuỗi lồng nhau này
+                    dynamic additionalData = JObject.Parse(additionalDataJson);
+
+                    // 3. Lấy điểm AI từ summary.ai (Giá trị này là 1.0 = 100% trong JSON mẫu của bạn)
+                    // Hoặc lấy điểm xác suất (probability)
+                    double aiSummaryScore = additionalData?.summary?.ai ?? 0.0;
+
+                    // Chúng ta sẽ lấy điểm từ summary.ai (thang điểm từ 0.0 đến 1.0)
+                    aiContentScore = aiSummaryScore * 100; // Chuyển sang thang điểm 0-100%
+                }
 
                 // Nếu bạn muốn tính tổng số matches (như logic cũ của bạn) thay vì dùng aggregatedScore:
                 // int internetMatches = ((IEnumerable<dynamic>)data?.results?.internet ?? new List<dynamic>()).Count();
@@ -73,7 +98,8 @@ namespace Homework.Application.Services
                     ReportUrl = reportUrl,
                     RawResponse = JsonConvert.SerializeObject(data),
                     CreatedAt = DateTime.Now,
-                    UserId = userId
+                    UserId = userId,
+                    FileName = fileName
                 };
 
                 await _reportRepo.AddReportAsync(report);

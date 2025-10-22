@@ -10,5 +10,6 @@
         public double AiContentScore { get; set; }
         public string ReportUrl { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
+        public string? FileName { get; set; }
     }
 }

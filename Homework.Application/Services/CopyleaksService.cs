@@ -30,7 +30,13 @@ namespace Homework.Application.Services
                 {
                     Status = new Uri(_webhookUrl)
                 },
-                DeveloperPayload = userId.ToString()
+                DeveloperPayload = userId.ToString(),
+                AIGeneratedText = new AIGeneratedText
+                {
+                    // Thuộc tính này (Detect) thường được định nghĩa bên trong AIGeneratedText
+                    // để bật/tắt tính năng quét AI.
+                    Detect = true
+                }
             };
 
             var fileDocument = new FileDocument
