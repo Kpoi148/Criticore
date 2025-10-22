@@ -578,8 +578,9 @@ async function sendMessage() {
     const fileInput = document.getElementById("pdfInput");
     const textInput = input.value.trim();
     const pdfFile = fileInput?.files[0];
+    const filePreview = document.getElementById("filePreview"); // Thêm
 
-    // Clear text ngay khi gửi
+    // Clear inputs ngay khi gửi
     input.value = "";
     input.style.height = "auto";
     if (!textInput && !pdfFile) return;
@@ -596,7 +597,7 @@ async function sendMessage() {
         </div>`;
     }
 
-    // Handle PDF upload
+    // Handle PDF upload và preview (nếu có file, show trong messages và clear preview)
     if (pdfFile) {
         messages.innerHTML += `
         <div class="flex justify-end mb-4">
@@ -604,35 +605,39 @@ async function sendMessage() {
                 📄 Uploaded: ${escapeHtml(pdfFile.name)}
             </div>
         </div>`;
+        // Clear preview sau khi gửi
+        filePreview.innerHTML = "";
+        filePreview.classList.add("hidden");
+        fileInput.value = "";
     }
 
-    messages.innerHTML += `<div id="${loadingId}" class="flex items-start mb-4"><div class="bg-gray-200 px-4 py-2 rounded-lg text-sm">AI đang xử lý...</div></div>`;
+    // Thay loading text bằng typing indicator động
+    messages.innerHTML += `
+        <div id="${loadingId}" class="flex items-start mb-4">
+            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                <img src="/images/bot-assistant.gif" alt="AI" class="w-6 h-6 rounded-full">
+            </div>
+            <div class="typing-indicator">
+                <span></span><span></span><span></span>
+            </div>
+        </div>`;
     messages.scrollTop = messages.scrollHeight;
 
     try {
         let aiReply;
         let useRAG = !!pdfFile;
-
         if (pdfFile) {
-            // Upload PDF
+            // Upload PDF (giữ nguyên code upload và query)
             const uploadResult = await pdfService.uploadPDF(pdfFile);
-            console.log('Upload response:', uploadResult); // Debug
-
-            // Check linh hoạt
+            console.log('Upload response:', uploadResult);
             const lowerMessage = (uploadResult.message || '').toLowerCase();
             if (!lowerMessage.includes('success') && !lowerMessage.includes('loaded')) {
                 throw new Error(`Upload failed: ${uploadResult.message}`);
             }
-
-            // Khai báo userId trước
             const userId = (googleUser && googleUser.sub) ? googleUser.sub : null;
-
-            // Khai báo queryPrompt và queryResult trước khi sử dụng
             const queryPrompt = textInput || `Tóm tắt những điểm chính trong file PDF "${pdfFile.name}"`;
             const queryResult = await pdfService.queryDocuments(queryPrompt, userId, 8);
-            console.log('Query result:', queryResult); // Debug sau khi khai báo
-
-            // Sửa check và fallback aiReply (sử dụng sau khai báo)
+            console.log('Query result:', queryResult);
             aiReply = queryResult.response || queryResult.answer || 'Không có phản hồi từ AI. Vui lòng thử lại.';
             if (!aiReply) {
                 throw new Error('AI response rỗng hoặc undefined.');
@@ -646,20 +651,18 @@ async function sendMessage() {
         lastAIReply = aiReply;
         messages.innerHTML += `
         <div class="flex items-start mb-4">
-           <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2 overflow-hidden">
-          <img src="/images/bot-assistant.gif" alt="AI" class="w-6 h-6 rounded-full">
-        </div>
-
-          <div class="prose prose-slate max-w-none bg-white px-4 py-3 rounded-2xl shadow-sm text-gray-800 whitespace-pre-line markdown-content">
-            ${marked.parse(aiReply)}
-            <div class="absolute top-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent transform -translate-y-1/2"></div>
-          </div>
+            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2 overflow-hidden">
+                <img src="/images/bot-assistant.gif" alt="AI" class="w-6 h-6 rounded-full">
+            </div>
+            <div class="prose prose-slate max-w-none bg-white px-4 py-3 rounded-2xl shadow-sm text-gray-800 whitespace-pre-line markdown-content">
+                ${marked.parse(aiReply)}
+                <div class="absolute top-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent transform -translate-y-1/2"></div>
+            </div>
         </div>`;
-
     } catch (error) {
-        console.error("Chat Error:", error);  // Log chi tiết error (ví dụ từ query)
+        console.error("Chat Error:", error);
         const loadingElement = document.getElementById(loadingId);
-        if (loadingElement) {  // Check nếu tồn tại mới remove
+        if (loadingElement) {
             loadingElement.remove();
         }
         messages.innerHTML += `
@@ -672,13 +675,8 @@ async function sendMessage() {
                 <div class="absolute top-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent transform -translate-y-1/2"></div>
             </div>
         </div>`;
-        console.error("Chat Error:", error);
     }
 
-    // Clear inputs
-    input.value = "";
-    if (fileInput) fileInput.value = "";
-    input.style.height = "auto";
     messages.scrollTop = messages.scrollHeight;
 }
 // Toggle chat với animation (đã có class chat-popup)
@@ -717,6 +715,34 @@ userInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) {
         sendMessage();
         e.preventDefault();
+    }
+});
+
+// Event listener cho upload file preview (thêm sau các event hiện có)
+const pdfInput = document.getElementById("pdfInput");
+const filePreview = document.getElementById("filePreview"); // ID mới
+
+pdfInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+        filePreview.innerHTML = `
+            <span class="flex items-center gap-1">
+                📄 ${escapeHtml(file.name)}
+                <button id="removeFile" class="text-red-500 hover:text-red-700 ml-2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </span>
+        `;
+        filePreview.classList.remove("hidden");
+
+        // Remove file button
+        document.getElementById("removeFile").addEventListener("click", function () {
+            pdfInput.value = "";
+            filePreview.innerHTML = "";
+            filePreview.classList.add("hidden");
+        });
     }
 });
 

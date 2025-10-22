@@ -33,6 +33,7 @@
 
 /* Style cho buttons trong FullCalendar header */
 .fc-button {
+    text-transform: uppercase !important;
     background-color: #3b82f6 !important; /* Xanh chủ đạo */
     border: none !important;
     color: white !important;

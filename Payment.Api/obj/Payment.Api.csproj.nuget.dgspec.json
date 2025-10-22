@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\Payment.Api.csproj": {}
+    "E:\\C#\\Criticore\\Payment.Api\\Payment.Api.csproj": {}
   },
   "projects": {
-    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\Payment.Api.csproj": {
+    "E:\\C#\\Criticore\\Payment.Api\\Payment.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\Payment.Api.csproj",
+        "projectUniqueName": "E:\\C#\\Criticore\\Payment.Api\\Payment.Api.csproj",
         "projectName": "Payment.Api",
-        "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\Payment.Api.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Api\\obj\\",
+        "projectPath": "E:\\C#\\Criticore\\Payment.Api\\Payment.Api.csproj",
+        "packagesPath": "C:\\Users\\luuch\\.nuget\\packages\\",
+        "outputPath": "E:\\C#\\Criticore\\Payment.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\luuch\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -33,14 +33,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Application\\Payment.Application.csproj": {
-                "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Application\\Payment.Application.csproj"
+              "E:\\C#\\Criticore\\Payment.Application\\Payment.Application.csproj": {
+                "projectPath": "E:\\C#\\Criticore\\Payment.Application\\Payment.Application.csproj"
               },
-              "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
-                "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj"
+              "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
+                "projectPath": "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj"
               },
-              "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj": {
-                "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj"
+              "E:\\C#\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj": {
+                "projectPath": "E:\\C#\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj"
               }
             }
           }
@@ -55,7 +55,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -105,24 +105,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Application\\Payment.Application.csproj": {
+    "E:\\C#\\Criticore\\Payment.Application\\Payment.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Application\\Payment.Application.csproj",
+        "projectUniqueName": "E:\\C#\\Criticore\\Payment.Application\\Payment.Application.csproj",
         "projectName": "Payment.Application",
-        "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Application\\Payment.Application.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Application\\obj\\",
+        "projectPath": "E:\\C#\\Criticore\\Payment.Application\\Payment.Application.csproj",
+        "packagesPath": "C:\\Users\\luuch\\.nuget\\packages\\",
+        "outputPath": "E:\\C#\\Criticore\\Payment.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\luuch\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -138,8 +138,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
-                "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj"
+              "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
+                "projectPath": "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj"
               }
             }
           }
@@ -154,7 +154,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -175,24 +175,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
+    "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
+        "projectUniqueName": "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
         "projectName": "Payment.Domain",
-        "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\obj\\",
+        "projectPath": "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj",
+        "packagesPath": "C:\\Users\\luuch\\.nuget\\packages\\",
+        "outputPath": "E:\\C#\\Criticore\\Payment.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\luuch\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -220,7 +220,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -263,24 +263,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj": {
+    "E:\\C#\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj",
+        "projectUniqueName": "E:\\C#\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj",
         "projectName": "Payment.Infrastructure",
-        "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Infrastructure\\obj\\",
+        "projectPath": "E:\\C#\\Criticore\\Payment.Infrastructure\\Payment.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\luuch\\.nuget\\packages\\",
+        "outputPath": "E:\\C#\\Criticore\\Payment.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\luuch\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -296,8 +296,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
-                "projectPath": "D:\\HOC\\Ki 8\\EXE201\\Criticore\\Payment.Domain\\Payment.Domain.csproj"
+              "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj": {
+                "projectPath": "E:\\C#\\Criticore\\Payment.Domain\\Payment.Domain.csproj"
               }
             }
           }
@@ -312,7 +312,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -339,7 +339,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
