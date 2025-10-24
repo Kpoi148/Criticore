@@ -9,7 +9,7 @@ namespace Front_end.Pages.AdminClasses
     public class CreateModel : PageModel
     {
         private readonly IClassesService _service;
-        private readonly IUsersService _userService; // service để gọi api teachers
+        private readonly IUsersService _userService; // service để gọi api lấy teachers
 
         public CreateModel(IClassesService service, IUsersService userService)
         {
