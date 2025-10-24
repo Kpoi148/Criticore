@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Class.Domain.Entities;
 using Front_end.Services.Interfaces;
 using Front_end.Models;
+using Class.Application.Services;
 
 namespace Front_end.Pages.Class
 {
@@ -11,10 +12,12 @@ namespace Front_end.Pages.Class
     public class ClassListModel : PageModel
     {
         private readonly IClassesService _service;
+        private readonly IUsersService _userService;
 
-        public ClassListModel(IClassesService service)
+        public ClassListModel(IClassesService service, IUsersService userService)
         {
             _service = service;
+            _userService = userService;
         }
 
         public List<ClassSummaryDto> Classes { get; set; } = new();
@@ -23,11 +26,14 @@ namespace Front_end.Pages.Class
         public string? CurrentUserId { get; set; }
         [BindProperty]
         public string JoinCode { get; set; } = string.Empty;
+        public string? UserRole { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             // Lấy userId từ claims
             CurrentUserId = User.FindFirst("UserId")?.Value;
             Console.WriteLine($"UserId từ claims: {CurrentUserId}");
+            UserRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
 
             if (string.IsNullOrEmpty(CurrentUserId))
             {
@@ -47,6 +53,32 @@ namespace Front_end.Pages.Class
 
             return Page();
         }
+        public async Task<IActionResult> OnPostCreateAsync(ClassCreateDto ClassInput)
+        {
+            // Lấy UserId của giáo viên hiện tại từ claims
+            var currentUserId = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                return RedirectToPage("/Signin");
+            }
+
+            // Gán các giá trị bắt buộc mà client không nhập
+            ClassInput.CreatedBy = int.Parse(currentUserId);
+            ClassInput.TeacherId = int.Parse(currentUserId); // vì giáo viên hiện tại là người tạo lớp
+
+            // Gọi service để tạo lớp
+            var createdId = await _service.CreateAsync(ClassInput);
+
+            if (createdId == null)
+            {
+                ModelState.AddModelError(string.Empty, "Unable to create the class. Please try again later.");
+                return Page();
+            }
+
+            // Redirect hoặc return JSON nếu gọi AJAX
+            return RedirectToPage("/Class/ClassList");
+        }
+
         public async Task<IActionResult> OnPostJoinAsync()
         {
             if (string.IsNullOrWhiteSpace(JoinCode))
@@ -65,9 +97,9 @@ namespace Front_end.Pages.Class
             }
 
             // Lấy userId từ claims
-            var userIdStr2 = User.FindFirst("UserId")?.Value;
-            if (string.IsNullOrEmpty(userIdStr2)) return RedirectToPage("/Signin");
-            int userId2 = int.Parse(userIdStr2);
+            var currentUserId = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(currentUserId)) return RedirectToPage("/Signin");
+            int userId2 = int.Parse(currentUserId);
 
             // Gọi service join
             var cls = await _service.JoinByCodeAsync(JoinCode, userId2);

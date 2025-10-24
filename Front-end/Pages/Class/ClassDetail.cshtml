@@ -60,10 +60,10 @@
             <div id="classInfo" class="bg-white p-4 rounded shadow mb-6 text-base">
                 <h2 class="text-2xl font-semibold mb-4">Class Information</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6 text-gray-700 text-base">
-                    <div>
-                        <div class="text-base">Class ID</div>
-                        <div class="text-xl font-bold" id="classId">@Model.CurrentClass.ClassId</div>
-                    </div>
+                    @* <div> *@
+                    @*     <div class="text-base">Class ID</div> *@
+                    @*     <div class="text-xl font-bold" id="classId">@Model.CurrentClass.ClassId</div> *@
+                    @* </div> *@
                     <div>
                         <div class="text-base">Teacher</div>
                         <div class="flex items-center gap-2 text-base font-bold">
@@ -88,6 +88,15 @@
                         <div class="text-base">Status</div>
                         <div class="text-xl font-bold" id="status">@Model.CurrentClass.Status</div>
                     </div>
+                    @if (Model.IsTeacher)
+                    {
+                        <div>
+                            <div class="text-base">Join Code</div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl font-bold" id="joinCode">@Model.CurrentClass.JoinCode</span>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
 

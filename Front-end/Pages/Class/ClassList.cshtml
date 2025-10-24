@@ -14,37 +14,53 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
 </head>
-<body class="bg-slate text-gray-800">
+
+<body class="bg-gray-50 text-gray-800 antialiased">
     <div class="flex min-h-screen">
-        <!-- Main content -->
-        <main class="flex-1 p-6">
+        <main class="flex-1 p-6 sm:p-8">
             <div class="max-w-7xl mx-auto">
-                <div class="flex justify-between items-center mb-4">
-                    <h1 class="text-3xl font-bold text-blue-700">Join a Class</h1>
-                    <button onclick="openJoinClassModal()"
-                            class="bg-green-600 text-white px-4 py-2 rounded-md text-lg hover:bg-green-700 transition">
-                        + Join by Code
-                    </button>
+
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+                    <h1 class="text-3xl font-bold mb-2 text-blue-700">
+                        Join a Class
+                    </h1>
+                    <div class="flex gap-3">
+                        <button onclick="openJoinClassModal()"
+                                class="flex items-center space-x-2 bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md">
+                            <i class="bi bi-person-fill-add"></i>
+                            <span>Join by Code</span>
+                        </button>
+                        <button onclick="openModal()"
+                                class="flex items-center space-x-2 bg-green-600 text-white px-5 py-2.5 rounded-xl text-lg font-semibold hover:bg-green-700 transition duration-200 shadow-md">
+                            <i class="bi bi-plus-circle-fill"></i>
+                            <span>Create New Class</span>
+                        </button>
+                    </div>
                 </div>
-                <!-- Search and Filters -->
-                <div class="flex flex-wrap gap-4 mb-6">
-                    <input id="searchInput" type="text" placeholder="Search classes, subjects, or teachers..." class="flex-1 min-w-[200px] border border-gray-300 rounded-2xl px-4 py-2 text-sm shadow-sm" />
-                    <select id="semesterFilter" class="border border-gray-300 rounded-md px-2 py-2 text-base">
+
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-4 mb-2">
+                    <input id="searchInput" type="text" placeholder="Search classes, subjects, or teachers..."
+                           class="flex-1 min-w-[250px] border border-gray-300 rounded-xl px-4 py-2.5 text-base shadow-inner focus:ring-blue-500 focus:border-blue-500 transition" />
+
+                    <select id="semesterFilter" class="border border-gray-300 rounded-xl px-4 py-2.5 text-base focus:ring-blue-500 focus:border-blue-500 transition lg:w-48">
                         <option value="All">All Semesters</option>
-                        @foreach (var semester in Model.Classes.Select(c => c.Semester).Distinct())
+                        @foreach (var semester in Model.Classes.Select(c => c.Semester).Distinct().Where(s => !string.IsNullOrEmpty(s)))
                         {
                             <option value="@semester">@semester</option>
                         }
                     </select>
-                    <div class="flex gap-2">
-                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-base" data-status="All">All</button>
-                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-base" data-status="In Progress">In Progress</button>
-                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-base" data-status="Not Started">Not Started</button>
-                        <button class="filter-btn px-3 py-2 rounded-md bg-gray-200 text-base" data-status="Completed">Completed</button>
+
+                    <div class="flex flex-wrap gap-2 lg:ml-auto">
+                        <button class="filter-btn px-4 py-2 rounded-xl text-sm font-medium transition duration-150 bg-blue-600 text-white" data-status="All">All</button>
+                        <button class="filter-btn px-4 py-2 rounded-xl text-sm font-medium transition duration-150 bg-gray-200 text-gray-700 hover:bg-gray-300" data-status="In Progress">In Progress</button>
+                        <button class="filter-btn px-4 py-2 rounded-xl text-sm font-medium transition duration-150 bg-gray-200 text-gray-700 hover:bg-gray-300" data-status="Not Started">Not Started</button>
+                        <button class="filter-btn px-4 py-2 rounded-xl text-sm font-medium transition duration-150 bg-gray-200 text-gray-700 hover:bg-gray-300" data-status="Completed">Completed</button>
                     </div>
                 </div>
-                <!-- Class Cards Container -->
-                <div id="classList" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"></div>
+
+
+                <div id="classList" class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                </div>
             </div>
         </main>
     </div>
@@ -63,6 +79,57 @@
             </form>
         </div>
     </div>
+    <!-- Modal tạo lớp -->
+    <div id="createModal"
+         class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+        <div class="bg-white rounded-2xl shadow-lg w-full max-w-2xl mx-4 animate-fade-in">
+            <div class="flex justify-between items-center border-b px-6 py-4">
+                <h2 class="text-2xl font-bold text-green-600">Create New Class</h2>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+
+            <form method="post" asp-page-handler="Create" class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Class Name</label>
+                        <input name="ClassInput.ClassName" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" placeholder="e.g., Programming Techniques" required />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Subject Code</label>
+                        <input name="ClassInput.SubjectCode" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" placeholder="e.g., IT001" required />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Semester</label>
+                        <input name="ClassInput.Semester" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" placeholder="e.g., 2025-2026/1" />
+                    </div>
+                </div>
+
+                <input type="hidden" name="ClassInput.Status" value="Active" />
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea name="ClassInput.Description" rows="3"
+                              class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"
+                              placeholder="Briefly describe the class..."></textarea>
+                </div>
+
+                <div class="flex justify-end pt-4 space-x-3">
+                    <button type="button" onclick="closeModal()"
+                            class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="px-5 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 shadow">
+                        <i class="bi bi-check-circle me-2"></i>Create
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Lưu token từ URL ngay khi load trang
         window.addEventListener('load', () => {
@@ -141,7 +208,7 @@
                                     ${cls.semester}</li>
                             </ul>
                             <div class="mt-4 flex justify-between items-center">
-                                <span class="text-base text-black-500">${window.topicCounts[cls.classId] ?? 0} topics available</span>
+                                    <span class="text-base text-black-500">${window.topicCounts[cls.classId] ?? 0} topics available</span>
                                 <button onclick="goToClass('${cls.classId}')" class="bg-blue-600 text-white px-4 py-2 rounded-md text-base hover:bg-blue-700 transition">Join Class</button>
                             </div>
                         </div>
@@ -181,6 +248,14 @@
         function closeJoinClassModal() {
             document.getElementById("joinClassModal").classList.add("hidden");
             document.getElementById("joinClassModal").classList.remove("flex");
+        }
+        function openModal() {
+            document.getElementById('createModal').classList.remove('hidden');
+            document.getElementById('createModal').classList.add('flex');
+        }
+        function closeModal() {
+            document.getElementById('createModal').classList.add('hidden');
+            document.getElementById('createModal').classList.remove('flex');
         }
         async function logout() {
             await fetch('/api/logout', { method: 'POST' });
