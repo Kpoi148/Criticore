@@ -1,0 +1,119 @@
+﻿@page
+@model Front_end.Pages.AI.FeedbackModel
+@{
+    ViewData["Title"] = "Criticore - AI Feedback";
+    Layout = "~/Pages/Shared/_Sidebar.cshtml";
+}
+<style>
+    .logo-container {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    /* Style cho input và button submit */
+    .input-group {
+        display: flex;
+        width: 80%; /* Làm rộng input một chút để giống hình */
+        max-width: 600px;
+        border: 1px solid #ccc;
+        border-radius: 9999px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 10px 15px;
+        border: none;
+        outline: none;
+    }
+
+    .submit-btn {
+        background: linear-gradient(to right, blue, purple); /* Gradient giống input trong hình */
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+    }
+
+</style>
+<main class="relative w-full h-screen bg-white">
+    <!-- Thay bg-slate-50 thành white để giống hình -->
+    <!-- HEADER -->
+    <header class="flex justify-between items-center p-4 bg-white border-b">
+        <span class="text-lg font-semibold">AI Chat</span>
+        <img src="~/images/CriticoreLogoNonText.png" class="h-6" /> <!-- Thay icon bằng ảnh nhỏ -->
+    </header>
+    <!-- WELCOME SCREEN -->
+    <div id="welcome-screen" class="absolute inset-0 flex flex-col items-center justify-center z-10 pt-20">
+        <!-- pt-20 để tránh header -->
+        <div class="logo-container flex items-center mb-6">
+            <img src="~/images/CriticoreLogoNonText.png" class="h-16 mr-2" />
+            <span class="text-5xl font-bold bg-gradient-to-r from-blue-500 to-black bg-clip-text text-transparent">Criticore</span>
+        </div>
+        <p class="text-gray-500 mb-10 text-center">Get started by Script a task and Chat can do the rest. Not sure where to start?</p>
+        <!-- THÊM DROPDOWN TẠI ĐÂY -->
+        <div class="flex gap-5 mb-10">
+            <select id="class-select" class="bg-gray-100 border p-3 rounded-full w-40 shadow-md">
+                <option value="">Chọn lớp học</option>
+                <option value="10A">10A</option>
+                <option value="10B">10B</option>
+            </select>
+            <select id="subject-select" class="bg-gray-100 border p-3 rounded-full w-40 shadow-md">
+                <option value="">Chọn môn học</option>
+                <option value="Toan">Toán</option>
+                <option value="Ly">Lý</option>
+            </select>
+        </div>
+    </div>
+    <!-- CHAT AREA -->
+    <div id="response-area" class="hidden absolute inset-0 p-5 pt-20 overflow-y-auto z-10">
+    </div>
+    <!-- INPUT -->
+    <div class="container absolute bottom-10 left-0 right-0 flex justify-center z-20">
+        <div class="input-group">
+            <input type="text" id="user-input" class="search-input" placeholder="Summarize the latest">
+            <button class="submit-btn" id="submit-btn">&gt;</button> <!-- Mũi tên submit -->
+        </div>
+    </div>
+</main>
+<script>
+    const input = document.getElementById('user-input');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function sendMessage() {
+        if (input.value.trim() !== '') {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            const responseArea = document.getElementById('response-area');
+            responseArea.classList.remove('hidden');
+            const userDiv = document.createElement('div');
+            userDiv.className = "bg-blue-200 text-right p-3 mb-4 rounded-2xl self-end max-w-[80%]";
+            userDiv.textContent = input.value;
+            responseArea.appendChild(userDiv);
+            const aiDiv = document.createElement('div');
+            aiDiv.className = "bg-gray-200 text-left p-3 mb-4 rounded-2xl max-w-[80%]";
+            aiDiv.textContent = "Phản hồi AI: " + input.value;
+            responseArea.appendChild(aiDiv);
+            responseArea.scrollTop = responseArea.scrollHeight;
+            input.value = '';
+        }
+    }
+
+    input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    submitBtn.addEventListener('click', sendMessage);
+</script>

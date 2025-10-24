@@ -1,0 +1,104 @@
+﻿main {
+    background-color: #000 !important; /* Override background thành đen cho main */
+    color: #fff;
+    position: relative; /* Để stars absolute trong main */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ngăn scroll thừa cho hiệu ứng */
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Hiệu ứng vũ trụ: Sao di chuyển nhẹ */
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: moveStar linear infinite;
+}
+
+@keyframes moveStar {
+    0% {
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(150vh); /* Di chuyển xa hơn để lặp mượt mà */
+        opacity: 0; /* Mờ dần khi rơi xuống */
+    }
+}
+
+/* Logo giống SuperGrok */
+.logo {
+    font-size: 3em;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+    .logo::before {
+        content: '⚡'; /* Icon đơn giản thay thế logo */
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+
+/* Dropdowns */
+.dropdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+select {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 1em;
+    width: 200px;
+}
+
+/* Thanh input ở dưới cùng, fixed trong main */
+.input-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%; /* Căn giữa để tránh lấn sidebar */
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    z-index: 10; /* Đảm bảo trên hiệu ứng sao */
+}
+
+input[type="text"] {
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 15px;
+    border-radius: 30px;
+    font-size: 1em;
+}
+
+    input[type="text"]::placeholder {
+        color: #aaa;
+    }
