@@ -71,7 +71,7 @@ namespace Front_end.Pages.Class
 
             if (createdId == null)
             {
-                ModelState.AddModelError(string.Empty, "Tạo lớp thất bại, xin thử lại.");
+                ModelState.AddModelError(string.Empty, "Unable to create the class. Please try again later.");
                 return Page();
             }
 
@@ -97,9 +97,9 @@ namespace Front_end.Pages.Class
             }
 
             // Lấy userId từ claims
-            var userIdStr2 = User.FindFirst("UserId")?.Value;
-            if (string.IsNullOrEmpty(userIdStr2)) return RedirectToPage("/Signin");
-            int userId2 = int.Parse(userIdStr2);
+            var currentUserId = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(currentUserId)) return RedirectToPage("/Signin");
+            int userId2 = int.Parse(currentUserId);
 
             // Gọi service join
             var cls = await _service.JoinByCodeAsync(JoinCode, userId2);

@@ -37,10 +37,23 @@ namespace Class.Application.Services
 
         public async Task<ClassDto> AddAsync(ClassCreateDto dto)
         {
+            // 🔹 Tự động sinh JoinCode (6 ký tự ngẫu nhiên, chữ & số)
+            string joinCode;
+            do
+            {
+                joinCode = GenerateJoinCode(6);
+            }
+            while (await _classRepo.GetByJoinCodeAsync(joinCode) != null);
+
+            // 🔹 Map sang entity
             var entity = _mapper.Map<Class.Domain.Entities.Class>(dto);
-            // Lưu class trước để có ClassId
+            entity.JoinCode = joinCode; // ⚙️ Gán code mới
+            entity.CreatedAt = DateTime.Now;
+
+            // 🔹 Lưu class
             await _classRepo.AddAsync(entity);
-            // thêm giáo viên vào classmember
+
+            // 🔹 Thêm giáo viên vào classmember
             if (dto.TeacherId > 0)
             {
                 var teacherMember = new ClassMember
@@ -54,9 +67,16 @@ namespace Class.Application.Services
 
                 await _memberRepo.AddAsync(teacherMember);
             }
-            return _mapper.Map<ClassDto>(entity); // entity lúc này có ClassId
-        }
 
+            return _mapper.Map<ClassDto>(entity);
+        }
+        private static string GenerateJoinCode(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
         // File: Class.Application\Services\ClassService.cs
 
         public async Task UpdateAsync(ClassDto dto)

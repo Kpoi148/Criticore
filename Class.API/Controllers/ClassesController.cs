@@ -37,8 +37,16 @@ namespace Class.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ClassCreateDto dto)
         {
-            var created = await _service.AddAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = created.ClassId }, created);
+            try
+            {
+                var created = await _service.AddAsync(dto);
+                return CreatedAtAction(nameof(GetById), new { id = created.ClassId }, created);
+            }
+            catch (Exception ex)
+            {
+                // Trả lỗi 400 kèm thông điệp gọn gàng
+                return BadRequest(new { message = ex.Message });
+            }
         }
         // Cập nhật lớp
         [HttpPut("{id}")]
