@@ -1,9 +1,17 @@
 ﻿#calendar {
-    max-width: 900px;
-    margin: 0 auto;
+    width: 100%; /* Thay vì max-width: 900px */
+    height: 100%; /* Để chiếm full height của parent */
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
+}
+/* Header ngày tuần: Background tím như hình */
+.fc-col-header-cell {
+    background-color: #3b82f6 !important; /* Tím slateblue */
+    color: white !important;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px;
 }
 
 .fc-daygrid-day-number {
@@ -12,17 +20,21 @@
 
 .fc-event {
     cursor: default; /* Đổi cursor để không giống link */
-    background-color: #b3d4fc !important; /* Giữ xanh nhạt */
+    background-color: #ff69b4 !important; /* Hồng như hình, override màu từ JS */
     border: none !important;
-    color: #000 !important;
-    font-size: 0.9em;
-    padding: 2px 5px;
-    border-radius: 4px;
-    transition: all 0.2s ease-in-out; /* Hover effect 2025 style */
+    color: #fff !important; /* Text trắng để nổi trên hồng */
+    font-size: 0.8em; /* Nhỏ hơn */
+    height: 20px; /* Làm mỏng thành thanh ngang */
+    line-height: 20px; /* Căn giữa text */
+    padding: 0 5px; /* Padding nhỏ */
+    border-radius: 2px; /* Bo góc nhẹ */
+    transition: all 0.2s ease-in-out;
+    margin: 2px auto; /* Căn giữa thanh */
+    width: 80%; /* Không full width để giống thanh ngang ngắn */
 }
 
     .fc-event:hover {
-        background-color: #93c5fd !important; /* Xanh đậm hơn khi hover */
+        background-color: #ff1493 !important; /* Hồng đậm hơn khi hover */
         transform: scale(1.05);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
@@ -30,26 +42,25 @@
 .fc .fc-daygrid-event {
     margin: 2px;
 }
-
-/* Style cho buttons trong FullCalendar header */
+/* Style cho buttons trong FullCalendar header: Giữ xanh, uppercase */
 .fc-button {
     text-transform: uppercase !important;
     background-color: #3b82f6 !important; /* Xanh chủ đạo */
     border: none !important;
     color: white !important;
-    border-radius: 6px !important; /* Rounded hơn cho 2025 */
+    border-radius: 6px !important;
     padding: 8px 16px !important;
     transition: all 0.2s ease-in-out !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-    margin: 0 4px !important; /* Thêm khoảng cách giữa các nút */
+    margin: 0 4px !important;
 }
 
     .fc-button:hover {
-        background-color: #2563eb !important; /* Xanh đậm hơn khi hover */
+        background-color: #2563eb !important;
         transform: scale(1.05) !important;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
     }
 
     .fc-button.fc-button-active {
-        background-color: #1d4ed8 !important; /* Xanh đậm cho active */
+        background-color: #1d4ed8 !important;
     }

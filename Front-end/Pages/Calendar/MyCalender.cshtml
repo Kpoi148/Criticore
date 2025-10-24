@@ -2,27 +2,19 @@
 @model Front_end.Pages.Calendar.MyCalenderModel
 @{
     ViewData["Title"] = "Lịch Deadline Bài Tập";
-    Layout = "~/Pages/Shared/_Sidebar.cshtml"; // Sử dụng layout chung (từ mã thứ hai)
+    Layout = "~/Pages/Shared/_Sidebar.cshtml"; // Sử dụng layout chung
 }
-
 <!-- Link CSS riêng cho calendar -->
 <link rel="stylesheet" href="~/css/MyCalendar.css" asp-append-version="true" />
-
-<body class="min-h-screen bg-gray-50 flex">
-
-    <!-- Nội dung chính của trang -->
-    <main class="flex-1">
-        <div class="container mt-5">
-            <div id="calendar" class="shadow-lg p-3 mb-5 bg-white rounded"></div>
-        </div>
-    </main>
-
-    <!-- Scripts -->
+<!-- Nội dung chính, không cần <body> vì dùng Layout -->
+<div class="h-full w-full">
+    <!-- Wrapper để hỗ trợ height 100% -->
+    <div id="calendar" class="h-full w-full"></div> <!-- Dùng class thay vì style inline để dễ quản lý -->
+</div>
+<!-- Scripts -->
+@section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <script>
-        async function logout() {
-            // Giữ nguyên logout
-        }
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
             if (calendarEl) {
@@ -33,14 +25,21 @@
                     headerToolbar: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        right: 'timeGridWeek,dayGridMonth,multiMonthYear' // Thay đổi để có WEEK, MONTH, YEAR
                     },
-                    height: 'auto',
+                    buttonText: { // Tùy chỉnh nhãn nút để khớp hình ảnh (kết hợp CSS uppercase)
+                        week: 'Week',
+                        month: 'Month',
+                        multiMonthYear: 'Year'
+                    },
+                    height: '100%', // Giữ để full height
+                    contentHeight: 'auto', // Thêm để grid tự mở rộng, tránh collapse
                     events: async function (fetchInfo, successCallback, failureCallback) {
                         try {
-                            const userId = @Model.UserId; // Lấy từ Model (hoặc localStorage nếu lưu token)
-                            const response = await fetch(`https://homework.criticore.edu.vn:8007/api/users/${userId}/deadlines`, {
-                                method: 'GET',
+                            const userId = @Model.UserId; // Lấy từ Model
+                            const response = await fetch(`https://localhost:7154/api/users/${userId}/deadlines`, {
+                            //await fetch(`https://homework.criticore.edu.vn:8007/api/users/${userId}/deadlines`,
+                            method: 'GET',
                                 mode: 'cors',
                                 credentials: 'include',
                                 headers: {
@@ -86,4 +85,4 @@
             }
         });
     </script>
-</body>
+}

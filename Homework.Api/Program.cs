@@ -21,7 +21,7 @@ namespace Homework.Api
                 .AddNewtonsoftJson(); // Thêm dòng này vào
             // Đăng ký DbContext
             builder.Services.AddDbContext<HomeworkDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LocConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
             builder.Services.AddScoped<HomeworkService>();
             builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
@@ -38,8 +38,8 @@ namespace Homework.Api
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend",
-                    policy => policy//.WithOrigins("https://localhost:7186")
-                                    .WithOrigins("https://criticore.edu.vn:8386")
+                    policy => policy.WithOrigins("https://localhost:7186")
+                                    //.WithOrigins("https://criticore.edu.vn:8386")
                                     .AllowAnyMethod()
                                     .AllowAnyHeader()
                                     .AllowCredentials());
