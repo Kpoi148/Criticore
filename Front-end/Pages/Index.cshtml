@@ -8,17 +8,17 @@
     <!-- Navbar -->
     <header class="flex justify-between items-center px-8 py-3 bg-white shadow-sm">
         <div class="flex items-center gap-3 text-2xl font-bold">
-            <a href="/">
+            <a href="/" class="transition duration-300 hover:scale-105">
                 <img src="@Url.Content("~/images/CriticoreLogoText.png")" alt="Criticore Logo" class="h-10">
             </a>
         </div>
         <nav class="hidden md:flex gap-10 text-base font-semibold">
-            <a asp-page="/class/classlist" class="hover:text-blue-600">Classrooms</a>
-            <a asp-page="/Payment/create" class="hover:text-blue-600">Payment</a>
-            <a asp-controller="Leaderboard" asp-action="Index" class="hover:text-blue-600">Feature 2</a>@*Leaderboard*@
-            <a asp-controller="Resource" asp-action="Index" class="hover:text-blue-600">Feature 3</a>@*Resources*@
+            <a asp-page="/class/classlist" class="hover:text-blue-600 transition duration-300 hover:scale-105 hover:underline">Classrooms</a>
+            <a asp-page="/Payment/create" class="hover:text-blue-600 transition duration-300 hover:scale-105 hover:underline">Payment</a>
+            <a asp-controller="Leaderboard" asp-action="Index" class="hover:text-blue-600 transition duration-300 hover:scale-105 hover:underline">Feature 2</a>@*Leaderboard*@
+            <a asp-controller="Resource" asp-action="Index" class="hover:text-blue-600 transition duration-300 hover:scale-105 hover:underline">Feature 3</a>@*Resources*@
             @* <a asp-controller="Account" asp-action="Login" class="hover:text-blue-600">Sign In</a> *@
-            <a asp-page="/SignIn" class="hover:text-blue-600">Sign In</a>
+            <a asp-page="/SignIn" class="hover:text-blue-600 transition duration-300 hover:scale-105 hover:underline">Sign In</a>
         </nav>
         @* <a asp-controller="Account" asp-action="Register" *@
         @* class="bg-blue-600 text-white px-5 py-3 rounded-md text-base font-semibold hover:bg-blue-700"> *@
@@ -26,7 +26,7 @@
         @* </a> *@
         <!-- ĐỔI Get Started sang Razor Page -->
         <a asp-page="/SignIn"
-           class="bg-blue-600 text-white px-5 py-3 rounded-md text-base font-semibold hover:bg-blue-700">
+           class="bg-blue-600 text-white px-5 py-3 rounded-md text-base font-semibold hover:bg-blue-700 transition duration-300 hover:scale-105 hover:shadow-lg hover:brightness-105">
             Get Started
         </a>
     </header>
@@ -34,7 +34,7 @@
     <section class="px-10 py-16 md:flex md:items-center md:justify-between">
         <!-- Left content -->
         <div class="max-w-xl space-y-6">
-            <span class="inline-flex items-center px-3 py-1 text-base font-medium text-blue-800 bg-blue-100 rounded-full">
+            <span class="inline-flex items-center px-3 py-1 text-base font-medium text-blue-800 bg-blue-100 rounded-full transition duration-300 hover:scale-105 hover:shadow-md">
                 <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3 8a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -48,11 +48,11 @@
                 Criticore helps students build reasoning and perspective through structured dialogue.
             </p>
             <div class="flex flex-col sm:flex-row gap-4">
-                <button class="bg-blue-600 text-white px-6 py-3 rounded-md text-base font-semibold hover:bg-blue-700"
+                <button class="bg-blue-600 text-white px-6 py-3 rounded-md text-base font-semibold hover:bg-blue-700 transition duration-300 hover:scale-105 hover:shadow-lg hover:brightness-105"
                         onclick="window.location.href='/class/classlist'">
                     Join a Class →
                 </button>
-                <button class="flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-md text-base font-semibold hover:bg-gray-100">
+                <button class="flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-md text-base font-semibold hover:bg-gray-100 transition duration-300 hover:scale-105 hover:shadow-lg hover:brightness-105">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M6 4l10 6-10 6V4z" />
                     </svg>
@@ -60,21 +60,21 @@
                 </button>
             </div>
             <div class="flex gap-6 text-base text-gray-600 pt-4">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 transition duration-300 hover:scale-105 hover:text-blue-600">
                     <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M12 20l9-7-9-7-9 7 9 7z" />
                     </svg>
                     Collaborative Learning
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 transition duration-300 hover:scale-105 hover:text-green-600">
                     <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M9 12h6m-6 4h6M12 8h.01M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z" />
                     </svg>
                     Real-time Evaluation
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 transition duration-300 hover:scale-105 hover:text-purple-600">
                     <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" />
@@ -90,14 +90,14 @@
                 @* </div> *@
                 @* <div class="flex items-center gap-1"> *@
                 @* <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"> *@
-                @* <path d="M9.049 2.927C9.432 2.054 10.568 2.054 10.951 2.927L12.13 5.68a1 1 0 00.75.554l3.014.437c.969.141 1.356 1.33.654 2.013l-2.18 2.125a1 1 0 00-.287.885l.515 3.001c.165.964-.848 1.697-1.703 1.243l-2.695-1.417a1 1 0 00-.931 0l-2.695 1.417c-.855.454-1.868-.279-1.703-1.243l.515-3.001a1 1 0 00-.287-.885L2.452 8.684c-.702-.683-.315-1.872.654-2.013l3.014-.437a1 1 0 00.75-.554l1.179-2.753z" /> *@
+                @* <path d="M9.049 2.927C9.432 2.054 10.568 2.054 10.951 2.927L12.13 5.68a1 1 0 00.75.554l3.014.437c.969.141 1.356 1.33 .654 2.013l-2.18 2.125a1 1 0 00-.287.885l.515 3.001c.165.964-.848 1.697-1.703 1.243l-2.695-1.417a1 1 0 00-.931 0l-2.695 1.417c-.855.454-1.868-.279-1.703-1.243l.515-3.001a1 1 0 00-.287-.885L2.452 8.684c-.702-.683-.315-1.872.654-2.013l3.014-.437a1 1 0 00.75-.554l1.179-2.753z" /> *@
                 @* </svg> *@
                 @* 4.8/5 Average Feedback *@
                 @* </div> *@
             </div>
         </div>
         <div class="mt-10 md:mt-0 flex-1 flex justify-center">
-            <div class="w-full max-w-[720px] h-[400px] bg-gray-200 rounded-xl overflow-hidden shadow-lg">
+            <div class="w-full max-w-[720px] h-[400px] bg-gray-200 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl">
                 <img src="~/images/Gemini.png"
                      class="object-cover w-full h-full"
                      alt="Students engaged in critical discussion using Criticore" />
@@ -108,8 +108,8 @@
     <section class="py-16 bg-white">
         <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center">
             <!-- Engagement -->
-            <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow duration-300">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
+            <div class="p-6 border rounded-lg hover:shadow-lg transition duration-300 hover:scale-105 hover:bg-blue-50">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center transition duration-300 hover:scale-110">
                     <!-- Chat Icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.953 9.953 0 01-4-.8L3 20l1.8-4A9.953 9.953 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -119,8 +119,8 @@
                 <p class="text-gray-500">Connect with students and teachers through interactive discussions and collaborative learning tools.</p>
             </div>
             <!-- Evaluation -->
-            <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow duration-300">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
+            <div class="p-6 border rounded-lg hover:shadow-lg transition duration-300 hover:scale-105 hover:bg-green-50">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center transition duration-300 hover:scale-110">
                     <!-- Clipboard Icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M9 8h6m-6-4h6a2 2 0 012 2v14a2 2 0 01-2 2H9a2 2 0 01-2-2V6a2 2 0 012-2z" />
@@ -130,8 +130,8 @@
                 <p class="text-gray-500">Assess student performance effectively with integrated evaluation tools and reporting features.</p>
             </div>
             <!-- Ethics -->
-            <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow duration-300">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
+            <div class="p-6 border rounded-lg hover:shadow-lg transition duration-300 hover:scale-105 hover:bg-purple-50">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center transition duration-300 hover:scale-110">
                     <!-- Shield Icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12l8-4-8-4-8 4 8 4zm0 0v8m0 0l-8-4 8-4 8 4-8 4z" />
@@ -197,8 +197,8 @@
             <!-- Left Features -->
             <div class="space-y-8 max-w-xl">
                 <!-- Feature 1 -->
-                <div class="flex items-start gap-4">
-                    <div class="bg-blue-100 text-blue-600 rounded-full p-3">
+                <div class="flex items-start gap-4 transition duration-300 hover:scale-105 hover:bg-blue-50 p-2 rounded-md">
+                    <div class="bg-blue-100 text-blue-600 rounded-full p-3 transition duration-300 hover:scale-110 hover:shadow-md">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M4 3a2 2 0 00-2 2v9a2 2 0 002 2h3v2h6v-2h3a2 2 0 002-2V5a2 2 0 00-2-2H4z" />
                         </svg>
@@ -211,8 +211,8 @@
                     </div>
                 </div>
                 <!-- Feature 2 -->
-                <div class="flex items-start gap-4">
-                    <div class="bg-green-100 text-green-600 rounded-full p-3">
+                <div class="flex items-start gap-4 transition duration-300 hover:scale-105 hover:bg-green-50 p-2 rounded-md">
+                    <div class="bg-green-100 text-green-600 rounded-full p-3 transition duration-300 hover:scale-110 hover:shadow-md">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                   d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.172 7.707 8.879a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -227,8 +227,8 @@
                     </div>
                 </div>
                 <!-- Feature 3 -->
-                <div class="flex items-start gap-4">
-                    <div class="bg-purple-100 text-purple-600 rounded-full p-3">
+                <div class="flex items-start gap-4 transition duration-300 hover:scale-105 hover:bg-purple-50 p-2 rounded-md">
+                    <div class="bg-purple-100 text-purple-600 rounded-full p-3 transition duration-300 hover:scale-110 hover:shadow-md">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 12a2 2 0 110-4 2 2 0 010 4zm0-10a8 8 0 00-6.32 12.906l-1.386 4.218a1 1 0 001.262 1.262l4.218-1.386A8 8 0 1012 4z">
                             </path>
@@ -244,7 +244,7 @@
             </div>
             <!-- Right Image -->
             <div class="mt-12 md:mt-0 md:ml-10">
-                <div class="w-full md:w-[480px] h-[270px] bg-gray-200 rounded-xl flex items-center justify-center overflow-hidden">
+                <div class="w-full md:w-[480px] h-[270px] bg-gray-200 rounded-xl flex items-center justify-center overflow-hidden transition duration-300 hover:scale-105 hover:shadow-xl">
                     <img src="~/images/whychoosecriticore.png" class="object-cover w-full h-full" alt="Students engaged in critical discussion using Criticore" />
                 </div>
             </div>
@@ -275,9 +275,9 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center">
             <p class="mb-2 sm:mb-0">© 2025 Criticore. Empowering Critical Thinking Through Conversation.</p>
             <div class="flex gap-6">
-                <a href="#" class="hover:text-gray-800">Terms</a>
-                <a href="#" class="hover:text-gray-800">Privacy</a>
-                <a href="mailto:criticore.helpdesk@gmail.com" class="hover:text-gray-800">Support</a>
+                <a href="#" class="hover:text-gray-800 transition duration-300 hover:scale-105 hover:underline">Terms</a>
+                <a href="#" class="hover:text-gray-800 transition duration-300 hover:scale-105 hover:underline">Privacy</a>
+                <a href="mailto:criticore.helpdesk@gmail.com" class="hover:text-gray-800 transition duration-300 hover:scale-105 hover:underline">Support</a>
             </div>
         </div>
     </footer>
