@@ -18,18 +18,19 @@
     <link rel="stylesheet" href="~/css/classdetail.css" />
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-white text-gray-800">
         <!-- Modal Bảng Xếp Hạng -->
-        <div id="rankModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-                <button id="closeRankModal" class="absolute right-4 top-2 text-2xl text-gray-500 hover:text-red-500 font-bold">&times;</button>
-                <h3 class="text-lg font-semibold mb-4 text-center">MEMBER RANKING</h3>
-                <div id="rankModalContent"></div>
+            <div id="rankModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+                    <button id="closeRankModal" class="absolute right-4 top-2 text-2xl text-gray-500 hover:text-red-500 font-bold">&times;</button>
+                    <h3 class="text-lg font-semibold mb-4 text-center">MEMBER RANKING</h3>
+                    <div id="rankModalContent"></div>
+                </div>
             </div>
-        </div>
         <!-- Modal Báo Cáo -->
-        <div id="reportModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div id="reportModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl p-6 relative">
                 <button id="closeReportModal" class="absolute right-4 top-2 text-2xl text-gray-500 hover:text-red-500 font-bold">&times;</button>
                 <h3 class="text-lg font-semibold mb-4 text-center">PARTICIPATION REPORT</h3>
@@ -52,6 +53,9 @@
                 <div class="flex flex-col items-end space-y-2">
                     <button id="rankButton" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition whitespace-nowrap">
                         View Leaderboard
+                    </button>
+                    <button id="reportButton" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition whitespace-nowrap">
+                        View Participation Report
                     </button>
                 </div>
             </div>

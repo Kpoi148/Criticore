@@ -24,7 +24,7 @@ namespace Class.API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend",
-                    policy => policy//.WithOrigins("https://localhost:7186")
+                    policy => policy.WithOrigins("https://localhost:7186")
                                     .WithOrigins("https://criticore.edu.vn:8386")
                                     .AllowAnyMethod()
                                     .AllowAnyHeader()

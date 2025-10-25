@@ -30,8 +30,8 @@ window.deleteTopic = async function (idx) {
     }).then((result) => result.isConfirmed)) return;
     const topicId = cls.topics[idx].topic_id; // Lấy ID topic
     try {
-        //const response = await fetch(`https://localhost:7193/api/Topics/${topicId}`
-        const response = await fetch(`https://class.criticore.edu.vn:8005/api/Topics/${topicId}`
+        const response = await fetch(`https://localhost:7193/api/Topics/${topicId}`
+        //const response = await fetch(`https://class.criticore.edu.vn:8005/api/Topics/${topicId}`
             , {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
@@ -74,14 +74,14 @@ function initTopicEndTime() {
 }
 async function loadTopics() {
     try {
-        //const response = await fetch(`https://localhost:7193/api/Topics/byclass/${cls.ClassId}`);
-        const response = await fetch(`https://class.criticore.edu.vn:8005/api/Topics/byclass/${cls.ClassId}`);
+        const response = await fetch(`https://localhost:7193/api/Topics/byclass/${cls.ClassId}`);
+        //const response = await fetch(`https://class.criticore.edu.vn:8005/api/Topics/byclass/${cls.ClassId}`);
         if (response.ok) {
             let topics = await response.json();
             cls.topics = await Promise.all(topics.map(async (t) => {
                 try {
-                    //const ansResponse = await fetch(`https://localhost:7134/api/TopicDetail/topics/${t.topicId}/answers`);
-                    const ansResponse = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/topics/${t.topicId}/answers`);
+                    const ansResponse = await fetch(`https://localhost:7134/api/TopicDetail/topics/${t.topicId}/answers`);
+                    //const ansResponse = await fetch(`https://topicdetail.criticore.edu.vn:8009/api/TopicDetail/topics/${t.topicId}/answers`);
                     const answers = ansResponse.ok ? await ansResponse.json() : [];
                     return {
                         topic_id: t.topicId ? t.topicId.toString() : '',
@@ -352,89 +352,7 @@ function renderRankModal(page = 1) {
                 <div class="text-xs text-gray-400 text-right mt-2">* Top 1, 2, 3 are highlighted</div>
             `;
 }
-function renderReportModal() {
-    const container = document.getElementById("reportModalContent");
-    if (!container) return;
-    container.innerHTML = "";
-    if (!reportData || reportData.length === 0) {
-        container.innerHTML = `<div class="text-gray-500 text-center py-4">No report data available.</div>`;
-        return;
-    }
-    // Đếm số lần Negative, Neutral, Positive cho mỗi học viên
-    const summary = {};
-    reportData.forEach((item) => {
-        const name = item.senderName;
-        if (!summary[name]) {
-            summary[name] = { Negative: 0, Neutral: 0, Positive: 0 };
-        }
-        if (summary[name][item.engagement] !== undefined) {
-            summary[name][item.engagement]++;
-        }
-    });
-    // Tính điểm chung từ 3 giá trị
-    // Ví dụ quy đổi:
-    // Negative = 0 điểm
-    // Neutral = 50 điểm
-    // Positive = 100 điểm
-    // Điểm trung bình = (Negative*0 + Neutral*50 + Positive*100) / (Tổng lượt)
-    // Tính điểm participation points (0–100)
-    function calcParticipationPoints(counts) {
-        const total = counts.Negative + counts.Neutral + counts.Positive;
-        if (total === 0) return 0;
-        const score = (counts.Negative * 0 + counts.Neutral * 50 + counts.Positive * 100) / total;
-        return Math.round(score);
-    }
-    // Tính điểm tổng kết
-    function getLetterGrade(score) {
-        if (score >= 97) return "A+";
-        if (score >= 93) return "A";
-        if (score >= 90) return "A−";
-        if (score >= 87) return "B+";
-        if (score >= 83) return "B";
-        if (score >= 80) return "B−";
-        if (score >= 77) return "C+";
-        if (score >= 73) return "C";
-        if (score >= 70) return "C−";
-        if (score >= 67) return "D+";
-        if (score >= 63) return "D";
-        if (score >= 60) return "D−";
-        return "F";
-    }
-    // Render bảng mới chỉ có 2 cột: Name + Participation Points + Nhận xét
-    const tableHTML = `
-                <div class="overflow-x-auto">
-                    <table class="min-w-full border border-gray-200">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="py-2 px-4 border">Name</th>
-                                <th class="py-2 px-4 border text-center">Participation Points</th>
-                                <th class="py-2 px-4 border text-center">Letter Grade</th>
-                                <th class="py-2 px-4 border text-center">Overall Assessment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${Object.entries(summary).map(([name, counts]) => {
-        const points = calcParticipationPoints(counts);
-        const grade = getLetterGrade(points);
-        let comment = "";
-        if (points >= 80) comment = "Very good and active student";
-        else if (points >= 60) comment = "There is an effort but you need to work more critically";
-        else comment = "Needs much more engagement";
-        return `
-                                    <tr>
-                                        <td class="py-2 px-4 border">${name}</td>
-                                        <td class="py-2 px-4 border text-center">${points}%</td>
-                                        <td class="py-2 px-4 border text-center">${grade}</td>
-                                        <td class="py-2 px-4 border text-center">${comment}</td>
-                                    </tr>
-                                `;
-    }).join("")}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-    container.innerHTML = tableHTML;
-}
+
 async function calculateMemberRatings() {
     if (!cls.members || cls.members.length === 0 || !cls.topics) return;
     // Reset rating cũ
@@ -642,8 +560,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const endTimeISO = endTimeDate.toISOString();
             try {
-                //const response = await fetch('https://localhost:7193/api/Topics'
-                const response = await fetch('https://class.criticore.edu.vn:8005/api/Topics'
+                const response = await fetch('https://localhost:7193/api/Topics'
+                //const response = await fetch('https://class.criticore.edu.vn:8005/api/Topics'
                     , {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -673,6 +591,235 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     }
+
+    // Function để generate dữ liệu participation mẫu (demo) - Giữ nguyên
+    function generateDemoParticipationData() {
+        if (!cls.members || cls.members.length === 0) return [];
+        return cls.members.map(m => {
+            const behavioral = Math.floor(Math.random() * 100); // 0-100
+            const cognitive = Math.floor(Math.random() * 100);
+            const emotional = Math.floor(Math.random() * 100); // Thực tế 0-100, nhưng trọng số 20%
+            const overall = (behavioral * 0.4) + (cognitive * 0.4) + (emotional * 0.2);
+            const trend = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100)); // 10 tuần demo
+            return {
+                userId: m.userId,
+                fullName: m.fullName,
+                behavioral,
+                cognitive,
+                emotional,
+                overall: overall.toFixed(1),
+                trend,
+                risk: overall < 50 ? true : false // Risk nếu <50
+            };
+        });
+    }
+
+    // Function để generate dữ liệu participation mẫu (demo) - Cập nhật để loại bỏ "$"
+    function generateDemoParticipationData() {
+        if (!cls.members || cls.members.length === 0) return [];
+        return cls.members.map(m => {
+            const behavioral = Math.floor(Math.random() * 100); // 0-100
+            const cognitive = Math.floor(Math.random() * 100);
+            const emotional = Math.floor(Math.random() * 100); // Thực tế 0-100, nhưng trọng số 20%
+            const overall = ((behavioral * 0.4) + (cognitive * 0.4) + (emotional * 0.2)).toFixed(1); // Số thuần túy, không "$"
+            const trend = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100)); // 10 tuần demo
+            return {
+                userId: m.userId,
+                fullName: m.fullName,
+                behavioral,
+                cognitive,
+                emotional,
+                overall,
+                trend,
+                risk: overall < 50 ? true : false // Risk nếu <50
+            };
+        });
+    }
+
+    // Function render report modal - Phiên bản fix hiển thị và pop-up rộng
+    function renderReportModal(page = 1) {
+        const container = document.getElementById("reportModalContent");
+        if (!container) {
+            console.error("Không tìm thấy #reportModalContent");
+            return;
+        }
+        container.innerHTML = ""; // Xóa cũ
+
+        // Sử dụng reportData nếu có, fallback demo
+        let reports = window.reportData && window.reportData.length > 0 ? window.reportData : generateDemoParticipationData();
+
+        if (reports.length === 0) {
+            container.innerHTML = `<div class="text-gray-500 text-center py-4">Chưa có dữ liệu báo cáo.</div>`;
+            return;
+        }
+
+        // Phân trang
+        const itemsPerPage = 5;
+        const totalPages = Math.ceil(reports.length / itemsPerPage);
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const currentReports = reports.slice(startIndex, endIndex);
+
+        // HTML cho bảng - Canvas cho gauge chart, hiển thị overall không "$"
+        const tableHTML = `
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50">
+                        <th class="py-3 px-4 font-semibold text-gray-700 border-b">Student</th>
+                        <th class="py-3 px-4 text-center font-semibold text-gray-700 border-b">Overall Score</th>
+                        <th class="py-3 px-4 text-center font-s emibold text-gray-700 border-b">Risk</th>
+                        <th class="py-3 px-4 text-center font-semibold text-gray-700 border-b">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${currentReports.map((r, index) => `
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 border-b">${r.fullName}</td>
+                            <td class="py-3 px-4 text-center border-b">
+                                <canvas id="gaugeChart_${startIndex + index}" width="120" height="60"></canvas>
+                              </td>
+
+                            <td class="py-3 px-4 text-center border-b">${r.risk ? '<span class="text-red-600">🚩 Risk</span>' : '<span class="text-green-600">✅ Good</span>'}</td>
+                            <td class="py-3 px-4 text-center border-b">
+                                <button class="text-blue-600 hover:underline view-detail" data-userid="${r.userId}">View Details</button>
+                            </td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+        // Phân trang HTML - Giữ nguyên
+        const paginationHTML = `
+        <div class="flex justify-between items-center mt-4">
+            <div class="text-sm text-gray-500">Showing ${startIndex + 1}-${Math.min(endIndex, reports.length)} of ${reports.length}</div>
+            <div class="flex gap-2">
+                <button class="px-3 py-1 rounded ${page === 1 ? 'bg-gray-200 text-gray-500' : 'bg-blue-600 text-white hover:bg-blue-700'}" ${page === 1 ? 'disabled' : ''} onclick="renderReportModal(${page - 1})">Previous</button>
+                ${Array.from({ length: totalPages }, (_, i) => `<button class="px-3 py-1 rounded ${page === i + 1 ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" onclick="renderReportModal(${i + 1})">${i + 1}</button>`).join("")}
+                <button class="px-3 py-1 rounded ${page === totalPages ? 'bg-gray-200 text-gray-500' : 'bg-blue-600 text-white hover:bg-blue-700'}" ${page === totalPages ? 'disabled' : ''} onclick="renderReportModal(${page + 1})">Next</button>
+            </div>
+        </div>
+    `;
+
+        container.innerHTML = tableHTML + paginationHTML;
+
+        // Vẽ gauge chart cho từng row bằng Chart.js (hiển thị overall không "$")
+        currentReports.forEach((r, index) => {
+            const ctx = document.getElementById(`gaugeChart_${startIndex + index}`);
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [r.overall, 100 - r.overall],
+                            backgroundColor: [r.overall >= 70 ? '#4CAF50' : r.overall >= 40 ? '#FFC107' : '#F44336', '#eee'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        rotation: -90,
+                        circumference: 180,
+                        plugins: {
+                            tooltip: { enabled: false },
+                            legend: { display: false }
+                        }
+                    },
+                    plugins: [{
+                        id: 'gaugeText',
+                        afterDraw: (chart) => {
+                            const { width, height, ctx } = chart;
+                            ctx.save();
+                            ctx.font = 'bold 16px sans-serif';
+                            ctx.fillStyle = '#333';
+                            ctx.textAlign = 'center';
+                            ctx.fillText(r.overall, width / 2, height / 2 + 5); // Hiển thị số thuần túy
+                            ctx.restore();
+                        }
+                    }]
+                });
+            }
+        });
+
+        // Event cho View Details - Pop-up rộng hơn (width: '800px'), sắp xếp chart ngang
+        document.querySelectorAll(".view-detail").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const userId = e.target.dataset.userid;
+                console.log("Clicked View Details for userId:", userId); // Debug
+                const report = reports.find(r => r.userId == userId);
+                if (!report) {
+                    console.error("Không tìm thấy report cho userId:", userId);
+                    Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tìm thấy dữ liệu chi tiết.' });
+                    return;
+                }
+                console.log("Report found:", report);
+
+                // Inner pop-up rộng hơn, chart ngang (side-by-side)
+                Swal.fire({
+                    title: `Participation Details for ${report.fullName}`,
+                    html: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                        <div>
+                            <h4 class="font-bold mb-2">Breakdown:</h4>
+                            <canvas id="breakdownChart" height="200"></canvas>
+                        </div>
+                        <div>
+                            <h4 class="font-bold mb-2">Trend (Scores per Week):</h4>
+                            <canvas id="trendChart" height="200"></canvas>
+                        </div>
+                    </div>
+                `,
+                    icon: 'info',
+                    confirmButtonText: 'Close',
+                    width: '800px', // Tăng width để rộng hơn, ít scroll
+                    didOpen: () => {
+                        // Vẽ bar chart cho breakdown
+                        const breakdownCtx = document.getElementById('breakdownChart');
+                        new Chart(breakdownCtx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Behavioral (40%)', 'Cognitive (40%)', 'Emotional (20%)'],
+                                datasets: [{
+                                    data: [report.behavioral, report.cognitive, report.emotional],
+                                    backgroundColor: ['#4CAF50', '#2196F3', '#FFC107']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: { y: { beginAtZero: true, max: 100 } },
+                                plugins: { legend: { display: false } }
+                            }
+                        });
+
+                        // Vẽ line chart cho trend
+                        const trendCtx = document.getElementById('trendChart');
+                        new Chart(trendCtx, {
+                            type: 'line',
+                            data: {
+                                labels: report.trend.map((_, i) => `Week ${i + 1}`),
+                                datasets: [{
+                                    label: 'Score',
+                                    data: report.trend,
+                                    borderColor: '#2196F3',
+                                    fill: false,
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: { y: { beginAtZero: true, max: 100 } }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    }
+
     // ==== GROUP MANAGEMENT ====
     const createGroupBtn = document.getElementById("createGroupBtn");
     if (createGroupBtn) {

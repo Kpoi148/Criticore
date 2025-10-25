@@ -150,3 +150,12 @@
     .pagination-btn:hover:not(:disabled) {
         transform: translateY(-1px);
     }
+
+.circle-bg {
+    stroke-dasharray: 100, 100;
+}
+
+.circle {
+    stroke-dashoffset: 0;
+    transition: stroke-dasharray 0.5s;
+}
